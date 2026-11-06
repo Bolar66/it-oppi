@@ -1,10 +1,9 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useMemo } from 'react'
-import type { LoadedPath } from '../content/validate.ts'
 import { db } from './db.ts'
 import { DEFAULT_DAILY_GOAL } from './xp.ts'
 import type { ExamResult, ReviewItem, TermItem, UnitProgress, XpEvent } from './types.ts'
-import { computePathStatus, type PathStatus } from './unlocks.ts'
+import { computePathStatus, type PathShape, type PathStatus } from './unlocks.ts'
 
 export interface ProgressSnapshot {
   xpEvents: XpEvent[]
@@ -44,7 +43,7 @@ export function useProgress(): ProgressSnapshot | undefined {
   }, [])
 }
 
-export function usePathStatus(path: LoadedPath | undefined, progress: ProgressSnapshot | undefined): PathStatus | undefined {
+export function usePathStatus(path: PathShape | undefined, progress: ProgressSnapshot | undefined): PathStatus | undefined {
   return useMemo(
     () => (path && progress ? computePathStatus(path, progress.completed, progress.examResults) : undefined),
     [path, progress],

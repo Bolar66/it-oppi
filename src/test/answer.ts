@@ -1,13 +1,13 @@
 import { screen, waitFor, within } from '@testing-library/react'
 import type { UserEvent } from '@testing-library/user-event'
 import { expect } from 'vitest'
-import { getExercise } from '../content/loader.ts'
+import { getLoadedExercise } from '../content/loader.ts'
 import type { Exercise } from '../schemas/content.ts'
 
-/** Näytöllä oleva harjoitus (ExerciseView merkitsee sen data-exercise-id:llä). */
+/** Näytöllä oleva harjoitus (ExerciseView merkitsee sen data-exercise-id:llä). Yksikön pitää olla ladattu. */
 export function currentExercise(pathId: string, unitIdFor: (exerciseId: string) => string): Exercise {
   const id = screen.getByTestId('exercise').dataset.exerciseId!
-  return getExercise(pathId, unitIdFor(id), id)!
+  return getLoadedExercise(pathId, unitIdFor(id), id)!
 }
 
 export async function answerCorrectly(user: UserEvent, ex: Exercise) {

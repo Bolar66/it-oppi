@@ -102,6 +102,22 @@ content/
 - Taso 1 olettaa nolla-osaamisen; taso 3 vastaa työelämän osaamista.
 - Yksi yksikkö = 8–12 harjoitusta, sekoitus eri tyyppejä.
 - Tee validointiskripti (`pnpm validate-content`), joka ajaa Zod-skeemat kaikkiin tiedostoihin.
+- Yksikössä vähintään 3 eri harjoitustyyppiä (validate-content: virhe). Varoitukset: teoria > 350 sanaa,
+  yksiköllä ei termejä, tasolta puuttuu exams/level-n.json.
+
+### Sisällön tarkistus
+
+- `pnpm validate-content` – Zod-skeemat, ristiintarkistukset ja laatusäännöt.
+- `pnpm verify-code` – ajaa kaikki `code_output`-koodit ja vertaa tulosteeseen (`--find-bug` listaa
+  myös kaatumattomat find_bug-koodit käsin tarkistettaviksi). Säännöt: ajettava kieli → `verified: true`
+  ja tulosteen pitää täsmätä; ei-ajettava kieli → `verified: false`.
+- Ajoympäristöt: python3, g++ (C++20) ja bash WSL:ssä; JavaScript/TypeScript Nodella (tsx);
+  `sql` = SQLite-yhteensopiva (ajetaan Pythonin sqlite3:lla, tuloste kuten sqlite3-CLI: sarakkeet `|`-merkillä,
+  NULL tyhjänä); `postgresql` = PostgreSQL-kohtainen (ei ajettavissa → `verified: false`);
+  pandas/numpy-koodi Windows-venvillä `~/.venvs/it-oppi` (Python 3.13). Kotlin ei ajettavissa → `verified: false`.
+- Sisällön tiedostot kirjoitetaan Write/Edit-työkalulla, ei Bash-heredocilla (heredoc muuttaa `\\` → `\`).
+- Sovellus lataa sisältöindeksin (polut, termit, kokeet, yksiköiden otsikot) käynnistyksessä ja
+  yksiköiden sisällön tarvittaessa omina paloinaan (`src/content/loader.ts`, `content-plugin.ts`).
 
 ## Pelimekaniikka
 

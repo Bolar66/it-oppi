@@ -6,6 +6,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { validateContent } from '../src/content/validate.ts'
+import { checkQuality } from '../src/content/quality.ts'
 
 export const CONTENT_DIR = fileURLToPath(new URL('../content', import.meta.url))
 
@@ -39,7 +40,12 @@ export function runValidation(dir = CONTENT_DIR) {
 
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]
 if (isMain) {
-  const { content, errors, fileCount } = runValidation()
+  const { content, errors: schemaErrors, fileCount } = runValidation()
+  const quality = schemaErrors.length ? { errors: [], warnings: [] } : checkQuality(content)
+  const errors = [...schemaErrors, ...quality.errors]
+  if (quality.warnings.length) {
+    console.warn(`⚠ ${quality.warnings.length} varoitusta:\n` + quality.warnings.map((w) => `  - ${w}`).join('\n'))
+  }
   if (errors.length > 0) {
     console.error(`✗ ${errors.length} virhettä:\n` + errors.map((e) => `  - ${e}`).join('\n'))
     process.exit(1)

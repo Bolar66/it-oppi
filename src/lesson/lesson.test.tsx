@@ -3,11 +3,11 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { routes } from '../routes.tsx'
-import { getUnit } from '../content/loader.ts'
+import { loadUnit } from '../content/loader.ts'
 import { db } from '../progress/db.ts'
 import { answerCorrectly, currentExercise, startExercises } from '../test/answer.ts'
 
-const unit = getUnit('python', 'python-1-01')!
+const unit = await loadUnit('python', 'python-1-01')
 const current = () => currentExercise('python', () => unit.id)
 
 function start(path = '/lesson/python/python-1-01') {

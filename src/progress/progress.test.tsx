@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent, { type UserEvent } from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { routes } from '../routes.tsx'
-import { getPath } from '../content/loader.ts'
+import { getPath, loadUnits } from '../content/loader.ts'
 import { answerCorrectly, currentExercise } from '../test/answer.ts'
 import { db } from './db.ts'
 import { dayKey } from './dates.ts'
@@ -11,7 +11,8 @@ import { dayKey } from './dates.ts'
 const path = getPath('python')!
 const level1Units = path.levels.find((l) => l.level === 1)!.units
 /** Kokeessa harjoitukset tulevat eri yksiköistä; etsitään yksikkö, jossa näytetty id on. */
-const unitOf = (exerciseId: string) => level1Units.find((u) => path.units[u]!.exercises.some((e) => e.id === exerciseId))!
+const loaded = await loadUnits('python', level1Units)
+const unitOf = (exerciseId: string) => loaded.find((u) => u.exercises.some((e) => e.id === exerciseId))!.id
 
 function renderAt(url: string) {
   const router = createMemoryRouter(routes, { initialEntries: [url] })

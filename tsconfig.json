@@ -18,5 +18,5 @@
     "skipLibCheck": true,
     "types": ["vite/client", "vite-plugin-pwa/client", "node", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src", "scripts", "vite.config.ts", "eslint.config.js", "pwa-assets.config.ts"]
+  "include": ["src", "scripts", "vite.config.ts", "eslint.config.js", "pwa-assets.config.ts", "content-plugin.ts"]
 }

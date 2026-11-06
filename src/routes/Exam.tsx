@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
-import { getPath } from '../content/loader.ts'
+import { getPath, loadUnits } from '../content/loader.ts'
 import ExamRunner from '../exam/ExamRunner.tsx'
 import { sampleExam } from '../progress/examSample.ts'
 import { useProgress, usePathStatus } from '../progress/hooks.ts'
@@ -17,6 +17,7 @@ export default function Exam({ kind }: { kind: 'exam' | 'placement' }) {
   const progress = useProgress()
   const status = usePathStatus(path, progress)
   const [items, setItems] = useState<LessonItem[] | null>(null)
+  const [starting, setStarting] = useState<'idle' | 'loading' | 'error'>('idle')
 
   const level = (kind === 'placement' ? 1 : Number(levelParam)) as Level
   const levelStatus = status?.levels.find((l) => l.level === level)
@@ -79,10 +80,25 @@ export default function Exam({ kind }: { kind: 'exam' | 'placement' }) {
             <li>Läpäisyraja {Math.round(cfg.passThreshold * 100)} %</li>
             {placement && <li>Läpäisy merkitsee tason 1 suoritetuksi ja avaa tason 2</li>}
           </ul>
+          {starting === 'error' && (
+            <p role="alert" className="text-sm text-rose-400">
+              Kysymysten lataus epäonnistui.
+            </p>
+          )}
           <button
             type="button"
-            onClick={() => setItems(sampleExam(path, level, cfg.questionCount))}
-            className="w-full rounded-2xl bg-sky-600 py-4 text-lg font-semibold text-white"
+            disabled={starting === 'loading'}
+            onClick={() => {
+              setStarting('loading')
+              loadUnits(pathId, levelStatus.units.map((u) => u.unitId)).then(
+                (units) => setItems(sampleExam(pathId, units, cfg.questionCount)),
+                (e: unknown) => {
+                  console.error(e)
+                  setStarting('error')
+                },
+              )
+            }}
+            className="w-full rounded-2xl bg-sky-600 py-4 text-lg font-semibold text-white disabled:opacity-60"
           >
             Aloita {placement ? 'tasotesti' : 'koe'}
           </button>

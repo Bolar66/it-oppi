@@ -2,6 +2,9 @@ import type { LoadedPath } from '../content/validate.ts'
 import type { Level } from '../schemas/content.ts'
 import type { ExamResult } from './types.ts'
 
+/** Avauslaskenta tarvitsee vain polun rakenteen (ei yksiköiden sisältöä). */
+export type PathShape = Pick<LoadedPath, 'id' | 'levels' | 'exams'>
+
 export const DEFAULT_TEST = { questionCount: 20, passThreshold: 0.8 }
 
 export type UnitStatus = 'locked' | 'open' | 'completed'
@@ -43,7 +46,7 @@ export interface PathStatus {
  * Avaussäännöt: tason ensimmäinen yksikkö on auki, seuraava aukeaa edellisen suorituksella.
  * Taso n+1 aukeaa, kun tason n koe on läpäisty (tasotestin läpäisy = tason 1 koe läpäisty).
  */
-export function computePathStatus(path: LoadedPath, completed: ReadonlySet<string>, exams: readonly ExamResult[]): PathStatus {
+export function computePathStatus(path: PathShape, completed: ReadonlySet<string>, exams: readonly ExamResult[]): PathStatus {
   const own = exams.filter((e) => e.pathId === path.id)
   const placementPassed = own.some((e) => e.kind === 'placement' && e.passed)
   const levels: LevelStatus[] = []

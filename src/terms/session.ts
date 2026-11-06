@@ -1,4 +1,6 @@
 import type { LoadedPath } from '../content/validate.ts'
+
+type WithTerms = Pick<LoadedPath, 'id' | 'terms'>
 import type { Exercise, Term } from '../schemas/content.ts'
 import { shuffle, type Rng } from '../exercises/shuffle.ts'
 import type { TermItem } from '../progress/types.ts'
@@ -23,14 +25,14 @@ export const MODE_LABELS: Record<TermMode, string> = {
 }
 
 /** Kaikki polkujen termit (sanasto). */
-export function allTerms(paths: readonly LoadedPath[], pathId?: string): TermRef[] {
+export function allTerms(paths: readonly WithTerms[], pathId?: string): TermRef[] {
   return paths
     .filter((p) => !pathId || p.id === pathId)
     .flatMap((p) => p.terms.map((term) => ({ pathId: p.id, term })))
 }
 
 /** Avatut termit: yksikkö suoritettu (myös tasotestin kautta). */
-export function unlockedTerms(paths: readonly LoadedPath[], completed: ReadonlySet<string>, pathId?: string): TermRef[] {
+export function unlockedTerms(paths: readonly WithTerms[], completed: ReadonlySet<string>, pathId?: string): TermRef[] {
   return allTerms(paths, pathId).filter((r) => completed.has(r.term.unit))
 }
 

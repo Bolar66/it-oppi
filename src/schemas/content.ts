@@ -10,7 +10,10 @@ export const LanguageSchema = z.enum([
   'cpp',
   'kotlin',
   'bash',
+  /** SQLite-yhteensopiva SQL (tarkistetaan ajamalla). */
   'sql',
+  /** PostgreSQL-kohtainen SQL. */
+  'postgresql',
   'html',
   'css',
   'json',

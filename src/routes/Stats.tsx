@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Link } from 'react-router'
-import { content, getUnit } from '../content/loader.ts'
+import { content, getUnitMeta } from '../content/loader.ts'
 import { db } from '../progress/db.ts'
 import { dayKey, parseDayKey } from '../progress/dates.ts'
 import { useProgress } from '../progress/hooks.ts'
@@ -133,7 +133,7 @@ export default function Stats() {
                   to={`/lesson/${w.pathId}/${w.unitId}`}
                   className="flex items-center justify-between rounded-xl bg-slate-800 px-3 py-2 active:bg-slate-700"
                 >
-                  <span className="text-sm">{getUnit(w.pathId, w.unitId)?.title ?? w.unitId}</span>
+                  <span className="text-sm">{getUnitMeta(w.pathId, w.unitId)?.title ?? w.unitId}</span>
                   <span className="text-sm text-rose-300">{Math.round(w.accuracy * 100)} % oikein</span>
                 </Link>
               </li>

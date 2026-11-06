@@ -128,15 +128,15 @@ describe('computePathStatus', () => {
 
 describe('sampleExam', () => {
   it('ottaa tasaisesti yksiköistä ja rajaa määrän', () => {
-    const items = sampleExam(path, 1, 10)
+    const items = sampleExam('demo', [path.units['demo-1-01']!, path.units['demo-1-02']!], 10)
     expect(items).toHaveLength(10)
     const perUnit = items.reduce<Record<string, number>>((acc, i) => ({ ...acc, [i.unitId]: (acc[i.unitId] ?? 0) + 1 }), {})
     expect(perUnit).toEqual({ 'demo-1-01': 5, 'demo-1-02': 5 })
     expect(new Set(items.map((i) => `${i.unitId}/${i.exercise.id}`)).size).toBe(10)
   })
   it('palauttaa kaikki, jos harjoituksia on vähemmän kuin kysymyksiä', () => {
-    expect(sampleExam(path, 1, 20)).toHaveLength(16)
-    expect(sampleExam(path, 3, 20)).toEqual([])
+    expect(sampleExam('demo', [path.units['demo-1-01']!, path.units['demo-1-02']!], 20)).toHaveLength(16)
+    expect(sampleExam('demo', [], 20)).toEqual([])
   })
 })
 

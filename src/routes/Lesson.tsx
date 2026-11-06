@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { getPath } from '../content/loader.ts'
+import { useUnit } from '../content/useUnit.ts'
 import Theory from '../components/Theory.tsx'
 import LessonRunner from '../lesson/LessonRunner.tsx'
 import { useProgress, usePathStatus } from '../progress/hooks.ts'
@@ -12,12 +13,14 @@ export default function Lesson() {
   const navigate = useNavigate()
   const [run, setRun] = useState(0) // 0 = teoria, >0 = harjoituskierroksen numero
   const path = getPath(pathId)
-  const unit = path?.units[unitId]
+  const meta = path?.units[unitId]
+  const loaded = useUnit(pathId, unitId)
+  const unit = loaded.status === 'ready' ? loaded.unit : undefined
   const progress = useProgress()
   const status = usePathStatus(path, progress)
   const items = useMemo(() => unit?.exercises.map((exercise) => ({ pathId, unitId, exercise })) ?? [], [unit, pathId, unitId])
 
-  if (!path || !unit) {
+  if (!path || !meta) {
     return (
       <div className="mx-auto max-w-xl px-4 py-6">
         <NotFound />
@@ -27,7 +30,7 @@ export default function Lesson() {
 
   const unitStatus = status?.levels.flatMap((l) => l.units).find((u) => u.unitId === unitId)?.status
 
-  if (run > 0) {
+  if (run > 0 && unit) {
     return (
       <LessonRunner
         key={run}
@@ -48,12 +51,12 @@ export default function Lesson() {
           ✕
         </Link>
         <div className="text-xs text-slate-400">
-          {path.title} · Taso {unit.level}
+          {path.title} · Taso {meta.level}
           {unitStatus === 'completed' && ' · ✓ suoritettu'}
         </div>
       </header>
 
-      <h1 className="mt-3 text-2xl font-bold">{unit.title}</h1>
+      <h1 className="mt-3 text-2xl font-bold">{meta.title}</h1>
 
       {unitStatus === 'locked' ? (
         <div className="mt-6 flex-1 space-y-4">
@@ -64,19 +67,23 @@ export default function Lesson() {
             Polkukarttaan
           </Link>
         </div>
+      ) : loaded.status === 'error' ? (
+        <p role="alert" className="mt-6 rounded-xl bg-rose-950 p-4 text-rose-200">
+          Yksikön lataus epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen.
+        </p>
       ) : (
         <>
           <div className="flex-1">
-            <Theory markdown={unit.theory} />
+            {unit ? <Theory markdown={unit.theory} /> : <p className="mt-6 text-slate-400">Ladataan…</p>}
           </div>
           <div className="sticky bottom-0 mt-6 bg-slate-900 pt-3">
             <button
               type="button"
-              disabled={!status}
+              disabled={!status || !unit}
               onClick={() => setRun(1)}
               className="w-full rounded-2xl bg-accent-dark py-4 text-lg font-semibold text-white active:translate-y-0.5 disabled:opacity-60"
             >
-              Aloita harjoitukset ({unit.exercises.length})
+              Aloita harjoitukset ({meta.exerciseCount})
             </button>
           </div>
         </>
