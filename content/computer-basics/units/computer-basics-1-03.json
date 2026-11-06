@@ -1,0 +1,113 @@
+{
+  "id": "computer-basics-1-03",
+  "title": "Prosessori (CPU)",
+  "level": 1,
+  "theory": "**Prosessori (CPU, central processing unit)** on tietokoneen \"aivot\": se suorittaa ohjelmien käskyt.\n\n## Käskyt\n\nProsessorin **käsky (instruction)** on hyvin yksinkertainen operaatio, esimerkiksi:\n\n- laske kaksi lukua yhteen\n- hae luku muistista tai vie se muistiin\n- vertaa kahta lukua\n- hyppää ohjelmassa toiseen kohtaan\n\nMonimutkainenkin ohjelma koostuu miljoonista tällaisista käskyistä. Prosessori käsittelee niitä toistuvassa kierrossa: **nouto (fetch)** – käsky haetaan muistista, **tulkinta (decode)** – selvitetään, mitä käsky tekee, ja **suoritus (execute)** – käsky tehdään.\n\n## Kellotaajuus\n\nProsessorin toimintaa tahdittaa kello. **Kellotaajuus (clock speed)** ilmoitetaan gigahertseinä: 3 GHz tarkoittaa 3 miljardia kellojaksoa sekunnissa. Kellotaajuus ei yksin kerro nopeutta, sillä prosessorit tekevät jaksossa eri määrän työtä. Kuumentuessaan prosessori voi laskea kellotaajuuttaan suojatakseen itseään.\n\n## Ytimet ja säikeet\n\n**Ydin (core)** on itsenäinen suoritusyksikkö. Moniytiminen prosessori voi tehdä useaa asiaa yhtä aikaa eli **rinnakkain**.\n\n**Säie (thread)** on ohjelman suoritusjono. Ohjelma voi jakaa työnsä usealle säikeelle, jotka ajetaan eri ytimillä. Monet prosessorit pystyvät ajamaan kahta säiettä yhdellä ytimellä (esim. Intelin Hyper-Threading).\n\n## Arkkitehtuuri\n\nProsessorin **käskykanta (instruction set)** määrää, mitä käskyjä se ymmärtää. Yleisimmät:\n\n- **x86-64** – Intelin ja AMD:n prosessorit, useimmat Windows-PC:t\n- **ARM** – useimmat älypuhelimet ja Applen M-sarjan Macit\n\nOhjelma käännetään tietylle käskykannalle, joten ohjelma ei välttämättä toimi sellaisenaan toisen arkkitehtuurin prosessorilla.\n\n## Näytönohjain\n\n**Näytönohjaimessa (GPU)** on tuhansia yksinkertaisia ytimiä, jotka laskevat rinnakkain. Siksi se sopii grafiikkaan ja myös koneoppimiseen.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä on prosessorin tehtävä?",
+      "options": ["Suorittaa ohjelmien käskyt", "Tallentaa tiedostot pysyvästi", "Näyttää kuvan", "Yhdistää koneen verkkoon"],
+      "answer": 0,
+      "explanation": "Prosessori (CPU) suorittaa käskyt. Tiedostot tallentaa SSD tai kiintolevy, ja kuvan piirtää näytönohjain."
+    },
+    {
+      "id": "e2",
+      "type": "order_lines",
+      "prompt": "Järjestä prosessorin käskykierron vaiheet.",
+      "language": "text",
+      "lines": [
+        "Nouto (fetch): käsky haetaan muistista",
+        "Tulkinta (decode): selvitetään, mitä käsky tekee",
+        "Suoritus (execute): käsky tehdään"
+      ],
+      "explanation": "Käsky pitää ensin hakea, sitten ymmärtää ja vasta sitten suorittaa. Kierto toistuu jokaiselle käskylle."
+    },
+    {
+      "id": "e3",
+      "type": "multiple_choice",
+      "prompt": "Mitä kellotaajuus 3 GHz tarkoittaa?",
+      "options": ["3 miljardia kellojaksoa sekunnissa", "3 miljardia käskyä minuutissa", "Prosessorissa on 3 ydintä", "Prosessorissa on 3 gigatavua muistia"],
+      "answer": 0,
+      "explanation": "Giga = miljardi ja hertsi = kerta sekunnissa. 3 GHz = 3 000 000 000 kellojaksoa sekunnissa."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Mikä on englannin core suomeksi (perusmuodossa)?",
+      "language": "text",
+      "code": "core = ___",
+      "answers": ["ydin"],
+      "explanation": "Ydin (core) on prosessorin itsenäinen suoritusyksikkö. Esimerkiksi 8-ytimisessä prosessorissa niitä on kahdeksan."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja kuvaus.",
+      "pairs": [
+        ["x86-64", "useimpien Windows-PC:iden käskykanta"],
+        ["ARM", "useimpien älypuhelinten käskykanta"],
+        ["GPU", "tuhansia ytimiä grafiikkaan ja rinnakkaislaskentaan"],
+        ["Ydin (core)", "itsenäinen suoritusyksikkö"]
+      ],
+      "explanation": "Käskykanta määrää, mitä käskyjä prosessori ymmärtää. Näytönohjain (GPU) on erikoistunut rinnakkaiseen laskentaan."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Miksi kaksi prosessoria samalla kellotaajuudella voivat olla eri nopeita?",
+      "options": [
+        "Ne voivat tehdä kellojaksossa eri määrän työtä, ja niissä voi olla eri määrä ytimiä",
+        "Kellotaajuus kertoo aina nopeuden tarkasti",
+        "Nopeampi on aina se, jonka koneessa on enemmän tallennustilaa",
+        "Ne eivät voi olla eri nopeita"
+      ],
+      "answer": 0,
+      "explanation": "Kellotaajuus kertoo vain, kuinka usein kello lyö. Arkkitehtuuri ja ytimien määrä vaikuttavat siihen, paljonko työtä saadaan aikaan."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "Prosessori suorittaa ohjelmien käskyt.\nMoniytiminen prosessori voi tehdä useaa asiaa yhtä aikaa.\nKellotaajuus ilmoitetaan gigatavuina.\nKuumentunut prosessori voi laskea kellotaajuuttaan.",
+      "bugLine": 3,
+      "explanation": "Kellotaajuus ilmoitetaan gigahertseinä (GHz). Gigatavu (GB) on tiedon määrän yksikkö."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä on säie (thread)?",
+      "options": ["Ohjelman suoritusjono, jota prosessori ajaa", "Prosessorin jäähdytysripa", "Kaapeli prosessorin ja muistin välillä", "Tallennustilan yksikkö"],
+      "answer": 0,
+      "explanation": "Ohjelma voi jakaa työnsä useaan säikeeseen, jotka ajetaan eri ytimillä yhtä aikaa."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Miksi x86-64-prosessorille käännetty ohjelma ei välttämättä toimi sellaisenaan ARM-prosessorilla?",
+      "options": [
+        "Eri arkkitehtuureilla on eri käskykanta",
+        "ARM-prosessorit eivät osaa laskea",
+        "ARM-koneissa ei ole keskusmuistia",
+        "Ohjelmat toimivat aina kaikilla prosessoreilla"
+      ],
+      "answer": 0,
+      "explanation": "Käännetty ohjelma koostuu tietyn käskykannan käskyistä. Toinen arkkitehtuuri tarvitsee oman käännöksen tai emuloinnin."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Miksi näytönohjainta (GPU) käytetään koneoppimisessa?",
+      "options": [
+        "Siinä on tuhansia ytimiä, jotka laskevat rinnakkain",
+        "Se tallentaa opetusdatan pysyvästi",
+        "Se korvaa käyttöjärjestelmän",
+        "Siinä on suurempi kellotaajuus kuin missään prosessorissa"
+      ],
+      "answer": 0,
+      "explanation": "Koneoppimisessa lasketaan valtava määrä samanlaisia laskutoimituksia, jotka voi tehdä rinnakkain – siihen GPU on rakennettu."
+    }
+  ]
+}

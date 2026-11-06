@@ -68,7 +68,7 @@ export default function MatchPairs({ exercise, answer, onChange, checked }: Exer
               aria-pressed={selLeft === i || matches[i] !== null}
               disabled={checked}
               onClick={() => clickLeft(i)}
-              className={choiceClass(leftState(i), `flex items-center gap-2 font-mono text-sm ${stacked ? 'w-auto!' : ''}`)}
+              className={choiceClass(leftState(i), `flex items-center gap-2 text-sm ${stacked ? 'w-auto!' : ''}`)}
             >
               <Badge>{letter(i)}</Badge>
               <span className="min-w-0 break-words">{left}</span>

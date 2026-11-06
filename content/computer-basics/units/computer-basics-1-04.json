@@ -1,0 +1,110 @@
+{
+  "id": "computer-basics-1-04",
+  "title": "Keskusmuisti (RAM)",
+  "level": 1,
+  "theory": "**Keskusmuisti (RAM, random access memory)** säilyttää käynnissä olevien ohjelmien koodin ja datan. Kun käynnistät ohjelman, se ladataan tallennuslaitteelta muistiin, ja prosessori suorittaa sitä sieltä.\n\n## Haihtuva muisti\n\nRAM on **haihtuvaa (volatile)**: sen sisältö katoaa, kun virta katkeaa. Siksi tallentamaton työ häviää sähkökatkossa, kun taas tallennettu tiedosto säilyy SSD:llä tai kiintolevyllä.\n\nRAM on huomattavasti nopeampi kuin tallennuslaitteet, mutta sitä on vähemmän. Tyypillisessä kannettavassa on esimerkiksi 16 GB keskusmuistia ja 512 GB tallennustilaa.\n\n## Muisti vai tallennustila?\n\nArkikielessä sanat sekoittuvat. Kun puhelimen mainoksessa lukee \"128 GB\", se tarkoittaa yleensä tallennustilaa eikä keskusmuistia.\n\n## Välimuisti\n\nProsessori on niin nopea, että se joutuisi usein odottamaan RAM:ia. Siksi prosessorin sisällä on **välimuisti (cache)**: pieni mutta hyvin nopea muisti, johon pidetään usein käytettyä dataa. Välimuistissa on yleensä tasot L1, L2 ja L3 – L1 on pienin ja nopein.\n\n## Muistihierarkia\n\nNopeimmasta hitaimpaan:\n\n1. prosessorin **rekisterit**\n2. välimuisti (cache)\n3. keskusmuisti (RAM)\n4. SSD\n5. kiintolevy (HDD)\n\nMitä alemmas mennään, sitä hitaampaa mutta suurempaa ja halvempaa (gigatavua kohden) muisti on.\n\n## Kun muisti loppuu\n\nJos ohjelmat tarvitsevat enemmän muistia kuin RAM:ia on, käyttöjärjestelmä siirtää osan muistin sisällöstä levylle (**swap** tai sivutustiedosto). Koska levy on paljon RAM:ia hitaampi, kone hidastuu selvästi.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mitä keskusmuistin (RAM) sisällölle tapahtuu, kun virta katkeaa?",
+      "options": ["Sisältö katoaa", "Sisältö tallentuu automaattisesti pilveen", "Mitään ei tapahdu", "Sisältö siirtyy näytönohjaimeen"],
+      "answer": 0,
+      "explanation": "RAM on haihtuvaa muistia. Siksi työ kannattaa tallentaa: tallennettu tiedosto on SSD:llä tai kiintolevyllä, joka säilyttää datan ilman virtaa."
+    },
+    {
+      "id": "e2",
+      "type": "order_lines",
+      "prompt": "Järjestä muistit nopeimmasta hitaimpaan.",
+      "language": "text",
+      "lines": ["Prosessorin rekisterit", "Välimuisti (cache)", "Keskusmuisti (RAM)", "SSD", "Kiintolevy (HDD)"],
+      "explanation": "Muistihierarkiassa nopeus laskee alaspäin mentäessä, mutta koko kasvaa ja hinta gigatavua kohden laskee."
+    },
+    {
+      "id": "e3",
+      "type": "match_pairs",
+      "prompt": "Yhdistä muisti ja kuvaus.",
+      "pairs": [
+        ["RAM", "käynnissä olevien ohjelmien data"],
+        ["SSD", "pysyvästi tallennetut tiedostot"],
+        ["Välimuisti", "pieni ja hyvin nopea muisti prosessorissa"],
+        ["Swap", "levylle siirretty osa muistin sisällöstä"]
+      ],
+      "explanation": "Jokaisella muistityypillä on oma roolinsa nopeuden, koon ja pysyvyyden mukaan."
+    },
+    {
+      "id": "e4",
+      "type": "multiple_choice",
+      "prompt": "Mitä tapahtuu, kun käynnistät ohjelman?",
+      "options": [
+        "Ohjelma ladataan tallennuslaitteelta keskusmuistiin, ja prosessori suorittaa sitä",
+        "Ohjelma kopioidaan näytönohjaimeen",
+        "Ohjelma suoritetaan suoraan kiintolevyltä ilman keskusmuistia",
+        "Käyttöjärjestelmä poistetaan muistista"
+      ],
+      "answer": 0,
+      "explanation": "Ohjelmatiedosto on tallennuslaitteella, mutta suoritusta varten se ladataan nopeaan keskusmuistiin."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä suomenkielinen termi.",
+      "language": "text",
+      "code": "Muisti, jonka sisältö katoaa virran katketessa, on ___ (volatile).",
+      "answers": ["haihtuvaa"],
+      "explanation": "Haihtuva (volatile) muisti tarvitsee virtaa säilyttääkseen datan. RAM on haihtuvaa, SSD ei."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Miksi kone hidastuu, kun keskusmuisti loppuu?",
+      "options": [
+        "Käyttöjärjestelmä siirtää muistin sisältöä levylle, joka on paljon hitaampi",
+        "Prosessori sammuu",
+        "Näytönohjain ylikuumenee",
+        "Internetyhteys katkeaa"
+      ],
+      "answer": 0,
+      "explanation": "Muistin jatkeena käytetään levyä (swap tai sivutustiedosto). Levy on moninkertaisesti RAM:ia hitaampi, joten kaikki hidastuu."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "RAM on haihtuvaa muistia.\nVälimuisti on nopeampaa kuin RAM.\nSSD on nopeampi kuin RAM.\nRAM:ssa on käynnissä olevien ohjelmien dataa.",
+      "bugLine": 3,
+      "explanation": "SSD on nopea tallennuslaite, mutta keskusmuisti (RAM) on silti selvästi sitä nopeampi."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Puhelimen mainoksessa lukee \"128 GB\". Mitä se yleensä tarkoittaa?",
+      "options": ["Tallennustilaa", "Keskusmuistia", "Prosessorin välimuistia", "Näytönohjaimen muistia"],
+      "answer": 0,
+      "explanation": "Puhelinten suuri GB-luku kertoo yleensä tallennustilasta. Keskusmuistia puhelimissa on huomattavasti vähemmän kuin tallennustilaa."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mikä on välimuistin (cache) hyöty?",
+      "options": [
+        "Prosessori saa usein käytetyn datan hyvin nopeasti",
+        "Siihen mahtuu enemmän kuin kiintolevylle",
+        "Se säilyttää datan ilman virtaa",
+        "Se on halvin muistityyppi"
+      ],
+      "answer": 0,
+      "explanation": "Välimuisti on pieni mutta hyvin nopea. Kun data löytyy sieltä, prosessorin ei tarvitse odottaa hitaampaa keskusmuistia."
+    },
+    {
+      "id": "e10",
+      "type": "fill_blank",
+      "prompt": "Täydennä muistihierarkian nopein taso.",
+      "language": "text",
+      "code": "Muistihierarkian nopein taso: prosessorin ___",
+      "answers": ["rekisterit"],
+      "explanation": "Rekisterit ovat prosessorin sisäisiä muistipaikkoja, joissa käsiteltävät luvut ovat juuri sillä hetkellä."
+    }
+  ]
+}

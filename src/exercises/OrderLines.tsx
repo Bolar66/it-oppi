@@ -3,11 +3,11 @@ import type { ExerciseProps } from './common.ts'
 import { grade } from './grade.ts'
 import { shuffledIndices } from './shuffle.ts'
 
-const lineClass =
-  'block min-h-11 w-full rounded-lg border-2 px-3 py-2 text-left font-mono text-sm whitespace-pre overflow-x-auto disabled:cursor-default'
-
 export default function OrderLines({ exercise, answer, onChange, checked }: ExerciseProps<'order_lines'>) {
   const [pool] = useState(() => shuffledIndices(exercise.lines.length))
+  const lineClass = `block min-h-11 w-full rounded-lg border-2 px-3 py-2 text-left disabled:cursor-default ${
+    exercise.language === 'text' ? 'text-base break-words' : 'font-mono text-sm whitespace-pre overflow-x-auto'
+  }`
   const remaining = pool.filter((i) => !answer.order.includes(i))
   const resultBorder = checked ? (grade(exercise, answer) ? 'border-green-500' : 'border-rose-500') : 'border-slate-700'
 

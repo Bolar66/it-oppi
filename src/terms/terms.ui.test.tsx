@@ -3,11 +3,13 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent, { type UserEvent } from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { routes } from '../routes.tsx'
-import { getPath } from '../content/loader.ts'
+import { content, getPath } from '../content/loader.ts'
 import { db } from '../progress/db.ts'
 import { dayKey } from '../progress/dates.ts'
 
 const path = getPath('python')!
+/** Kaikkien polkujen termit yhteensä (sanasto näyttää oletuksena kaikki). */
+const totalTerms = content.paths.reduce((n, p) => n + p.terms.length, 0)
 const termByName = (name: string) => path.terms.find((t) => t.term === name)!
 
 function renderAt(url: string) {
@@ -68,7 +70,7 @@ describe('termiosio', () => {
   it('ennen yksikön suoritusta termit ovat lukossa', async () => {
     renderAt('/terms')
     expect(await screen.findByText(/Termit avautuvat, kun suoritat yksiköitä/)).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Sanasto \(10 termiä\)/ })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: `📖 Sanasto (${totalTerms} termiä)` })).toBeInTheDocument()
   })
 
   it('sekoitus uusilla termeillä: kortit → +5 XP per osattu → laatikko 1', async () => {
@@ -119,7 +121,7 @@ describe('termiosio', () => {
   it('sanasto: haku ja lukitusmerkintä', async () => {
     const user = userEvent.setup()
     renderAt('/terms/glossary')
-    expect(await screen.findAllByText('🔒 lukittu')).toHaveLength(10)
+    expect(await screen.findAllByText('🔒 lukittu')).toHaveLength(totalTerms)
     await user.type(screen.getByRole('searchbox', { name: 'Hae sanastosta' }), 'boolean')
     const list = within(screen.getByRole('region', { name: 'Python' })).getAllByRole('listitem')
     expect(list).toHaveLength(1)

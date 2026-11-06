@@ -1,0 +1,114 @@
+{
+  "id": "computer-basics-1-07",
+  "title": "Tiedostot ja tiedostojärjestelmät",
+  "level": 1,
+  "theory": "**Tiedosto (file)** on nimetty tietokokonaisuus, esimerkiksi kuva, dokumentti tai ohjelma. **Kansio (folder, directory)** sisältää tiedostoja ja muita kansioita, joten ne muodostavat puurakenteen.\n\n## Polut\n\n**Polku (path)** kertoo, missä tiedosto sijaitsee:\n\n- Windows: `C:\\Users\\ville\\Documents\\raportti.docx`\n- Linux ja macOS: `/home/ville/raportti.txt`\n\nWindows erottaa kansiot kenoviivalla `\\` ja Linux kauttaviivalla `/`. Puun alku on **juurikansio (root)**: Windowsissa asema, kuten `C:\\`, ja Linuxissa `/`.\n\n**Absoluuttinen polku** alkaa juuresta, joten se toimii aina. **Suhteellinen polku** lasketaan nykyisestä kansiosta: jos olet kansiossa `/home/ville`, polku `kuvat/kissa.jpg` viittaa tiedostoon `/home/ville/kuvat/kissa.jpg`. Merkintä `.` tarkoittaa nykyistä kansiota ja `..` yläkansiota.\n\n## Tiedostopääte\n\n**Tiedostopääte (file extension)** on nimen loppuosa pisteen jälkeen, ja se kertoo sisällön tyypin: `.txt` teksti, `.jpg` kuva, `.pdf` dokumentti, `.exe` Windows-ohjelma ja `.zip` pakattu arkisto. Päätteen vaihtaminen ei muunna tiedostoa toiseen muotoon.\n\nLinux erottaa isot ja pienet kirjaimet (`Raportti.txt` ja `raportti.txt` ovat eri tiedostoja), Windows ei oletuksena erota. Linuxissa pisteellä alkavat tiedostot, kuten `.bashrc`, ovat piilotettuja.\n\n## Tiedostojärjestelmä\n\n**Tiedostojärjestelmä (file system)** määrää, miten tiedostot ja kansiot järjestetään levylle:\n\n- **NTFS** – Windowsin oletus\n- **ext4** – yleinen Linuxissa\n- **APFS** – macOSin oletus\n- **FAT32** – hyvin yhteensopiva, mutta yksittäinen tiedosto voi olla enintään noin 4 GB\n- **exFAT** – muistitikut ja -kortit, tukee suuria tiedostoja\n\n**Formatointi** luo levylle uuden tiedostojärjestelmän, ja vanha sisältö katoaa näkyvistä.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on absoluuttinen polku?",
+      "options": ["/home/ville/kuvat/kissa.jpg", "kuvat/kissa.jpg", "../kissa.jpg", "kissa.jpg"],
+      "answer": 0,
+      "explanation": "Absoluuttinen polku alkaa juuresta (Linuxissa /). Muut ovat suhteellisia polkuja."
+    },
+    {
+      "id": "e2",
+      "type": "match_pairs",
+      "prompt": "Yhdistä tiedostopääte ja sisältö.",
+      "pairs": [
+        [".txt", "tavallinen teksti"],
+        [".jpg", "valokuva"],
+        [".exe", "Windows-ohjelma"],
+        [".zip", "pakattu arkisto"],
+        [".pdf", "tulostettavaksi muotoiltu dokumentti"]
+      ],
+      "explanation": "Pääte kertoo käyttöjärjestelmälle, millä ohjelmalla tiedosto avataan."
+    },
+    {
+      "id": "e3",
+      "type": "fill_blank",
+      "prompt": "Millä merkinnällä polussa viitataan yläkansioon?",
+      "language": "text",
+      "code": "yläkansio = ___",
+      "answers": [".."],
+      "explanation": "Kaksi pistettä (..) tarkoittaa yläkansiota ja yksi piste (.) nykyistä kansiota."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "Windows erottaa poluissa kansiot kenoviivalla \\.\nLinuxin juurikansio on /.\nTiedostopäätteen vaihtaminen muuntaa tiedoston toiseen muotoon.\nLinux erottaa isot ja pienet kirjaimet tiedostonimissä.",
+      "bugLine": 3,
+      "explanation": "Päätteen vaihtaminen muuttaa vain nimeä. Esimerkiksi .jpg-kuvan nimeäminen .png:ksi ei tee siitä PNG-kuvaa – siihen tarvitaan muunnosohjelma."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Miksi 6 GB:n videotiedostoa ei voi kopioida FAT32-muotoiselle muistitikulle?",
+      "options": [
+        "FAT32:ssa yksittäinen tiedosto voi olla enintään noin 4 GB",
+        "FAT32 ei tue videotiedostoja",
+        "Muistitikku voi olla korkeintaan 4 GB:n kokoinen",
+        "Tiedoston nimi on liian pitkä"
+      ],
+      "answer": 0,
+      "explanation": "FAT32:n tiedostokoon raja on noin 4 GB. Ratkaisu on formatoida tikku exFAT-muotoon (varmuuskopioi ensin sisältö)."
+    },
+    {
+      "id": "e6",
+      "type": "order_lines",
+      "prompt": "Rakenna polku /home/ville/kuvat/kissa.jpg juuresta alkaen.",
+      "language": "text",
+      "lines": ["/", "home/", "ville/", "kuvat/", "kissa.jpg"],
+      "explanation": "Polku etenee juuresta alaspäin kansio kerrallaan, ja lopussa on tiedoston nimi."
+    },
+    {
+      "id": "e7",
+      "type": "match_pairs",
+      "prompt": "Yhdistä tiedostojärjestelmä ja tyypillinen käyttö.",
+      "pairs": [
+        ["NTFS", "Windowsin oletus"],
+        ["ext4", "yleinen Linuxissa"],
+        ["APFS", "macOSin oletus"],
+        ["exFAT", "muistitikut ja suuret tiedostot"]
+      ],
+      "explanation": "Eri käyttöjärjestelmät suosivat eri tiedostojärjestelmiä. exFAT on hyvä valinta, kun tikkua käytetään monessa käyttöjärjestelmässä."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Olet kansiossa /home/ville. Mihin suhteellinen polku kuvat/kissa.jpg viittaa?",
+      "options": ["/home/ville/kuvat/kissa.jpg", "/kuvat/kissa.jpg", "/home/kuvat/kissa.jpg", "/ville/kuvat/kissa.jpg"],
+      "answer": 0,
+      "explanation": "Suhteellinen polku lisätään nykyisen kansion perään: /home/ville + kuvat/kissa.jpg."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä formatointi tekee?",
+      "options": [
+        "Luo levylle uuden tiedostojärjestelmän, ja vanha sisältö katoaa näkyvistä",
+        "Nopeuttaa levyä pysyvästi",
+        "Muuntaa tiedostot PDF-muotoon",
+        "Tekee levystä varmuuskopion"
+      ],
+      "answer": 0,
+      "explanation": "Formatointi valmistelee levyn käyttöön tietyllä tiedostojärjestelmällä. Ota tärkeät tiedostot talteen ennen sitä."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mikä tekee tiedostosta piilotetun Linuxissa?",
+      "options": [
+        "Nimi alkaa pisteellä, esimerkiksi .bashrc",
+        "Pääte on .hidden",
+        "Nimi alkaa isolla kirjaimella",
+        "Tiedosto on juurikansiossa"
+      ],
+      "answer": 0,
+      "explanation": "Linuxissa pisteellä alkavat tiedostot eivät näy oletuksena. Komento ls -a näyttää myös ne."
+    }
+  ]
+}

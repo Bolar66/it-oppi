@@ -32,6 +32,20 @@ export function choiceClass(state: ChoiceState, extra = ''): string {
   return `min-h-11 w-full rounded-xl border-2 px-4 py-2.5 text-left transition-colors disabled:cursor-default ${choiceStates[state]} ${extra}`
 }
 
+/**
+ * language: 'text' = tavallista tekstiä (esim. väitteitä), ei koodia: tavallinen fontti ja rivitys,
+ * jotta pitkät lauseet eivät vieri sivuttain puhelimella.
+ */
+export function lineStyles(language?: string) {
+  const prose = language === 'text'
+  return {
+    prose,
+    block: prose ? 'font-sans text-base' : 'font-mono text-sm overflow-x-auto',
+    row: prose ? 'flex' : 'flex min-w-max',
+    text: prose ? 'min-w-0 pr-3 whitespace-pre-wrap break-words' : 'pr-4 whitespace-pre',
+  }
+}
+
 /** Tekstikenttien yhteiset attribuutit: ei automaattista isoa alkukirjainta tai korjausta (iOS). */
 export const codeInputProps = {
   autoCapitalize: 'off',

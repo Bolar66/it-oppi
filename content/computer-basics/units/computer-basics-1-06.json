@@ -1,0 +1,120 @@
+{
+  "id": "computer-basics-1-06",
+  "title": "Käyttöjärjestelmä",
+  "level": 1,
+  "theory": "**Käyttöjärjestelmä (operating system, OS)** on ohjelmisto, joka toimii laitteiston ja sovellusten välissä. Sovellusten ei tarvitse tietää, millainen levy tai näytönohjain koneessa on – ne pyytävät palveluja käyttöjärjestelmältä.\n\n## Käyttöjärjestelmän tehtävät\n\n- **Prosessien hallinta** – **prosessi (process)** on käynnissä oleva ohjelma. Käyttöjärjestelmä jakaa prosessoriaikaa prosesseille ja vaihtaa niiden välillä niin nopeasti, että ne näyttävät toimivan yhtä aikaa.\n- **Muistinhallinta** – antaa ohjelmille muistia ja estää niitä lukemasta tai sotkemasta toistensa muistia.\n- **Tiedostojärjestelmä** – tiedostot ja kansiot.\n- **Laitteiden hallinta** – **ajuri (driver)** on ohjelma, jonka avulla käyttöjärjestelmä ohjaa tiettyä laitetta, esimerkiksi tulostinta.\n- **Käyttöliittymä** – graafinen käyttöliittymä (GUI) ikkunoineen tai komentorivi (CLI).\n- **Turvallisuus** – käyttäjätilit ja oikeudet.\n\nKäyttöjärjestelmän keskeistä osaa kutsutaan **ytimeksi (kernel)**. Se toimii etuoikeutetussa tilassa ja hallitsee laitteistoa suoraan.\n\n## Yleisiä käyttöjärjestelmiä\n\n- **Windows** (Microsoft) – yleisin pöytä- ja kannettavissa koneissa\n- **macOS** (Apple) – Mac-tietokoneet\n- **Linux** – avoimen lähdekoodin käyttöjärjestelmä, yleinen palvelimissa. Linuxista on monia **jakeluita (distribution)**, kuten Ubuntu ja Fedora.\n- **Android** (Google) – perustuu Linux-ytimeen, useimmat älypuhelimet\n- **iOS** (Apple) – iPhone\n\n## Käynnistys\n\nKun kone käynnistetään, ensin toimii emolevyn **laiteohjelmisto (firmware)**, nykyään yleensä UEFI (vanhemmissa BIOS). Se tarkistaa laitteet ja käynnistää **käynnistyslataimen (bootloader)**, joka lataa käyttöjärjestelmän ytimen. Ydin käynnistää palvelut, ja lopuksi näytölle tulee kirjautumisnäkymä.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä on käyttöjärjestelmän tehtävä?",
+      "options": [
+        "Hallita laitteistoa ja tarjota palveluja sovelluksille",
+        "Korvata prosessori",
+        "Toimia tekstinkäsittelyohjelmana",
+        "Tallentaa tiedostot ilman tallennuslaitetta"
+      ],
+      "answer": 0,
+      "explanation": "Käyttöjärjestelmä on välikerros: se hallitsee prosessoria, muistia, tiedostoja ja laitteita sovellusten puolesta."
+    },
+    {
+      "id": "e2",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja kuvaus.",
+      "pairs": [
+        ["Ajuri (driver)", "ohjelma, jolla käyttöjärjestelmä ohjaa laitetta"],
+        ["Ydin (kernel)", "käyttöjärjestelmän keskeinen osa"],
+        ["Prosessi", "käynnissä oleva ohjelma"],
+        ["GUI", "graafinen käyttöliittymä"],
+        ["CLI", "komentorivikäyttöliittymä"]
+      ],
+      "explanation": "Nämä ovat käyttöjärjestelmän peruskäsitteitä, joihin törmää myöhemmin esimerkiksi Linux-polulla."
+    },
+    {
+      "id": "e3",
+      "type": "order_lines",
+      "prompt": "Järjestä tietokoneen käynnistyksen vaiheet.",
+      "language": "text",
+      "lines": [
+        "Virta kytketään päälle",
+        "Laiteohjelmisto (UEFI/BIOS) tarkistaa laitteet",
+        "Käynnistyslatain lataa käyttöjärjestelmän ytimen",
+        "Ydin käynnistää palvelut",
+        "Kirjautumisnäkymä tulee näkyviin"
+      ],
+      "explanation": "Käynnistys etenee kerros kerrallaan: laiteohjelmisto → käynnistyslatain → ydin → palvelut → käyttäjä."
+    },
+    {
+      "id": "e4",
+      "type": "multiple_choice",
+      "prompt": "Mikä käyttöjärjestelmä perustuu Linux-ytimeen?",
+      "options": ["Android", "iOS", "Windows", "macOS"],
+      "answer": 0,
+      "explanation": "Android käyttää Linux-ydintä. iOS ja macOS ovat Applen omia, Windows Microsoftin."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Mikä on englannin distribution suomeksi (Linuxin yhteydessä, perusmuodossa)?",
+      "language": "text",
+      "code": "distribution = ___",
+      "answers": ["jakelu"],
+      "explanation": "Linux-jakelu (esim. Ubuntu) on paketti, jossa on Linux-ydin, ohjelmia ja asetukset valmiiksi koottuna."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "Käyttöjärjestelmä jakaa prosessoriaikaa ohjelmille.\nAjuri on laite, joka kytketään USB-porttiin.\nProsessi on käynnissä oleva ohjelma.\nKäyttöjärjestelmä estää ohjelmia lukemasta toistensa muistia.",
+      "bugLine": 2,
+      "explanation": "Ajuri on ohjelma, ei laite. Sen avulla käyttöjärjestelmä osaa käyttää laitetta."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Uusi tulostin ei toimi heti. Mikä on todennäköisin syy?",
+      "options": [
+        "Käyttöjärjestelmästä puuttuu tulostimen ajuri",
+        "Prosessori on liian hidas",
+        "Keskusmuisti on täynnä",
+        "Näytön resoluutio on väärä"
+      ],
+      "answer": 0,
+      "explanation": "Ilman ajuria käyttöjärjestelmä ei tiedä, miten laitetta ohjataan. Monet käyttöjärjestelmät hakevat ajurin automaattisesti."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on avoimen lähdekoodin käyttöjärjestelmä?",
+      "options": ["Linux", "Windows", "macOS", "iOS"],
+      "answer": 0,
+      "explanation": "Linuxin lähdekoodi on avoin: kuka tahansa voi lukea, muokata ja jakaa sitä."
+    },
+    {
+      "id": "e9",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käyttöjärjestelmä ja tyypillinen laite.",
+      "pairs": [
+        ["Windows", "useimmat PC-kannettavat"],
+        ["macOS", "Applen tietokoneet"],
+        ["iOS", "iPhone"],
+        ["Android", "useimmat älypuhelimet"]
+      ],
+      "explanation": "Androidia kehittää Google, iOS:ää ja macOS:ää Apple ja Windowsia Microsoft."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Miten yhden ytimen prosessori voi näyttää ajavan montaa ohjelmaa yhtä aikaa?",
+      "options": [
+        "Käyttöjärjestelmä vaihtaa ohjelmien välillä hyvin nopeasti",
+        "Käyttöjärjestelmä kopioi prosessorin",
+        "Ohjelmat ajetaan näytönohjaimella",
+        "Se ei ole mahdollista"
+      ],
+      "answer": 0,
+      "explanation": "Käyttöjärjestelmä antaa kullekin prosessille vuorollaan lyhyen aikaviipaleen. Vaihdot ovat niin nopeita, että ne näyttävät rinnakkaisilta."
+    }
+  ]
+}

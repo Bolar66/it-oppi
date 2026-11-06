@@ -1,0 +1,103 @@
+{
+  "id": "computer-basics-1-02",
+  "title": "Bitit ja tavut",
+  "level": 1,
+  "theory": "Tietokone tallentaa kaiken – tekstin, kuvat ja ohjelmat – lukuina, ja luvut taas **biteinä**.\n\n## Bitti ja tavu\n\n**Bitti (bit)** on pienin tiedon yksikkö: sen arvo on 0 tai 1. Sähköisesti se vastaa kahta tilaa, esimerkiksi \"virta kulkee\" ja \"virta ei kulje\".\n\n**Tavu (byte)** on 8 bittiä. Koska jokainen bitti voi olla 0 tai 1, tavulla voi esittää 2⁸ = **256** eri arvoa (0–255). Yleisesti n bitillä voi esittää 2ⁿ eri arvoa.\n\n## Binaariluvut\n\nArkiluvut ovat **kymmenjärjestelmässä** (kantaluku 10). Tietokone käyttää **binaarijärjestelmää (binary)**, jonka kantaluku on 2. Paikkojen arvot oikealta vasemmalle ovat 1, 2, 4, 8, 16, 32…\n\nEsimerkki: binaariluku 1011 = 8 + 0 + 2 + 1 = **11**.\n\n## Suuret yksiköt\n\n- kilotavu (kB) = 1 000 tavua\n- megatavu (MB) = 1 000 kB\n- gigatavu (GB) = 1 000 MB\n- teratavu (TB) = 1 000 GB\n\nRinnalla käytetään **binäärietuliitteitä**, jotka perustuvat lukuun 1 024: kibitavu (KiB) = 1 024 tavua, mebitavu (MiB) = 1 024 KiB ja gibitavu (GiB) = 1 024 MiB. Windows laskee koot 1 024:n mukaan mutta merkitsee ne \"GB\" – siksi 1 TB:n levy näkyy siinä noin 931 GB:nä.\n\n## Teksti numeroina\n\n**Merkistö (character encoding)** antaa jokaiselle merkille numeron. Vanha **ASCII** sisältää 128 merkkiä; siinä esimerkiksi A = 65 ja a = 97. Nykyään käytetään yleensä **UTF-8**:aa, joka kattaa kaikki maailman kirjoitusjärjestelmät. Siinä merkki vie 1–4 tavua: ASCII-merkit 1 tavun, ä-kirjain 2 tavua ja emojit 4 tavua.\n\nKuvat tallennetaan **pikseleinä**. Tavallisessa värikuvassa pikselin väri on kolme lukua (punainen, vihreä, sininen), kukin 0–255 eli yksi tavu.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Montako bittiä on yhdessä tavussa?",
+      "options": ["4", "8", "16", "1 024"],
+      "answer": 1,
+      "explanation": "Tavu (byte) on 8 bittiä."
+    },
+    {
+      "id": "e2",
+      "type": "multiple_choice",
+      "prompt": "Mikä on binaariluku 101 kymmenjärjestelmässä?",
+      "options": ["3", "5", "101", "6"],
+      "answer": 1,
+      "explanation": "Paikkojen arvot oikealta ovat 1, 2 ja 4. 101 = 4 + 0 + 1 = 5."
+    },
+    {
+      "id": "e3",
+      "type": "fill_blank",
+      "prompt": "Muunna binaariluku kymmenjärjestelmään.",
+      "language": "text",
+      "code": "1011 (binaari) = ___ (kymmenjärjestelmä)",
+      "answers": ["11"],
+      "explanation": "1011 = 8 + 0 + 2 + 1 = 11."
+    },
+    {
+      "id": "e4",
+      "type": "multiple_choice",
+      "prompt": "Montako eri arvoa yhdellä tavulla voi esittää?",
+      "options": ["8", "255", "256", "1 024"],
+      "answer": 2,
+      "explanation": "Tavussa on 8 bittiä, joten arvoja on 2⁸ = 256 (0–255). Suurin arvo on 255, mutta eri arvoja on 256, koska myös 0 lasketaan."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Yhdistä yksikkö ja sen koko.",
+      "pairs": [
+        ["1 kB", "1 000 tavua"],
+        ["1 KiB", "1 024 tavua"],
+        ["1 MB", "1 000 000 tavua"],
+        ["1 tavu", "8 bittiä"]
+      ],
+      "explanation": "Kilo- ja megatavu perustuvat lukuun 1 000, binäärietuliitteet (KiB, MiB) lukuun 1 024."
+    },
+    {
+      "id": "e6",
+      "type": "order_lines",
+      "prompt": "Järjestä yksiköt pienimmästä suurimpaan.",
+      "language": "text",
+      "lines": ["bitti", "tavu", "kilotavu (kB)", "megatavu (MB)", "gigatavu (GB)", "teratavu (TB)"],
+      "explanation": "Tavu on 8 bittiä, ja jokainen seuraava yksikkö on 1 000-kertainen edelliseen."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Miksi 1 TB:n levy näkyy Windowsissa noin 931 GB:nä?",
+      "options": [
+        "Windows laskee koot 1 024:n mukaan (GiB), valmistaja 1 000:n mukaan",
+        "Osa levystä on aina rikki",
+        "Käyttöjärjestelmä vie levystä 69 GB",
+        "Valmistaja pyöristää koon ylöspäin"
+      ],
+      "answer": 0,
+      "explanation": "1 TB = 1 000 000 000 000 tavua. Kun se jaetaan luvulla 1 024³ (= yksi GiB), tulos on noin 931. Windows merkitsee GiB-arvon kuitenkin \"GB\"."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Montako tavua ä-kirjain vie UTF-8-merkistössä?",
+      "options": ["1", "2", "3", "4"],
+      "answer": 1,
+      "explanation": "UTF-8:ssa ASCII-merkit (esim. a–z) vievät 1 tavun, mutta ä vie 2 tavua. Emojit vievät 4 tavua."
+    },
+    {
+      "id": "e9",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "Bitin arvo on 0 tai 1.\nTavu koostuu kahdeksasta bitistä.\nKolmella bitillä voi esittää 6 eri arvoa.\nASCII-merkistössä A-kirjaimen numero on 65.",
+      "bugLine": 3,
+      "explanation": "Kolmella bitillä voi esittää 2³ = 8 eri arvoa (000–111), ei kuutta."
+    },
+    {
+      "id": "e10",
+      "type": "match_pairs",
+      "prompt": "Yhdistä binaariluku ja sen arvo kymmenjärjestelmässä.",
+      "pairs": [
+        ["10", "2"],
+        ["100", "4"],
+        ["111", "7"],
+        ["1000", "8"]
+      ],
+      "explanation": "Paikkojen arvot ovat oikealta 1, 2, 4 ja 8. Esim. 111 = 4 + 2 + 1 = 7."
+    }
+  ]
+}

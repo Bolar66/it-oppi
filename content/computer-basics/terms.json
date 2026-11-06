@@ -1,0 +1,50 @@
+{
+  "terms": [
+    { "id": "hardware", "term": "laitteisto", "en": "hardware", "definition": "Tietokoneen fyysiset osat, joihin voi koskea.", "example": "prosessori, näppäimistö, näyttö", "level": 1, "unit": "computer-basics-1-01" },
+    { "id": "software", "term": "ohjelmisto", "en": "software", "definition": "Ohjelmat ja data, jotka kertovat laitteistolle, mitä tehdä.", "example": "käyttöjärjestelmä, selain", "level": 1, "unit": "computer-basics-1-01" },
+    { "id": "input", "term": "syöte", "en": "input", "definition": "Tieto, joka tulee tietokoneeseen esimerkiksi näppäimistöltä tai kamerasta.", "level": 1, "unit": "computer-basics-1-01" },
+    { "id": "output", "term": "tuloste", "en": "output", "definition": "Tietokoneen tuottama tulos, joka näytetään tai toistetaan esimerkiksi näytöllä tai kaiuttimesta.", "level": 1, "unit": "computer-basics-1-01" },
+    { "id": "motherboard", "term": "emolevy", "en": "motherboard", "definition": "Piirilevy, joka yhdistää prosessorin, muistin ja muut osat toisiinsa.", "level": 1, "unit": "computer-basics-1-01" },
+    { "id": "embedded-system", "term": "sulautettu järjestelmä", "en": "embedded system", "definition": "Tiettyyn tehtävään rakennettu tietokone toisen laitteen sisällä.", "example": "pesukoneen ohjaus", "level": 1, "unit": "computer-basics-1-01" },
+
+    { "id": "bit", "term": "bitti", "en": "bit", "definition": "Pienin tiedon yksikkö, jonka arvo on 0 tai 1.", "level": 1, "unit": "computer-basics-1-02" },
+    { "id": "byte", "term": "tavu", "en": "byte", "definition": "Kahdeksan bittiä; voi esittää 256 eri arvoa (0–255).", "level": 1, "unit": "computer-basics-1-02" },
+    { "id": "binary", "term": "binaarijärjestelmä", "en": "binary", "definition": "Lukujärjestelmä, jonka kantaluku on 2 ja numerot 0 ja 1.", "example": "1011 = 11", "level": 1, "unit": "computer-basics-1-02" },
+    { "id": "character-encoding", "term": "merkistö", "en": "character encoding", "definition": "Sääntö, joka antaa jokaiselle merkille numeron, jotta teksti voidaan tallentaa.", "example": "ASCII, UTF-8", "level": 1, "unit": "computer-basics-1-02" },
+    { "id": "utf-8", "term": "UTF-8", "definition": "Yleisin merkistö, joka kattaa kaikki kirjoitusjärjestelmät; merkki vie 1–4 tavua.", "level": 1, "unit": "computer-basics-1-02" },
+    { "id": "pixel", "term": "pikseli", "en": "pixel", "definition": "Kuvan pienin piste, jonka väri tallennetaan lukuina.", "level": 1, "unit": "computer-basics-1-02" },
+
+    { "id": "cpu", "term": "prosessori", "en": "CPU, central processing unit", "definition": "Tietokoneen osa, joka suorittaa ohjelmien käskyt.", "level": 1, "unit": "computer-basics-1-03" },
+    { "id": "clock-speed", "term": "kellotaajuus", "en": "clock speed", "definition": "Prosessorin kellojaksojen määrä sekunnissa, ilmoitetaan gigahertseinä.", "example": "3 GHz", "level": 1, "unit": "computer-basics-1-03" },
+    { "id": "core", "term": "ydin", "en": "core", "definition": "Prosessorin itsenäinen suoritusyksikkö.", "example": "8-ytiminen prosessori", "level": 1, "unit": "computer-basics-1-03" },
+    { "id": "thread", "term": "säie", "en": "thread", "definition": "Ohjelman suoritusjono; ohjelma voi jakaa työnsä useaan säikeeseen.", "level": 1, "unit": "computer-basics-1-03" },
+    { "id": "instruction-set", "term": "käskykanta", "en": "instruction set", "definition": "Käskyt, jotka tietty prosessoriarkkitehtuuri ymmärtää.", "example": "x86-64, ARM", "level": 1, "unit": "computer-basics-1-03" },
+    { "id": "gpu", "term": "näytönohjain", "en": "GPU, graphics processing unit", "definition": "Tuhansia rinnakkaisia ytimiä sisältävä osa, joka piirtää grafiikkaa ja sopii rinnakkaislaskentaan.", "level": 1, "unit": "computer-basics-1-03" },
+
+    { "id": "ram", "term": "keskusmuisti", "en": "RAM, random access memory", "definition": "Nopea muisti, jossa ovat käynnissä olevien ohjelmien koodi ja data.", "level": 1, "unit": "computer-basics-1-04" },
+    { "id": "volatile", "term": "haihtuva muisti", "en": "volatile memory", "definition": "Muisti, jonka sisältö katoaa, kun virta katkeaa.", "example": "RAM", "level": 1, "unit": "computer-basics-1-04" },
+    { "id": "cache", "term": "välimuisti", "en": "cache", "definition": "Pieni ja hyvin nopea muisti prosessorissa usein käytetylle datalle.", "example": "L1, L2, L3", "level": 1, "unit": "computer-basics-1-04" },
+    { "id": "register", "term": "rekisteri", "en": "register", "definition": "Prosessorin sisäinen muistipaikka; muistihierarkian nopein taso.", "level": 1, "unit": "computer-basics-1-04" },
+    { "id": "swap", "term": "swap", "en": "swap space, sivutustiedosto", "definition": "Levyllä oleva muistin jatke, jota käytetään, kun keskusmuisti loppuu.", "level": 1, "unit": "computer-basics-1-04" },
+
+    { "id": "hdd", "term": "kiintolevy", "en": "HDD, hard disk drive", "definition": "Tallennuslaite, jossa on pyöriviä magneettisia levyjä ja liikkuva lukupää.", "level": 1, "unit": "computer-basics-1-05" },
+    { "id": "ssd", "term": "SSD", "en": "solid-state drive", "definition": "Flash-muistiin perustuva tallennuslaite ilman liikkuvia osia.", "level": 1, "unit": "computer-basics-1-05" },
+    { "id": "nvme", "term": "NVMe", "definition": "Nopea SSD-liitäntä, joka käyttää PCIe-väylää.", "level": 1, "unit": "computer-basics-1-05" },
+    { "id": "cloud-storage", "term": "pilvitallennus", "en": "cloud storage", "definition": "Tiedostojen tallentaminen palveluntarjoajan palvelimille internetissä.", "example": "OneDrive, Google Drive, iCloud", "level": 1, "unit": "computer-basics-1-05" },
+    { "id": "backup", "term": "varmuuskopio", "en": "backup", "definition": "Erillinen kopio tiedoista siltä varalta, että alkuperäiset katoavat tai tuhoutuvat.", "example": "3-2-1-sääntö", "level": 1, "unit": "computer-basics-1-05" },
+
+    { "id": "operating-system", "term": "käyttöjärjestelmä", "en": "operating system, OS", "definition": "Ohjelmisto, joka hallitsee laitteistoa ja tarjoaa palveluja sovelluksille.", "example": "Windows, macOS, Linux", "level": 1, "unit": "computer-basics-1-06" },
+    { "id": "kernel", "term": "käyttöjärjestelmän ydin", "en": "kernel", "definition": "Käyttöjärjestelmän keskeinen osa, joka hallitsee laitteistoa suoraan.", "level": 1, "unit": "computer-basics-1-06" },
+    { "id": "driver", "term": "ajuri", "en": "driver", "definition": "Ohjelma, jonka avulla käyttöjärjestelmä ohjaa tiettyä laitetta.", "example": "tulostimen ajuri", "level": 1, "unit": "computer-basics-1-06" },
+    { "id": "process", "term": "prosessi", "en": "process", "definition": "Käynnissä oleva ohjelma, jolle käyttöjärjestelmä jakaa prosessoriaikaa ja muistia.", "level": 1, "unit": "computer-basics-1-06" },
+    { "id": "distribution", "term": "jakelu", "en": "distribution", "definition": "Linux-ytimestä, ohjelmista ja asetuksista koottu kokonaisuus.", "example": "Ubuntu, Fedora", "level": 1, "unit": "computer-basics-1-06" },
+    { "id": "firmware", "term": "laiteohjelmisto", "en": "firmware", "definition": "Laitteeseen tallennettu ohjelma, joka käynnistää koneen ennen käyttöjärjestelmää.", "example": "UEFI, BIOS", "level": 1, "unit": "computer-basics-1-06" },
+
+    { "id": "path", "term": "polku", "en": "path", "definition": "Merkkijono, joka kertoo, missä kansiossa tiedosto sijaitsee.", "example": "/home/ville/raportti.txt", "level": 1, "unit": "computer-basics-1-07" },
+    { "id": "absolute-path", "term": "absoluuttinen polku", "en": "absolute path", "definition": "Juurikansiosta alkava polku, joka toimii nykyisestä kansiosta riippumatta.", "level": 1, "unit": "computer-basics-1-07" },
+    { "id": "relative-path", "term": "suhteellinen polku", "en": "relative path", "definition": "Polku, joka lasketaan nykyisestä kansiosta.", "example": "kuvat/kissa.jpg", "level": 1, "unit": "computer-basics-1-07" },
+    { "id": "file-extension", "term": "tiedostopääte", "en": "file extension", "definition": "Tiedostonimen loppuosa pisteen jälkeen, joka kertoo sisällön tyypin.", "example": ".jpg, .pdf", "level": 1, "unit": "computer-basics-1-07" },
+    { "id": "file-system", "term": "tiedostojärjestelmä", "en": "file system", "definition": "Tapa järjestää tiedostot ja kansiot tallennuslaitteelle.", "example": "NTFS, ext4, APFS", "level": 1, "unit": "computer-basics-1-07" },
+    { "id": "root-directory", "term": "juurikansio", "en": "root directory", "definition": "Kansiorakenteen ylin taso, josta kaikki polut alkavat.", "example": "Linuxissa /", "level": 1, "unit": "computer-basics-1-07" }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "computer-basics",
+  "title": "Tietokoneen toiminta",
+  "description": "Miten tietokone toimii: laitteisto, bitit, prosessori, muisti, tallennus, käyttöjärjestelmä ja tiedostot.",
+  "levels": [
+    {
+      "level": 1,
+      "title": "Perusteet",
+      "units": [
+        "computer-basics-1-01",
+        "computer-basics-1-02",
+        "computer-basics-1-03",
+        "computer-basics-1-04",
+        "computer-basics-1-05",
+        "computer-basics-1-06",
+        "computer-basics-1-07"
+      ]
+    }
+  ],
+  "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
+}

@@ -46,8 +46,11 @@ export function isOutputCorrect(ex: ExerciseOf<'code_output'>, text: string): bo
   return normalizeOutput(text) === normalizeOutput(ex.answer)
 }
 
+/** Koodissa kirjainkoko ratkaisee; tavallisessa tekstissä (language: text) ei. */
 export function isBlankCorrect(ex: ExerciseOf<'fill_blank'>, index: number, value: string): boolean {
-  return value.trim() === (ex.answers[index] ?? '').trim()
+  const want = (ex.answers[index] ?? '').trim()
+  const got = value.trim()
+  return ex.language === 'text' ? got.toLocaleLowerCase('fi') === want.toLocaleLowerCase('fi') : got === want
 }
 
 /** Jakaa fill_blank-koodin riveiksi; numero = aukon indeksi. */

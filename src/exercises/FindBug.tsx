@@ -1,9 +1,10 @@
-import type { ExerciseProps } from './common.ts'
+import { lineStyles, type ExerciseProps } from './common.ts'
 
 export default function FindBug({ exercise, answer, onChange, checked }: ExerciseProps<'find_bug'>) {
   const lines = exercise.code.split('\n')
+  const s = lineStyles(exercise.language)
   return (
-    <div role="radiogroup" aria-label="Koodin rivit" className="overflow-x-auto rounded-xl bg-slate-950 py-2 font-mono text-sm">
+    <div role="radiogroup" aria-label="Koodin rivit" className={`rounded-xl bg-slate-950 py-2 ${s.block}`}>
       {lines.map((line, i) => {
         const n = i + 1
         const selected = answer.line === n
@@ -18,12 +19,12 @@ export default function FindBug({ exercise, answer, onChange, checked }: Exercis
             aria-label={`Rivi ${n}`}
             disabled={checked}
             onClick={() => onChange({ ...answer, line: n })}
-            className={`flex min-h-11 w-full min-w-max items-center text-left ring-inset disabled:cursor-default ${tone}`}
+            className={`flex min-h-11 w-full items-center py-1 text-left ring-inset disabled:cursor-default ${s.prose ? '' : 'min-w-max'} ${tone}`}
           >
             <span aria-hidden className="w-9 shrink-0 pr-3 text-right text-slate-500 select-none">
               {n}
             </span>
-            <span className="pr-4 whitespace-pre text-slate-100">{line || ' '}</span>
+            <span className={`text-slate-100 ${s.text}`}>{line || ' '}</span>
           </button>
         )
       })}

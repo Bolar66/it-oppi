@@ -14,10 +14,10 @@ export default function CorrectAnswer({ exercise }: { exercise: Exercise }) {
         .split(BLANK)
         .map((part, j) => (j === 0 ? part : (exercise.answers[j - 1] ?? '') + part))
         .join('')
-      return <CodeBlock code={filled} />
+      return <CodeBlock code={filled} language={exercise.language} />
     }
     case 'order_lines':
-      return <CodeBlock code={exercise.lines.join('\n')} />
+      return <CodeBlock code={exercise.lines.join('\n')} language={exercise.language} />
     case 'match_pairs':
       return (
         <ul className="space-y-1 text-sm">

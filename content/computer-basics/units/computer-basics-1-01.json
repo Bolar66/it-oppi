@@ -1,0 +1,104 @@
+{
+  "id": "computer-basics-1-01",
+  "title": "Mikä tietokone on?",
+  "level": 1,
+  "theory": "Tietokone on laite, joka käsittelee tietoa ohjeiden eli **ohjelmien** mukaan. Sen toiminta voidaan kuvata neljällä vaiheella:\n\n1. **Syöte (input)** – tieto tulee koneeseen, esim. näppäimistöltä tai kamerasta.\n2. **Käsittely (processing)** – prosessori laskee ja tekee päätöksiä.\n3. **Tuloste (output)** – tulos näytetään, esim. näytöllä tai kaiuttimesta.\n4. **Tallennus (storage)** – tieto säilytetään myöhempää käyttöä varten.\n\n## Laitteisto ja ohjelmisto\n\n**Laitteisto (hardware)** on tietokoneen fyysiset osat, joihin voi koskea. **Ohjelmisto (software)** on ohjelmat ja data, jotka kertovat laitteistolle, mitä tehdä.\n\nOhjelmistot jaetaan karkeasti kahteen ryhmään: **käyttöjärjestelmä** (esim. Windows) hallitsee laitteistoa, ja **sovellukset** (esim. selain tai tekstinkäsittelyohjelma) tekevät käyttäjän haluamia tehtäviä.\n\n## Tietokoneen pääosat\n\n- **Prosessori (CPU)** suorittaa ohjelmien käskyt.\n- **Keskusmuisti (RAM)** säilyttää käynnissä olevien ohjelmien dataa.\n- **Tallennuslaite** (SSD tai kiintolevy) säilyttää tiedostot pysyvästi.\n- **Emolevy (motherboard)** yhdistää osat toisiinsa.\n- **Näytönohjain (GPU)** piirtää kuvan näytölle.\n- **Virtalähde** syöttää osille sähköä.\n\n## Syöte- ja tulostelaitteet\n\nSyötelaitteita ovat esimerkiksi näppäimistö, hiiri, mikrofoni ja kamera. Tulostelaitteita ovat näyttö, kaiutin ja tulostin. Kosketusnäyttö on molempia.\n\n## Monenlaisia tietokoneita\n\nPöytäkone ja kannettava ovat tuttuja, mutta myös älypuhelin on tietokone. **Palvelin (server)** tarjoaa palveluja muille koneille verkon yli. **Sulautettu järjestelmä (embedded system)** on tiettyyn tehtävään rakennettu pieni tietokone toisen laitteen sisällä – esimerkiksi pesukoneessa tai autossa.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on ohjelmisto (software)?",
+      "options": ["Näppäimistö", "Prosessori", "Selain", "Näyttö"],
+      "answer": 2,
+      "explanation": "Selain on ohjelma. Näppäimistö, prosessori ja näyttö ovat fyysisiä osia eli laitteistoa (hardware)."
+    },
+    {
+      "id": "e2",
+      "type": "match_pairs",
+      "prompt": "Yhdistä osa ja sen tehtävä.",
+      "pairs": [
+        ["Prosessori (CPU)", "suorittaa ohjelmien käskyt"],
+        ["Keskusmuisti (RAM)", "säilyttää käynnissä olevien ohjelmien dataa"],
+        ["SSD", "säilyttää tiedostot pysyvästi"],
+        ["Emolevy", "yhdistää osat toisiinsa"],
+        ["Näytönohjain (GPU)", "piirtää kuvan näytölle"]
+      ],
+      "explanation": "Jokaisella pääosalla on oma tehtävänsä. Emolevy on alusta, johon muut osat kytketään."
+    },
+    {
+      "id": "e3",
+      "type": "order_lines",
+      "prompt": "Laskin-sovellus laskee 2 + 3. Järjestä vaiheet: syöte → käsittely → tuloste.",
+      "language": "text",
+      "lines": ["Painat näppäimistöltä 2 + 3", "Prosessori laskee summan", "Näytölle ilmestyy 5"],
+      "explanation": "Ensin tieto tulee koneeseen (syöte), sitten prosessori käsittelee sen ja lopuksi tulos näytetään (tuloste)."
+    },
+    {
+      "id": "e4",
+      "type": "multiple_choice",
+      "prompt": "Mikä laite on sekä syöte- että tulostelaite?",
+      "options": ["Hiiri", "Kosketusnäyttö", "Kaiutin", "Mikrofoni"],
+      "answer": 1,
+      "explanation": "Kosketusnäyttö näyttää kuvaa (tuloste) ja ottaa vastaan kosketuksia (syöte). Hiiri ja mikrofoni ovat syötelaitteita, kaiutin tulostelaite."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä suomenkieliset termit.",
+      "language": "text",
+      "code": "Fyysiset osat (hardware) = ___\nOhjelmat ja data (software) = ___",
+      "answers": ["laitteisto", "ohjelmisto"],
+      "explanation": "Laitteisto (hardware) on se, mihin voi koskea. Ohjelmisto (software) on ohjelmat ja data."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Mikä on sulautettu järjestelmä (embedded system)?",
+      "options": [
+        "Tiettyyn tehtävään rakennettu tietokone toisen laitteen sisällä",
+        "Kannettavaan tietokoneeseen asennettu lisäohjelma",
+        "Tietokone, jossa ei ole prosessoria",
+        "Kaksi tietokonetta, jotka on kytketty yhteen"
+      ],
+      "answer": 0,
+      "explanation": "Sulautettuja järjestelmiä on esimerkiksi pesukoneissa, autoissa ja kodin elektroniikassa. Niissäkin on prosessori."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "Näppäimistö on syötelaite.\nNäyttö on tulostelaite.\nSelain on osa laitteistoa.\nKäyttöjärjestelmä on ohjelmisto.",
+      "bugLine": 3,
+      "explanation": "Selain on ohjelma eli ohjelmistoa, ei laitteistoa."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on sovellus (application) eikä käyttöjärjestelmä?",
+      "options": ["Windows", "Tekstinkäsittelyohjelma", "Linux", "macOS"],
+      "answer": 1,
+      "explanation": "Windows, Linux ja macOS ovat käyttöjärjestelmiä. Tekstinkäsittelyohjelma on sovellus, joka toimii käyttöjärjestelmän päällä."
+    },
+    {
+      "id": "e9",
+      "type": "match_pairs",
+      "prompt": "Yhdistä tietokoneen tyyppi ja kuvaus.",
+      "pairs": [
+        ["Palvelin", "tarjoaa palveluja muille koneille verkon yli"],
+        ["Kannettava", "akulla toimiva, mukana kulkeva tietokone"],
+        ["Sulautettu järjestelmä", "pesukoneen sisällä oleva ohjaustietokone"],
+        ["Älypuhelin", "taskukokoinen tietokone kosketusnäytöllä"]
+      ],
+      "explanation": "Kaikissa näissä on prosessori, muistia ja ohjelmisto – ne ovat kaikki tietokoneita, vaikka näyttävät erilaisilta."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on syötelaite (input device)?",
+      "options": ["Näyttö", "Kaiutin", "Mikrofoni", "Tulostin"],
+      "answer": 2,
+      "explanation": "Mikrofoni tuo ääntä koneeseen, joten se on syötelaite. Näyttö, kaiutin ja tulostin ovat tulostelaitteita."
+    }
+  ]
+}

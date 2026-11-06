@@ -53,6 +53,15 @@ describe('grade', () => {
   })
 })
 
+describe('fill_blank ja kirjainkoko', () => {
+  const textBlank: Exercise = { id: 't', type: 'fill_blank', language: 'text', code: '1 tavu = 8 ___', answers: ['bittiä'], explanation: 'x' }
+  it('tekstissä kirjainkoolla ei ole väliä', () => {
+    expect(grade(textBlank, { type: 'fill_blank', values: ['Bittiä'] })).toBe(true)
+    expect(grade(textBlank, { type: 'fill_blank', values: [' BITTIÄ '] })).toBe(true)
+    expect(grade(textBlank, { type: 'fill_blank', values: ['tavua'] })).toBe(false)
+  })
+})
+
 describe('blankSegments', () => {
   it('numeroi aukot juoksevasti rivien yli', () => {
     expect(blankSegments('a.___(1)\n___ x ___')).toEqual([['a.', 0, '(1)'], [1, ' x ', 2]])

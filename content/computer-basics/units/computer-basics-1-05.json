@@ -1,0 +1,114 @@
+{
+  "id": "computer-basics-1-05",
+  "title": "Tallennus",
+  "level": 1,
+  "theory": "**Tallennuslaite (storage)** säilyttää tiedostot, ohjelmat ja käyttöjärjestelmän myös silloin, kun virta on pois. Tällaista muistia kutsutaan **pysyväksi (non-volatile)**.\n\n## Kiintolevy (HDD)\n\n**Kiintolevyssä (HDD, hard disk drive)** on pyöriviä magneettisia levyjä ja niiden päällä liikkuva lukupää. Koska se on mekaaninen, se on hitaampi ja herkempi iskuille. Etuna on edullinen hinta gigatavua kohden, joten kiintolevyjä käytetään esimerkiksi suurissa arkistoissa.\n\n## SSD\n\n**SSD (solid-state drive)** tallentaa datan **flash-muistiin**, eikä siinä ole liikkuvia osia. Se on nopea, hiljainen ja kestää iskuja – siksi lähes kaikissa uusissa kannettavissa on SSD.\n\nSSD liitetään joko **SATA**-liitäntään tai nopeampaan **NVMe**-liitäntään, joka käyttää PCIe-väylää. NVMe-SSD on yleensä selvästi SATA-SSD:tä nopeampi.\n\n## Siirrettävät ja pilvi\n\nUSB-muistitikut ja muistikortit (esim. SD-kortti) ovat pieniä siirrettäviä flash-muisteja. **Pilvitallennus (cloud storage)**, kuten OneDrive, Google Drive tai iCloud, tallentaa tiedostot palveluntarjoajan palvelimille internetissä. Tiedostot ovat käytettävissä monelta laitteelta, mutta niiden käyttö vaatii yleensä verkkoyhteyden.\n\n## Varmuuskopiot\n\n**Varmuuskopio (backup)** on erillinen kopio tiedoista siltä varalta, että laite hajoaa, katoaa tai tiedostot tuhoutuvat. Hyvä nyrkkisääntö on **3-2-1**:\n\n- **3** kopiota tiedoista\n- **2** eri tallennusmediaa\n- **1** kopio muualla (esim. pilvessä tai toisessa paikassa)\n\nPelkkä pilvisynkronointi ei ole varmuuskopio: jos poistat tai vahingoitat tiedoston, muutos synkronoituu myös pilveen.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Miksi SSD on nopeampi kuin kiintolevy (HDD)?",
+      "options": [
+        "SSD:ssä ei ole liikkuvia osia, vaan data luetaan flash-muistista",
+        "SSD:n levyt pyörivät nopeammin",
+        "SSD on aina suurempi",
+        "SSD tallentaa datan internetiin"
+      ],
+      "answer": 0,
+      "explanation": "Kiintolevyn lukupään pitää liikkua ja levyn pyöriä oikeaan kohtaan. SSD:ssä tätä mekaanista odotusta ei ole."
+    },
+    {
+      "id": "e2",
+      "type": "match_pairs",
+      "prompt": "Yhdistä tallennustapa ja kuvaus.",
+      "pairs": [
+        ["HDD", "pyörivät magneettilevyt ja lukupää"],
+        ["SSD", "flash-muisti ilman liikkuvia osia"],
+        ["Pilvitallennus", "tiedostot palveluntarjoajan palvelimilla"],
+        ["USB-muistitikku", "pieni siirrettävä flash-muisti"]
+      ],
+      "explanation": "Kaikki nämä ovat pysyvää tallennusta, mutta tekniikka ja käyttötarkoitus eroavat."
+    },
+    {
+      "id": "e3",
+      "type": "multiple_choice",
+      "prompt": "Mikä on kiintolevyn (HDD) etu SSD:hen verrattuna?",
+      "options": ["Edullisempi hinta gigatavua kohden", "Suurempi nopeus", "Parempi iskunkestävyys", "Hiljaisempi toiminta"],
+      "answer": 0,
+      "explanation": "Kiintolevy on hitaampi ja herkempi, mutta suuren tallennustilan saa sillä edullisemmin."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Täydennä varmuuskopioinnin 3-2-1-sääntö.",
+      "language": "text",
+      "code": "___ kopiota, ___ eri tallennusmediaa, 1 kopio muualla",
+      "answers": ["3", "2"],
+      "explanation": "3-2-1: kolme kopiota, kahdella eri medialla, joista yksi on eri paikassa kuin muut."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Miksi pelkkä pilvisynkronointi ei ole varmuuskopio?",
+      "options": [
+        "Jos poistat tai vahingoitat tiedoston, muutos synkronoituu myös pilveen",
+        "Pilvi ei voi tallentaa kuvia",
+        "Synkronointi toimii vain öisin",
+        "Pilvessä tiedostot muuttuvat salasanasuojatuiksi"
+      ],
+      "answer": 0,
+      "explanation": "Synkronointi pitää kopiot samanlaisina – myös virheiden osalta. Joissakin palveluissa on roskakori tai versiohistoria, mutta ne ovat rajallisia."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "SSD säilyttää datan ilman virtaa.\nKiintolevyssä on pyöriviä levyjä.\nNVMe-SSD on yleensä nopeampi kuin SATA-SSD.\nPilvitallennus toimii aina ilman internetyhteyttä.",
+      "bugLine": 4,
+      "explanation": "Pilvitallennus vaatii yleensä verkkoyhteyden. Osa tiedostoista voi olla tallessa myös laitteella, mutta ei aina."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Järjestä tallennuslaitteet nopeimmasta hitaimpaan.",
+      "language": "text",
+      "lines": ["NVMe-SSD", "SATA-SSD", "Kiintolevy (HDD)"],
+      "explanation": "NVMe käyttää nopeaa PCIe-väylää, SATA-SSD on hitaampi, ja mekaaninen kiintolevy on hitain."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä tallennuslaite sopii parhaiten kannettavaan, jota kuljetetaan paljon?",
+      "options": ["SSD", "Kiintolevy (HDD)", "Magneettinauha", "CD-levy"],
+      "answer": 0,
+      "explanation": "SSD:ssä ei ole liikkuvia osia, joten se kestää kolhuja ja tärinää paremmin kuin kiintolevy."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä tarkoittaa pysyvä (non-volatile) muisti?",
+      "options": [
+        "Data säilyy, vaikka virta katkeaa",
+        "Dataa ei voi koskaan muuttaa",
+        "Muistista ei voi poistaa mitään",
+        "Muisti toimii ilman tiedostojärjestelmää"
+      ],
+      "answer": 0,
+      "explanation": "Tallennuslaitteet ovat pysyviä, keskusmuisti (RAM) taas haihtuvaa."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mitä NVMe tarkoittaa käytännössä?",
+      "options": [
+        "Nopeaa SSD-liitäntää, joka käyttää PCIe-väylää",
+        "Pilvitallennuspalvelua",
+        "Kiintolevyn pyörimisnopeutta",
+        "Varmuuskopio-ohjelmaa"
+      ],
+      "answer": 0,
+      "explanation": "NVMe on liitäntä ja protokolla, jonka ansiosta SSD voi siirtää dataa paljon nopeammin kuin vanhalla SATA-liitännällä."
+    }
+  ]
+}
