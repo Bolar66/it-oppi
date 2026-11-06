@@ -45,7 +45,7 @@ content/
 13. devops – Git, GitLab CI/CD, Docker, Docker Compose, deploy
 14. dev-tools – VS Code, Android Studio, Spyder/Anaconda, debuggerit
 15. ai – Tekoälyn perusteet, koneoppiminen, Decision Tree, Random Forest, LLM:t
-16. iot – Arduino, sensorit, MQTT
+16. iot – IoT: sensorit, yhteydet, MQTT, tietoturva (ei Arduino-tehtäviä)
 17. security – Tietoturvan perusteet: salasanat ja hashaus (argon2), injektiot, XSS, HTTPS
 
 ### Yksikön JSON-muoto
@@ -104,6 +104,8 @@ content/
 - Tee validointiskripti (`pnpm validate-content`), joka ajaa Zod-skeemat kaikkiin tiedostoihin.
 - Yksikössä vähintään 3 eri harjoitustyyppiä (validate-content: virhe). Varoitukset: teoria > 350 sanaa,
   yksiköllä ei termejä, tasolta puuttuu exams/level-n.json.
+
+- Tason 1 sisällysluettelo: `docs/syllabus.md` (hyväksytty). programming-basics käyttää esimerkkikielenä Pythonia.
 
 ### Sisällön tarkistus
 
