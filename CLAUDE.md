@@ -25,6 +25,7 @@ content/
     path.json                # nimi, kuvaus, tasot, tasotesti
     units/<unit-id>.json     # teoria + harjoitukset
     exams/level-<n>.json     # tason koe
+    terms.json               # polun termit (termiosio, vaihe 3b)
 ```
 
 ### Polut
@@ -70,6 +71,28 @@ content/
 - `match_pairs`: sovellus sekoittaa oikean sarakkeen.
 - Jokaisessa harjoituksessa on `explanation`, joka näytetään vastauksen jälkeen.
 
+### Termien JSON-muoto (`terms.json`)
+
+```json
+{
+  "terms": [
+    {
+      "id": "dns",
+      "term": "DNS",
+      "en": "Domain Name System",
+      "definition": "Palvelu, joka muuntaa verkkotunnuksen (esim. google.com) IP-osoitteeksi.",
+      "example": "Selain kysyy DNS:ltä, mikä IP-osoite vastaa nimeä.",
+      "level": 1,
+      "unit": "networks-1-02"
+    }
+  ]
+}
+```
+
+- `en` (englanninkielinen nimi/aukikirjoitus) ja `example` ovat valinnaisia.
+- `unit` = yksikkö, jossa termi opetetaan; termi aukeaa harjoiteltavaksi, kun yksikkö on suoritettu.
+- Termit noudattavat samoja laatusääntöjä kuin muu sisältö (ei keksittyjä määritelmiä).
+
 ## Sisällön laatusäännöt (tärkeä)
 
 - Kieli suomi, alan englanninkieliset termit suluissa ensimmäisellä kerralla.
@@ -89,6 +112,11 @@ content/
 - Kertaus: väärin menneet harjoitukset menevät kertausjonoon (Leitner-laatikot: 1, 3, 7, 14 päivää).
 - Kokeet: 20 kysymystä tason yksiköistä, ei vihjeitä, tulos ja virheiden läpikäynti lopuksi.
 - "Ilmoita virheestä" -nappi jokaisessa harjoituksessa → tallentuu listaan, jonka voi korjata myöhemmin.
+  (Vaiheesta 2 alkaen localStoragessa, siirretään IndexedDB:hen vaiheessa 3.)
+- Oppitunnilla väärin menneet kysytään uudelleen lopussa; XP ja virheettömyys lasketaan 1. yrityksistä.
+- Termit: harjoittelutilat kortit (flashcards), tunnista termi määritelmästä (4 vaihtoehtoa, häiriövaihtoehdot
+  saman polun termeistä) ja parit (match_pairs). Termeillä on omat Leitner-laatikot (1, 3, 7, 14 päivää).
+  Oikea vastaus +5 XP päivätavoitteeseen.
 
 ## Näkymät
 
@@ -97,14 +125,16 @@ content/
 - Oppitunti: teoria → harjoitukset yksi kerrallaan → yhteenveto
 - Koe
 - Tilastot: XP historia, osaaminen per polku, heikoimmat aiheet
-- Asetukset: synkka, datan vienti/tuonti JSONina
+- Termit (oma välilehti alanavigaatiossa): polun valinta, harjoittelutilat ja haettava sanasto
+- Asetukset: synkka, datan vienti/tuonti JSONina, virheilmoitusten lista
 
 ## Toteutusvaiheet
 
 1. Pohja: projekti, PWA, reititys, Zod-skeemat, sisällön lataus, 1 esimerkkiyksikkö
 2. Kaikki 6 harjoitustyyppiä + oppitunnin kulku ja palaute (mobiili ensin)
 3. Edistyminen: IndexedDB, XP, putki, avaukset, kokeet, tasotesti, kertausjono, tilastot
-4. Sisältö: ensin taso 1 kaikkiin polkuihin, sitten taso 2 ja 3. Jokainen erä validoidaan.
+3b. Termiosio: terms.json-skeema ja validointi, Termit-näkymä, harjoittelutilat, termien Leitner-kertaus
+4. Sisältö: ensin taso 1 kaikkiin polkuihin, sitten taso 2 ja 3. Termit kirjoitetaan yksiköiden rinnalla. Jokainen erä validoidaan.
 5. Synkka: Supabase (auth + progress-taulu), local-first, konfliktissa uusin voittaa
 6. Deploy (staattinen hostaus) ja asennus iPhoneen
 
