@@ -1,0 +1,9 @@
+{
+  "id": "python",
+  "title": "Python",
+  "description": "Python-ohjelmointi perusteista data-analyysiin (pandas, numpy).",
+  "levels": [
+    { "level": 1, "title": "Perusteet", "units": ["python-1-01"] }
+  ],
+  "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
+}

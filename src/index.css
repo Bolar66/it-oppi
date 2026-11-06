@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #4ade80;
+  --color-accent-dark: #16a34a;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-slate-900 text-slate-100 antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theory h2 {
+  @apply mt-6 mb-2 text-lg font-semibold text-slate-50;
+}
+.theory p {
+  @apply my-3 leading-relaxed text-slate-200;
+}
+.theory ul {
+  @apply my-3 list-disc space-y-1 pl-6 text-slate-200;
+}
+.theory :not(pre) > code {
+  @apply rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[0.9em] text-accent;
+}
+.theory pre {
+  @apply my-3 overflow-x-auto rounded-lg bg-slate-950 p-3 font-mono text-sm text-slate-100;
+}

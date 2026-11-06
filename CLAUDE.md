@@ -1,0 +1,111 @@
+# IT-oppimissovellus (Duolingo-tyylinen)
+
+Henkilökohtainen oppimissovellus tietotekniikan alalle: perusteista syventäviin aiheisiin.
+Käyttäjä: yksi henkilö (Ville). Käyttö sekä puhelimella (iPhone, PWA) että koneella selaimessa.
+Edistymisen pitää synkronoitua laitteiden välillä.
+
+## Tekniikka
+
+- Vite + React + TypeScript, Tailwind CSS
+- PWA: vite-plugin-pwa (asennettavissa iPhonen Koti-valikkoon, toimii offline)
+- Reititys: React Router
+- Sisällön validointi: Zod (kaikki JSON-sisältö validoidaan latauksessa ja testeissä)
+- Tallennus: local-first (IndexedDB, esim. Dexie), synkronointi Supabaseen (vaihe 5)
+- Paketinhallinta: pnpm. Ympäristö: WSL Ubuntu
+- Ennen jokaista committia: `pnpm lint && tsc --noEmit && pnpm test`
+
+## Sisällön rakenne
+
+Polku (path) → taso (1 perusteet, 2 syventävä, 3 edistynyt) → yksikkö (unit) → oppitunti + harjoitukset → tason koe
+
+```
+content/
+  paths.json                 # polkujen lista ja järjestys
+  <path-id>/
+    path.json                # nimi, kuvaus, tasot, tasotesti
+    units/<unit-id>.json     # teoria + harjoitukset
+    exams/level-<n>.json     # tason koe
+```
+
+### Polut
+
+1. computer-basics – Tietokoneen toiminta: rauta, CPU/muisti/tallennus, käyttöjärjestelmä, tiedostojärjestelmät
+2. networks – Verkot: IP, DNS, HTTP/HTTPS, portit, client–server
+3. linux – Komentorivi, WSL, oikeudet, prosessit, nano
+4. programming-basics – Kieliriippumaton: muuttujat, ehdot, silmukat, funktiot, tietorakenteet, algoritmit
+5. cpp – C++
+6. python – Python, pandas, numpy
+7. javascript – JavaScript ja TypeScript
+8. react – React, hookit, Context, reducer, Vite
+9. kotlin – Kotlin ja Jetpack Compose
+10. web – HTML, CSS, Tailwind, Next.js
+11. backend – Node.js, Express, REST, JWT, Swagger/OpenAPI
+12. databases – SQL, PostgreSQL, SQLite, Prisma
+13. devops – Git, GitLab CI/CD, Docker, Docker Compose, deploy
+14. dev-tools – VS Code, Android Studio, Spyder/Anaconda, debuggerit
+15. ai – Tekoälyn perusteet, koneoppiminen, Decision Tree, Random Forest, LLM:t
+16. iot – Arduino, sensorit, MQTT
+17. security – Tietoturvan perusteet: salasanat ja hashaus (argon2), injektiot, XSS, HTTPS
+
+### Yksikön JSON-muoto
+
+```json
+{
+  "id": "python-1-03",
+  "title": "Listat",
+  "level": 1,
+  "theory": "Lyhyt teoria markdownina (max ~300 sanaa).",
+  "exercises": [
+    { "id": "e1", "type": "multiple_choice", "prompt": "...", "options": ["a", "b", "c", "d"], "answer": 1, "explanation": "..." },
+    { "id": "e2", "type": "code_output", "language": "python", "code": "print([1,2][0])", "answer": "1", "verified": true, "explanation": "..." },
+    { "id": "e3", "type": "fill_blank", "language": "python", "code": "nums.___(5)", "answers": ["append"], "explanation": "..." },
+    { "id": "e4", "type": "order_lines", "language": "python", "lines": ["for x in nums:", "    print(x)"], "explanation": "..." },
+    { "id": "e5", "type": "match_pairs", "pairs": [["list", "muuttuva"], ["tuple", "muuttumaton"]], "explanation": "..." },
+    { "id": "e6", "type": "find_bug", "language": "python", "code": "...", "bugLine": 3, "explanation": "..." }
+  ]
+}
+```
+
+- `order_lines`: rivit annetaan oikeassa järjestyksessä, sovellus sekoittaa ne.
+- `match_pairs`: sovellus sekoittaa oikean sarakkeen.
+- Jokaisessa harjoituksessa on `explanation`, joka näytetään vastauksen jälkeen.
+
+## Sisällön laatusäännöt (tärkeä)
+
+- Kieli suomi, alan englanninkieliset termit suluissa ensimmäisellä kerralla.
+- Kaikki `code_output`-vastaukset TARKISTETAAN AJAMALLA koodi (python3, node, g++ jne.).
+  Jos kieltä ei voi ajaa ympäristössä, merkitse `"verified": false`.
+- Ei keksittyjä faktoja. Jos aiheesta ei ole varmuutta, jätä kysymys pois.
+- Taso 1 olettaa nolla-osaamisen; taso 3 vastaa työelämän osaamista.
+- Yksi yksikkö = 8–12 harjoitusta, sekoitus eri tyyppejä.
+- Tee validointiskripti (`pnpm validate-content`), joka ajaa Zod-skeemat kaikkiin tiedostoihin.
+
+## Pelimekaniikka
+
+- XP: oikea vastaus +10, virheetön oppitunti +20 bonus
+- Päiväputki (streak) ja päivätavoite (esim. 50 XP)
+- Avaukset: yksikkö aukeaa, kun edellinen on suoritettu. Taso 2 aukeaa, kun tason 1 koe ≥ 80 %.
+- Tasotesti: jokaisessa polussa voi hypätä tason 1 yli testillä (≥ 80 %).
+- Kertaus: väärin menneet harjoitukset menevät kertausjonoon (Leitner-laatikot: 1, 3, 7, 14 päivää).
+- Kokeet: 20 kysymystä tason yksiköistä, ei vihjeitä, tulos ja virheiden läpikäynti lopuksi.
+- "Ilmoita virheestä" -nappi jokaisessa harjoituksessa → tallentuu listaan, jonka voi korjata myöhemmin.
+
+## Näkymät
+
+- Etusivu: päivän tavoite, putki, "jatka siitä mihin jäit", kertausjonon koko
+- Polkukartta (Duolingo-tyylinen polku yksiköistä)
+- Oppitunti: teoria → harjoitukset yksi kerrallaan → yhteenveto
+- Koe
+- Tilastot: XP historia, osaaminen per polku, heikoimmat aiheet
+- Asetukset: synkka, datan vienti/tuonti JSONina
+
+## Toteutusvaiheet
+
+1. Pohja: projekti, PWA, reititys, Zod-skeemat, sisällön lataus, 1 esimerkkiyksikkö
+2. Kaikki 6 harjoitustyyppiä + oppitunnin kulku ja palaute (mobiili ensin)
+3. Edistyminen: IndexedDB, XP, putki, avaukset, kokeet, tasotesti, kertausjono, tilastot
+4. Sisältö: ensin taso 1 kaikkiin polkuihin, sitten taso 2 ja 3. Jokainen erä validoidaan.
+5. Synkka: Supabase (auth + progress-taulu), local-first, konfliktissa uusin voittaa
+6. Deploy (staattinen hostaus) ja asennus iPhoneen
+
+Toteuta yksi vaihe kerrallaan. Jokaisen vaiheen lopuksi: testit, lint, tsc ja commit "Phase N completed".

@@ -1,0 +1,107 @@
+{
+  "id": "python-1-01",
+  "title": "Ensimmäinen ohjelma: print ja muuttujat",
+  "level": 1,
+  "theory": "Python-ohjelma on tekstitiedosto (yleensä pääte `.py`), jonka rivit suoritetaan ylhäältä alas.\n\n## print\n\nFunktio `print()` tulostaa näytölle. Teksti eli merkkijono (string) kirjoitetaan lainausmerkkeihin:\n\n```python\nprint(\"Hei maailma\")\n```\n\nJos annat useita arvoja pilkulla erotettuina, `print` erottaa ne tulosteessa välilyönnillä: `print(\"Ikä:\", 30)` tulostaa `Ikä: 30`.\n\n## Muuttujat\n\nMuuttuja (variable) on nimi, joka viittaa arvoon. Arvo annetaan sijoituksella (assignment) `=`:\n\n```python\nnimi = \"Ada\"\nvuosi = 1843\n```\n\nMuuttujan arvoa voi myöhemmin muuttaa: `vuosi = vuosi + 1`. Oikea puoli lasketaan ensin, sitten tulos sijoitetaan muuttujaan.\n\n## Tietotyypit\n\n- `int` – kokonaisluku (integer), esim. `42`\n- `float` – liukuluku eli desimaaliluku (floating point), esim. `3.14` – desimaalierottimena on piste\n- `str` – merkkijono, esim. `\"kissa\"`\n- `bool` – totuusarvo (boolean) `True` tai `False`\n\nFunktio `type()` kertoo arvon tyypin.\n\n## Kommentit\n\n`#`-merkin jälkeinen teksti rivin loppuun on kommentti (comment). Python ohittaa sen, joten kommentilla voi selittää koodia tai poistaa rivin käytöstä.\n\n## Nimeämissäännöt\n\nMuuttujan nimessä voi olla kirjaimia, numeroita ja alaviivoja, mutta se ei voi alkaa numerolla eikä sisältää välilyöntejä tai väliviivoja. Isot ja pienet kirjaimet ovat eri asia: `nimi` ja `Nimi` ovat eri muuttujia. Pythonissa nimet kirjoitetaan tavallisesti pienillä ja sanat erotetaan alaviivalla (snake_case), esim. `syntyma_vuosi`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Millä funktiolla tulostetaan tekstiä näytölle Pythonissa?",
+      "options": ["echo()", "print()", "write()", "show()"],
+      "answer": 1,
+      "explanation": "Pythonissa tulostetaan funktiolla print(). echo on komentorivin (shell) komento, ei Python-funktio."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "x = 5\nx = x + 2\nprint(x)",
+      "answer": "7",
+      "verified": true,
+      "explanation": "Rivillä 2 lasketaan ensin oikea puoli 5 + 2 = 7, ja tulos sijoitetaan takaisin muuttujaan x."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(\"Ikä:\", 30)",
+      "answer": "Ikä: 30",
+      "verified": true,
+      "explanation": "Kun print saa useita arvoja pilkulla erotettuina, se tulostaa niiden väliin yhden välilyönnin."
+    },
+    {
+      "id": "e4",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on kelvollinen muuttujan nimi?",
+      "options": ["2nimi", "oma-nimi", "oma_nimi", "oma nimi"],
+      "answer": 2,
+      "explanation": "Nimi ei voi alkaa numerolla, ja väliviiva tai välilyönti katkaisee nimen. Alaviiva on sallittu, ja snake_case on Pythonin tapa nimetä muuttujat."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä koodi niin, että ohjelma tulostaa muuttujan nimi arvon.",
+      "language": "python",
+      "code": "nimi = \"Ada\"\n___(nimi)",
+      "answers": ["print"],
+      "explanation": "print(nimi) tulostaa muuttujan arvon Ada. Huomaa, että muuttujan nimeä ei laiteta lainausmerkkeihin."
+    },
+    {
+      "id": "e6",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(type(3.14))",
+      "answer": "<class 'float'>",
+      "verified": true,
+      "explanation": "3.14 on desimaaliluku eli float. type() palauttaa arvon tyypin, ja print näyttää sen muodossa <class 'float'>."
+    },
+    {
+      "id": "e7",
+      "type": "match_pairs",
+      "prompt": "Yhdistä arvo ja sen tietotyyppi.",
+      "pairs": [
+        ["42", "int"],
+        ["3.14", "float"],
+        ["\"kissa\"", "str"],
+        ["True", "bool"]
+      ],
+      "explanation": "Kokonaisluvut ovat int-tyyppiä, desimaaliluvut float-tyyppiä, lainausmerkeissä oleva teksti str-tyyppiä ja True/False bool-tyyppiä."
+    },
+    {
+      "id": "e8",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit niin, että ohjelma tulostaa 20.",
+      "language": "python",
+      "lines": ["luku = 10", "luku = luku * 2", "print(luku)"],
+      "explanation": "Muuttujalle pitää antaa arvo ennen kuin sitä voi käyttää. Kertolaskun jälkeen luku on 20, ja vasta sitten se tulostetaan."
+    },
+    {
+      "id": "e9",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen. Millä rivillä virhe on?",
+      "language": "python",
+      "code": "nimi = \"Ada\"\nvuosi = 1843\nprint(\"Nimi:\", Nimi)\nprint(\"Vuosi:\", vuosi)",
+      "bugLine": 3,
+      "explanation": "Python erottaa isot ja pienet kirjaimet. Muuttuja on nimeltään nimi, mutta rivillä 3 käytetään nimeä Nimi, jota ei ole olemassa (NameError)."
+    },
+    {
+      "id": "e10",
+      "type": "fill_blank",
+      "prompt": "Lisää merkki, joka tekee rivistä 2 kommentin.",
+      "language": "python",
+      "code": "vuosi = 2026\n___ vuosi on nykyinen vuosi\nprint(vuosi)",
+      "answers": ["#"],
+      "explanation": "#-merkistä alkava teksti rivin loppuun on kommentti, jonka Python ohittaa."
+    },
+    {
+      "id": "e11",
+      "type": "code_output",
+      "language": "python",
+      "code": "# print(\"A\")\nprint(\"B\")",
+      "answer": "B",
+      "verified": true,
+      "explanation": "Ensimmäinen rivi on kommentti, joten sitä ei suoriteta. Vain B tulostuu."
+    }
+  ]
+}
