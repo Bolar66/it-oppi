@@ -1,0 +1,5 @@
+# Kaikki tekstitiedostot LF-rivinvaihdoilla (toimii sekä Windowsissa että WSL:ssä)
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
