@@ -33,7 +33,7 @@ export default function Review() {
   const waiting = progress ? progress.reviewItems.length - due.length : 0
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-xl space-y-6 px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-10">
       <Link to="/" className="text-sm text-slate-400">
         ← Takaisin
       </Link>

@@ -6,6 +6,7 @@ import { dueCount } from '../progress/review.ts'
 import { activeDays, xpOnDay } from '../progress/stats.ts'
 import { computeStreaks } from '../progress/streak.ts'
 import { computePathStatus } from '../progress/unlocks.ts'
+import { termCounts, unlockedTerms } from '../terms/session.ts'
 
 export default function Home() {
   const progress = useProgress()
@@ -18,6 +19,8 @@ export default function Home() {
   const streak = progress ? computeStreaks(activeDays(progress.xpEvents), today).current : 0
   const due = progress ? dueCount(progress.reviewItems, today) : 0
   const goalDone = xpToday >= goal
+  const terms = progress ? termCounts(unlockedTerms(content.paths, progress.completed), progress.termItems, today) : null
+  const termsToPractice = terms ? terms.due + terms.fresh : 0
 
   let continueTo: { to: string; label: string } | null = null
   if (path && status) {
@@ -56,14 +59,18 @@ export default function Home() {
         >
           <div className="h-full rounded-full bg-accent" style={{ width: `${Math.min(1, xpToday / goal) * 100}%` }} />
         </div>
-        <div className="mt-3 grid grid-cols-2 gap-3 text-center">
+        <div className="mt-3 grid grid-cols-3 gap-2 text-center">
           <div className="rounded-xl bg-slate-900 p-2">
             <div className="text-lg font-bold">🔥 {streak} pv</div>
             <div className="text-xs text-slate-400">Putki</div>
           </div>
           <Link to="/review" className="rounded-xl bg-slate-900 p-2 active:bg-slate-700">
             <div className="text-lg font-bold">{due}</div>
-            <div className="text-xs text-slate-400">Kerrattavaa tänään</div>
+            <div className="text-xs text-slate-400">Kerrattavaa</div>
+          </Link>
+          <Link to="/terms" className="rounded-xl bg-slate-900 p-2 active:bg-slate-700">
+            <div className="text-lg font-bold">{termsToPractice}</div>
+            <div className="text-xs text-slate-400">Termejä</div>
           </Link>
         </div>
       </section>

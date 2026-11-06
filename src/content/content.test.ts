@@ -15,6 +15,10 @@ describe('content/-kansion sisältö', () => {
     expect(content).toEqual(fromDisk)
   })
 
+  it('python-polulla on termejä', () => {
+    expect(getPath('python')?.terms.length).toBeGreaterThan(0)
+  })
+
   it('getPath ja getUnit löytävät esimerkkiyksikön', () => {
     expect(getPath('python')?.title).toBe('Python')
     expect(getUnit('python', 'python-1-01')?.exercises.length).toBeGreaterThanOrEqual(8)

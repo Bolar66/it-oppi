@@ -181,6 +181,36 @@ export type Path = z.infer<typeof PathSchema>
 export const ExamSchema = ThresholdTestSchema.extend({ level: LevelSchema })
 export type Exam = z.infer<typeof ExamSchema>
 
+/** Termi (content/<polku>/terms.json). */
+export const TermSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'id muotoa pienet-kirjaimet-ja-viivat'),
+  /** Suomenkielinen termi (tai vakiintunut englanninkielinen, esim. snake_case). */
+  term: nonEmpty,
+  /** Englanninkielinen nimi / aukikirjoitus. */
+  en: nonEmpty.optional(),
+  definition: nonEmpty,
+  example: nonEmpty.optional(),
+  level: LevelSchema,
+  /** Yksikkö, jossa termi opetetaan; termi avautuu, kun yksikkö on suoritettu. */
+  unit: nonEmpty,
+})
+export type Term = z.infer<typeof TermSchema>
+
+export const TermsFileSchema = z
+  .object({ terms: z.array(TermSchema).min(1) })
+  .refine((f) => new Set(f.terms.map((t) => t.id)).size === f.terms.length, {
+    message: 'termien id:t eivät ole uniikkeja',
+    path: ['terms'],
+  })
+  .refine((f) => new Set(f.terms.map((t) => t.term.toLowerCase())).size === f.terms.length, {
+    message: 'sama termi on määritelty useaan kertaan',
+    path: ['terms'],
+  })
+  .refine((f) => new Set(f.terms.map((t) => t.definition)).size === f.terms.length, {
+    message: 'kahdella termillä on sama määritelmä',
+    path: ['terms'],
+  })
+
 /** content/paths.json: polkujen id:t näyttöjärjestyksessä. */
 export const PathsIndexSchema = z.object({
   paths: z.array(nonEmpty).min(1),

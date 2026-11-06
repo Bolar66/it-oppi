@@ -20,6 +20,8 @@ export default function MatchPairs({ exercise, answer, onChange, checked }: Exer
   const [selLeft, setSelLeft] = useState<number | null>(null)
   const [selRight, setSelRight] = useState<number | null>(null)
   const { matches } = answer
+  /** Pitkät oikean puolen tekstit (esim. määritelmät): vasen puoli siruina ylhäällä, oikea koko leveydeltä. */
+  const stacked = exercise.pairs.some(([, right]) => right.length > 24)
 
   const setMatches = (next: (number | null)[]) => {
     onChange({ ...answer, matches: next })
@@ -56,8 +58,8 @@ export default function MatchPairs({ exercise, answer, onChange, checked }: Exer
   return (
     <div className="space-y-3">
       <p className="text-xs text-slate-500">Napauta ensin yhtä kohtaa ja sitten sen paria. Napauta paria uudelleen purkaaksesi sen.</p>
-      <div className="grid grid-cols-2 gap-3">
-        <div role="group" aria-label="Vasen sarake" className="space-y-2">
+      <div className={stacked ? 'space-y-4' : 'grid grid-cols-2 gap-3'}>
+        <div role="group" aria-label="Vasen sarake" className={stacked ? 'flex flex-wrap gap-2' : 'min-w-0 space-y-2'}>
           {exercise.pairs.map(([left], i) => (
             <button
               key={i}
@@ -66,14 +68,14 @@ export default function MatchPairs({ exercise, answer, onChange, checked }: Exer
               aria-pressed={selLeft === i || matches[i] !== null}
               disabled={checked}
               onClick={() => clickLeft(i)}
-              className={choiceClass(leftState(i), 'flex items-center gap-2 font-mono text-sm')}
+              className={choiceClass(leftState(i), `flex items-center gap-2 font-mono text-sm ${stacked ? 'w-auto!' : ''}`)}
             >
               <Badge>{letter(i)}</Badge>
-              <span className="break-all">{left}</span>
+              <span className="min-w-0 break-words">{left}</span>
             </button>
           ))}
         </div>
-        <div role="group" aria-label="Oikea sarake" className="space-y-2">
+        <div role="group" aria-label="Oikea sarake" className="min-w-0 space-y-2">
           {rightOrder.map((r) => {
             const left = matches.indexOf(r)
             return (
@@ -87,7 +89,7 @@ export default function MatchPairs({ exercise, answer, onChange, checked }: Exer
                 className={choiceClass(rightState(r), 'flex items-center gap-2 text-sm')}
               >
                 {left >= 0 ? <Badge>{letter(left)}</Badge> : <span aria-hidden className="h-6 w-6 shrink-0" />}
-                <span className="break-words">{exercise.pairs[r]![1]}</span>
+                <span className="min-w-0 break-words">{exercise.pairs[r]![1]}</span>
               </button>
             )
           })}

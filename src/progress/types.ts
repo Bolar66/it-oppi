@@ -10,7 +10,7 @@ import { LevelSchema } from '../schemas/content.ts'
 const isoTime = z.string().min(1)
 const dayKey = z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
 
-export const ActivitySchema = z.enum(['lesson', 'review', 'exam', 'placement'])
+export const ActivitySchema = z.enum(['lesson', 'review', 'exam', 'placement', 'terms'])
 export type Activity = z.infer<typeof ActivitySchema>
 
 export const XpEventSchema = z.object({
@@ -80,6 +80,18 @@ export const ReviewItemSchema = z.object({
 })
 export type ReviewItem = z.infer<typeof ReviewItemSchema>
 
+export const TermItemSchema = z.object({
+  /** "<pathId>/<termId>" */
+  key: z.string(),
+  pathId: z.string(),
+  termId: z.string(),
+  /** Leitner-laatikko 0–3. Laatikko 3 (14 pv) = opittu; termi jää 14 pv kiertoon. */
+  box: z.int().min(0).max(3),
+  dueDate: dayKey,
+  updatedAt: isoTime,
+})
+export type TermItem = z.infer<typeof TermItemSchema>
+
 export const ErrorReportSchema = z.object({
   id: z.string(),
   pathId: z.string(),
@@ -106,12 +118,16 @@ export const ExportDataSchema = z.object({
   reviewItems: z.array(ReviewItemSchema),
   errorReports: z.array(ErrorReportSchema),
   settings: z.array(SettingSchema),
+  /** Versiosta 2 alkaen; version 1 tiedostoissa puuttuu. */
+  termItems: z.array(TermItemSchema).default([]),
 })
 export type ExportData = z.infer<typeof ExportDataSchema>
 
+export const EXPORT_VERSION = 2
+
 export const ExportFileSchema = z.object({
   app: z.literal('it-oppi'),
-  version: z.literal(1),
+  version: z.union([z.literal(1), z.literal(2)]),
   exportedAt: isoTime,
   data: ExportDataSchema,
 })

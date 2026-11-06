@@ -1,5 +1,5 @@
 import Dexie, { type Table } from 'dexie'
-import type { Attempt, ErrorReport, ExamResult, ReviewItem, Setting, UnitProgress, XpEvent } from './types.ts'
+import type { Attempt, ErrorReport, ExamResult, ReviewItem, Setting, TermItem, UnitProgress, XpEvent } from './types.ts'
 
 export class AppDB extends Dexie {
   // `declare`: luokan kentät eivät saa ylikirjoittaa Dexien luomia tauluja (ES2022 class fields).
@@ -10,6 +10,7 @@ export class AppDB extends Dexie {
   declare reviewItems: Table<ReviewItem, string>
   declare errorReports: Table<ErrorReport, string>
   declare settings: Table<Setting, string>
+  declare termItems: Table<TermItem, string>
 
   constructor(name = 'it-oppi') {
     super(name)
@@ -21,6 +22,10 @@ export class AppDB extends Dexie {
       reviewItems: 'key, dueDate',
       errorReports: 'id, createdAt',
       settings: 'key',
+    })
+    // Vaihe 3b: termien Leitner-kertaus. Vanhat taulut säilyvät ennallaan.
+    this.version(2).stores({
+      termItems: 'key, pathId, dueDate',
     })
   }
 }
@@ -35,4 +40,5 @@ export const TABLE_NAMES = [
   'reviewItems',
   'errorReports',
   'settings',
+  'termItems',
 ] as const

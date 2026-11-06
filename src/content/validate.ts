@@ -3,10 +3,12 @@ import {
   ExamSchema,
   PathSchema,
   PathsIndexSchema,
+  TermsFileSchema,
   UnitSchema,
   type Exam,
   type Level,
   type Path,
+  type Term,
   type Unit,
 } from '../schemas/content.ts'
 
@@ -15,6 +17,8 @@ export interface LoadedPath extends Path {
   units: Record<string, Unit>
   /** Tasojen kokeet tasonumeron mukaan (puuttuva = koetta ei vielä ole). */
   exams: Partial<Record<Level, Exam>>
+  /** Polun termit (tyhjä, jos terms.json puuttuu). */
+  terms: Term[]
 }
 
 export interface ContentTree {
@@ -96,7 +100,23 @@ export function validateContent(files: Record<string, unknown>): ValidationResul
       }
     }
 
-    paths.push({ ...path, units, exams })
+    let terms: Term[] = []
+    const termsFile = `${pathId}/terms.json`
+    if (termsFile in files) {
+      const parsed = parse(termsFile, TermsFileSchema)
+      if (parsed) {
+        terms = parsed.terms
+        for (const t of terms) {
+          const unit = units[t.unit]
+          if (!unit) errors.push(`${termsFile}: termin "${t.id}" yksikköä ${t.unit} ei ole polussa`)
+          else if (unit.level !== t.level) {
+            errors.push(`${termsFile}: termin "${t.id}" level ${t.level}, mutta yksikkö ${t.unit} on tasolla ${unit.level}`)
+          }
+        }
+      }
+    }
+
+    paths.push({ ...path, units, exams, terms })
   }
 
   for (const file of Object.keys(files)) {

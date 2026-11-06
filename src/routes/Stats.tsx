@@ -7,6 +7,7 @@ import { useProgress } from '../progress/hooks.ts'
 import { activeDays, weakestUnits, xpByDay } from '../progress/stats.ts'
 import { computeStreaks } from '../progress/streak.ts'
 import { computePathStatus } from '../progress/unlocks.ts'
+import { allTerms, termCounts, unlockedTerms } from '../terms/session.ts'
 
 const weekday = (key: string) => parseDayKey(key).toLocaleDateString('fi-FI', { weekday: 'short' }).slice(0, 2)
 
@@ -22,6 +23,9 @@ export default function Stats() {
   const history = xpByDay(progress.xpEvents, today, 14)
   const maxDay = Math.max(progress.dailyGoal, ...history.map((d) => d.xp))
   const weak = weakestUnits(attempts)
+  const termRows = content.paths
+    .filter((p) => p.terms.length > 0)
+    .map((p) => ({ path: p, total: allTerms(content.paths, p.id).length, ...termCounts(unlockedTerms(content.paths, progress.completed, p.id), progress.termItems, today) }))
   const started = content.paths
     .map((p) => ({ path: p, status: computePathStatus(p, progress.completed, progress.examResults) }))
     .filter(({ path, status }) => status.completedUnits > 0 || progress.examResults.some((e) => e.pathId === path.id))
@@ -90,6 +94,29 @@ export default function Stats() {
             ))}
           </ul>
         )}
+      </section>
+
+      <section aria-labelledby="terms-title">
+        <h2 id="terms-title" className="mb-3 text-lg font-semibold">
+          Termit
+        </h2>
+        <ul className="space-y-2">
+          {termRows.map((t) => (
+            <li key={t.path.id} className="rounded-xl bg-slate-800 p-3 text-sm">
+              <div className="flex justify-between">
+                <span className="font-semibold">{t.path.title}</span>
+                <span className="text-slate-400">
+                  opittu {t.learned} · avattu {t.unlocked} / {t.total}
+                </span>
+              </div>
+              <div className="mt-2 flex h-2 overflow-hidden rounded-full bg-slate-700">
+                <div className="h-full bg-violet-500" style={{ width: `${(t.learned / t.total) * 100}%` }} />
+                <div className="h-full bg-violet-900" style={{ width: `${((t.unlocked - t.learned) / t.total) * 100}%` }} />
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-1 text-xs text-slate-500">Opittu = termi on 14 päivän kertausvälissä.</p>
       </section>
 
       <section aria-labelledby="weakest">

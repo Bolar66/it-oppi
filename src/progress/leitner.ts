@@ -14,6 +14,11 @@ export function scheduleWrong(today: string): Schedule {
   return { box: 0, dueDate: addDays(today, LEITNER_INTERVALS[0]) }
 }
 
+/** Termit: oikea vastaus viimeisessä laatikossa pitää termin 14 päivän kierrossa (ei poistu). */
+export function scheduleTermCorrect(box: number, today: string): Schedule {
+  return scheduleCorrect(box, today) ?? { box: LAST_BOX, dueDate: addDays(today, LEITNER_INTERVALS[LAST_BOX]!) }
+}
+
 /** Oikea vastaus kertauksessa: seuraavaan laatikkoon, tai null = harjoitus poistuu jonosta. */
 export function scheduleCorrect(box: number, today: string): Schedule | null {
   const next = box + 1

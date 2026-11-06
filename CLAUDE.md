@@ -120,7 +120,9 @@ content/
 - Oppitunnilla väärin menneet kysytään uudelleen lopussa; XP ja virheettömyys lasketaan 1. yrityksistä.
 - Termit: harjoittelutilat kortit (flashcards), tunnista termi määritelmästä (4 vaihtoehtoa, häiriövaihtoehdot
   saman polun termeistä) ja parit (match_pairs). Termeillä on omat Leitner-laatikot (1, 3, 7, 14 päivää).
-  Oikea vastaus +5 XP päivätavoitteeseen.
+  Oikea vastaus +5 XP päivätavoitteeseen. Opittu termi (14 pv laatikko) jää 14 pv kiertoon, ei poistu.
+  Kierroksessa 10 termiä (ensin erääntyneet, sitten uudet). Päänappi = sekoitus (uudet kortteina,
+  tutut tunnistuksena/pareina), lisäksi yksittäinen tila valittavissa. Sanastossa kaikki termit, lukitut merkitty.
 
 ## Näkymät
 

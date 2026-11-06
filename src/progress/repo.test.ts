@@ -140,3 +140,33 @@ describe('migrateLegacyReports', () => {
     expect(await migrateLegacyReports()).toBe(0)
   })
 })
+
+describe('recordTerms ja vienti v1', () => {
+  it('termi pysyy 14 päivän kierrossa ja väärä palaa alkuun', async () => {
+    const { recordTerms } = await import('./repo.ts')
+    await db.termItems.put({ key: 'python/a', pathId: 'python', termId: 'a', box: 3, dueDate: '2026-11-06', updatedAt: '' })
+    const xp = await recordTerms(
+      {
+        results: [
+          { pathId: 'python', termId: 'a', correct: true },
+          { pathId: 'python', termId: 'b', correct: false },
+          { pathId: 'python', termId: 'c', correct: true },
+        ],
+      },
+      NOW,
+    )
+    expect(xp).toBe(10)
+    expect(await db.termItems.get('python/a')).toMatchObject({ box: 3, dueDate: '2026-11-20' })
+    expect(await db.termItems.get('python/b')).toMatchObject({ box: 0, dueDate: '2026-11-07' })
+    expect(await db.termItems.get('python/c')).toMatchObject({ box: 1, dueDate: '2026-11-09' })
+    expect(await db.xpEvents.toArray()).toMatchObject([{ source: 'terms', amount: 10 }])
+  })
+
+  it('version 1 vientitiedoston (ei termItems) tuonti toimii', async () => {
+    const file = await exportData(NOW)
+    const { termItems: _omit, ...v1data } = file.data
+    const parsed = parseExport(JSON.stringify({ ...file, version: 1, data: v1data }))
+    expect(parsed.ok).toBe(true)
+    if (parsed.ok) expect(parsed.file.data.termItems).toEqual([])
+  })
+})

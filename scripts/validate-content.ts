@@ -49,13 +49,14 @@ if (isMain) {
     (n, p) => n + Object.values(p.units).reduce((m, u) => m + u.exercises.length, 0),
     0,
   )
+  const terms = content.paths.reduce((n, p) => n + p.terms.length, 0)
   const unverified = content.paths.flatMap((p) =>
     Object.values(p.units).flatMap((u) =>
       u.exercises.filter((e) => e.type === 'code_output' && !e.verified).map((e) => `${u.id}/${e.id}`),
     ),
   )
   console.log(
-    `✓ ${fileCount} tiedostoa, ${content.paths.length} polkua, ${units} yksikköä, ${exercises} harjoitusta – kaikki kunnossa.`,
+    `✓ ${fileCount} tiedostoa, ${content.paths.length} polkua, ${units} yksikköä, ${exercises} harjoitusta, ${terms} termiä – kaikki kunnossa.`,
   )
   if (unverified.length) console.log(`  Huom: ${unverified.length} tarkistamatonta code_output-vastausta: ${unverified.join(', ')}`)
 }

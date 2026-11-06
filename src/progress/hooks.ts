@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import type { LoadedPath } from '../content/validate.ts'
 import { db } from './db.ts'
 import { DEFAULT_DAILY_GOAL } from './xp.ts'
-import type { ExamResult, ReviewItem, UnitProgress, XpEvent } from './types.ts'
+import type { ExamResult, ReviewItem, TermItem, UnitProgress, XpEvent } from './types.ts'
 import { computePathStatus, type PathStatus } from './unlocks.ts'
 
 export interface ProgressSnapshot {
@@ -11,6 +11,7 @@ export interface ProgressSnapshot {
   unitProgress: UnitProgress[]
   examResults: ExamResult[]
   reviewItems: ReviewItem[]
+  termItems: TermItem[]
   dailyGoal: number
   lastPathId: string | null
   completed: Set<string>
@@ -19,12 +20,13 @@ export interface ProgressSnapshot {
 /** Kaikki pienet edistymistaulut yhdellä reaktiivisella kyselyllä. undefined = latautuu. */
 export function useProgress(): ProgressSnapshot | undefined {
   return useLiveQuery(async () => {
-    const [xpEvents, unitProgress, examResults, reviewItems, settings] = await Promise.all([
+    const [xpEvents, unitProgress, examResults, reviewItems, settings, termItems] = await Promise.all([
       db.xpEvents.toArray(),
       db.unitProgress.toArray(),
       db.examResults.toArray(),
       db.reviewItems.toArray(),
       db.settings.toArray(),
+      db.termItems.toArray(),
     ])
     const setting = (key: string) => settings.find((s) => s.key === key)?.value
     const goal = setting('dailyGoal')
@@ -34,6 +36,7 @@ export function useProgress(): ProgressSnapshot | undefined {
       unitProgress,
       examResults,
       reviewItems,
+      termItems,
       dailyGoal: typeof goal === 'number' ? goal : DEFAULT_DAILY_GOAL,
       lastPathId: typeof last === 'string' ? last : null,
       completed: new Set(unitProgress.filter((u) => u.completedAt).map((u) => u.unitId)),

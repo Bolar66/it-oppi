@@ -2,8 +2,9 @@ import type { Level } from '../schemas/content.ts'
 import { itemKey, type LessonItem } from '../lesson/types.ts'
 import { db, TABLE_NAMES } from './db.ts'
 import { dayKey } from './dates.ts'
-import { scheduleCorrect, scheduleWrong } from './leitner.ts'
+import { scheduleCorrect, scheduleTermCorrect, scheduleWrong } from './leitner.ts'
 import {
+  EXPORT_VERSION,
   ExportFileSchema,
   type Activity,
   type Attempt,
@@ -13,7 +14,7 @@ import {
   type UnitProgress,
 } from './types.ts'
 
-import { XP_PER_CORRECT } from './xp.ts'
+import { XP_PER_CORRECT, XP_PER_TERM } from './xp.ts'
 
 export function newId(): string {
   return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`
@@ -164,6 +165,28 @@ export async function recordExam(o: ExamOutcome, now = new Date()): Promise<Exam
   return result
 }
 
+export interface TermOutcome {
+  /** Jokainen kierroksen termi ja menikö se oikein ensimmäisellä kerralla. */
+  results: { pathId: string; termId: string; correct: boolean }[]
+}
+
+/** Tallentaa termikierroksen: XP (+5 per oikea) ja termien Leitner-laatikot. */
+export async function recordTerms(o: TermOutcome, now = new Date()): Promise<number> {
+  const at = now.toISOString()
+  const today = dayKey(now)
+  const xp = o.results.filter((r) => r.correct).length * XP_PER_TERM
+  await db.transaction('rw', [db.xpEvents, db.termItems], async () => {
+    await db.xpEvents.add({ id: newId(), at, date: today, amount: xp, source: 'terms', ref: 'terms', updatedAt: at })
+    for (const r of o.results) {
+      const key = `${r.pathId}/${r.termId}`
+      const existing = await db.termItems.get(key)
+      const next = r.correct ? scheduleTermCorrect(existing?.box ?? 0, today) : scheduleWrong(today)
+      await db.termItems.put({ key, pathId: r.pathId, termId: r.termId, ...next, updatedAt: at })
+    }
+  })
+  return xp
+}
+
 export async function setDailyGoal(xp: number): Promise<void> {
   await db.settings.put({ key: 'dailyGoal', value: xp, updatedAt: new Date().toISOString() })
 }
@@ -212,14 +235,14 @@ export async function migrateLegacyReports(): Promise<number> {
 // --- Vienti ja tuonti ---
 
 export async function exportData(now = new Date()): Promise<ExportFile> {
-  const [xpEvents, attempts, unitProgress, examResults, reviewItems, errorReports, settings] = await Promise.all(
+  const [xpEvents, attempts, unitProgress, examResults, reviewItems, errorReports, settings, termItems] = await Promise.all(
     TABLE_NAMES.map((t) => db.table(t).toArray()),
   )
   return {
     app: 'it-oppi',
-    version: 1,
+    version: EXPORT_VERSION,
     exportedAt: now.toISOString(),
-    data: { xpEvents, attempts, unitProgress, examResults, reviewItems, errorReports, settings } as ExportFile['data'],
+    data: { xpEvents, attempts, unitProgress, examResults, reviewItems, errorReports, settings, termItems } as ExportFile['data'],
   }
 }
 

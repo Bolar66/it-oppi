@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router'
 
 const tabs = [
   { to: '/', label: 'Koti', icon: '⌂', end: true },
+  { to: '/terms', label: 'Termit', icon: 'Aa', end: false },
   { to: '/stats', label: 'Tilastot', icon: '▤', end: false },
   { to: '/settings', label: 'Asetukset', icon: '⚙', end: false },
 ]

@@ -68,6 +68,7 @@ const path: LoadedPath = {
   placementTest: { questionCount: 20, passThreshold: 0.8 },
   units: { 'demo-1-01': unit('demo-1-01', 1), 'demo-1-02': unit('demo-1-02', 1), 'demo-2-01': unit('demo-2-01', 2) },
   exams: {},
+  terms: [],
 }
 const exam = (over: Partial<ExamResult>): ExamResult => ({
   id: 'x',

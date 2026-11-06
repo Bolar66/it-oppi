@@ -1,0 +1,91 @@
+{
+  "terms": [
+    {
+      "id": "variable",
+      "term": "muuttuja",
+      "en": "variable",
+      "definition": "Nimi, joka viittaa arvoon. Arvoa voi myöhemmin muuttaa.",
+      "example": "nimi = \"Ada\"",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "assignment",
+      "term": "sijoitus",
+      "en": "assignment",
+      "definition": "Arvon antaminen muuttujalle =-merkillä. Oikea puoli lasketaan ensin.",
+      "example": "x = x + 2",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "string",
+      "term": "merkkijono",
+      "en": "string, str",
+      "definition": "Tekstiä sisältävä arvo, joka kirjoitetaan lainausmerkkeihin.",
+      "example": "\"kissa\"",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "integer",
+      "term": "kokonaisluku",
+      "en": "integer, int",
+      "definition": "Luku ilman desimaaliosaa, esimerkiksi 42 tai -7.",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "float",
+      "term": "liukuluku",
+      "en": "floating point number, float",
+      "definition": "Desimaaliluku. Pythonissa desimaalierottimena on piste.",
+      "example": "3.14",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "boolean",
+      "term": "totuusarvo",
+      "en": "boolean, bool",
+      "definition": "Arvo, joka on joko True tai False.",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "data-type",
+      "term": "tietotyyppi",
+      "en": "data type",
+      "definition": "Arvon laji (esim. int, float, str, bool). Funktio type() kertoo sen.",
+      "example": "type(3.14)",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "comment",
+      "term": "kommentti",
+      "en": "comment",
+      "definition": "#-merkistä rivin loppuun ulottuva teksti, jonka Python ohittaa.",
+      "example": "# tämä on kommentti",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "function-call",
+      "term": "funktiokutsu",
+      "en": "function call",
+      "definition": "Funktion suorittaminen kirjoittamalla sen nimi ja sulut, joiden sisällä annetaan arvot.",
+      "example": "print(\"Hei\")",
+      "level": 1,
+      "unit": "python-1-01"
+    },
+    {
+      "id": "snake-case",
+      "term": "snake_case",
+      "definition": "Nimeämistapa, jossa nimi kirjoitetaan pienillä kirjaimilla ja sanat erotetaan alaviivalla.",
+      "example": "syntyma_vuosi",
+      "level": 1,
+      "unit": "python-1-01"
+    }
+  ]
+}
