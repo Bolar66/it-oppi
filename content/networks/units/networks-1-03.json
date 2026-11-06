@@ -1,0 +1,110 @@
+{
+  "id": "networks-1-03",
+  "title": "DNS",
+  "level": 1,
+  "theory": "Ihmiset muistavat nimiä, kuten `yle.fi`, mutta tietokoneet tarvitsevat IP-osoitteita. **DNS (Domain Name System)** muuntaa **verkkotunnuksen (domain name)** IP-osoitteeksi – se on internetin puhelinluettelo.\n\n## Verkkotunnuksen osat\n\nNimessä `www.example.com` oikeanpuoleisin osa `.com` on **ylätason verkkotunnus (TLD, top-level domain)**. Muita ovat esimerkiksi `.fi` ja `.org`.\n\n## Nimen selvitys\n\nKun kirjoitat selaimeen osoitteen:\n\n1. Selain ja käyttöjärjestelmä katsovat ensin omasta **välimuistista** ja **hosts-tiedostosta**.\n2. Jos vastausta ei löydy, kysymys lähtee **nimipalvelimelle (DNS resolver)**, yleensä palveluntarjoajan tai esimerkiksi 1.1.1.1.\n3. Nimipalvelin kysyy tarvittaessa **juurinimipalvelimelta**, sitten TLD-palvelimelta (esim. `.com`) ja lopulta verkkotunnuksen omalta, **autoritatiiviselta** nimipalvelimelta.\n4. Vastaus palautetaan selaimelle, joka ottaa yhteyden saatuun IP-osoitteeseen.\n\nDNS-kyselyt käyttävät yleensä porttia 53.\n\n## Tietuetyypit\n\nDNS:ssä on erilaisia **tietueita (record)**:\n\n- **A** – nimi → IPv4-osoite\n- **AAAA** – nimi → IPv6-osoite\n- **CNAME** – nimi on toisen nimen alias\n- **MX** – mihin palvelimeen verkkotunnuksen sähköposti toimitetaan\n\n**TTL (time to live)** kertoo sekunteina, kuinka kauan vastauksen saa säilyttää välimuistissa. Siksi DNS-muutokset näkyvät joskus viiveellä.\n\n## hosts-tiedosto\n\n**hosts-tiedostoon** voi kirjoittaa nimiä ja osoitteita käsin. Linuxissa se on `/etc/hosts`. Komennolla `nslookup yle.fi` voit itse selvittää nimen osoitteen.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mitä DNS tekee?",
+      "options": ["Muuntaa verkkotunnuksen IP-osoitteeksi", "Salaa verkkoliikenteen", "Jakaa laitteille IP-osoitteita", "Tallentaa verkkosivut"],
+      "answer": 0,
+      "explanation": "DNS on internetin puhelinluettelo. Osoitteita jakaa DHCP, ja salauksesta huolehtii esimerkiksi TLS."
+    },
+    {
+      "id": "e2",
+      "type": "match_pairs",
+      "prompt": "Yhdistä DNS-tietue ja sen tarkoitus.",
+      "pairs": [
+        ["A", "nimi → IPv4-osoite"],
+        ["AAAA", "nimi → IPv6-osoite"],
+        ["CNAME", "alias toiselle nimelle"],
+        ["MX", "sähköpostipalvelin"]
+      ],
+      "explanation": "AAAA-tietueessa on neljä A-kirjainta, koska IPv6-osoite on neljä kertaa IPv4-osoitteen pituinen (128 vs. 32 bittiä)."
+    },
+    {
+      "id": "e3",
+      "type": "order_lines",
+      "prompt": "Järjestä nimen selvityksen vaiheet, kun vastausta ei ole välimuistissa.",
+      "language": "text",
+      "lines": [
+        "Selain kysyy nimipalvelimelta (resolver)",
+        "Nimipalvelin kysyy juurinimipalvelimelta",
+        "Nimipalvelin kysyy TLD-palvelimelta (esim. .com)",
+        "Nimipalvelin kysyy verkkotunnuksen omalta nimipalvelimelta",
+        "Selain saa IP-osoitteen ja ottaa yhteyden palvelimeen"
+      ],
+      "explanation": "Kysely etenee nimen oikeasta reunasta vasemmalle: juuri → .com → example.com."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Mikä tietuetyyppi kertoo nimen IPv6-osoitteen?",
+      "language": "text",
+      "code": "IPv6-osoitteen tietue = ___",
+      "answers": ["AAAA"],
+      "explanation": "A-tietue on IPv4:lle ja AAAA-tietue IPv6:lle."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Mitä TTL tarkoittaa DNS-tietueessa?",
+      "options": [
+        "Kuinka kauan vastauksen saa säilyttää välimuistissa",
+        "Kuinka monta reititintä paketti ohittaa",
+        "Verkkotunnuksen vanhenemispäivää",
+        "Salausavaimen pituutta"
+      ],
+      "answer": 0,
+      "explanation": "Kun TTL on kulunut, vastaus pitää kysyä uudelleen. Siksi DNS-muutokset leviävät joskus viiveellä."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Mikä on nimen www.example.com ylätason verkkotunnus (TLD)?",
+      "options": [".com", "www", "example", "www.example"],
+      "answer": 0,
+      "explanation": "TLD on nimen oikeanpuoleisin osa, kuten .com, .fi tai .org."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "DNS muuntaa nimiä IP-osoitteiksi.\nMX-tietue kertoo sähköpostipalvelimen.\nDNS-kyselyt käyttävät yleensä porttia 443.\nhosts-tiedostoon voi kirjoittaa nimiä käsin.",
+      "bugLine": 3,
+      "explanation": "DNS käyttää yleensä porttia 53. Portti 443 on HTTPS:n."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Missä hosts-tiedosto sijaitsee Linuxissa?",
+      "options": ["/etc/hosts", "/home/hosts", "/usr/dns", "/var/hosts.txt"],
+      "answer": 0,
+      "explanation": "Linuxissa asetustiedostot ovat yleensä /etc-kansiossa, myös /etc/hosts."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Millä komennolla voit selvittää, mikä IP-osoite nimellä yle.fi on?",
+      "options": ["nslookup yle.fi", "mkdir yle.fi", "echo yle.fi", "chmod yle.fi"],
+      "answer": 0,
+      "explanation": "nslookup tekee DNS-kyselyn ja näyttää vastauksen."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mikä on autoritatiivinen nimipalvelin?",
+      "options": [
+        "Verkkotunnuksen oma nimipalvelin, jolla on lopullinen tieto sen tietueista",
+        "Selaimen välimuisti",
+        "Reititin, joka jakaa IP-osoitteita",
+        "Palvelin, joka myöntää salausvarmenteita"
+      ],
+      "answer": 0,
+      "explanation": "Muut nimipalvelimet vain välittävät tai välimuistittavat tietoa. Autoritatiivinen palvelin on tiedon alkuperä."
+    }
+  ]
+}

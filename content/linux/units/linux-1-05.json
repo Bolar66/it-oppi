@@ -1,0 +1,100 @@
+{
+  "id": "linux-1-05",
+  "title": "Oikeudet",
+  "level": 1,
+  "theory": "Linux on monen käyttäjän järjestelmä, joten jokaisella tiedostolla on **oikeudet (permissions)**: kuka saa tehdä mitä.\n\n## Kolme oikeutta\n\n- **r (read)** – lukea\n- **w (write)** – kirjoittaa ja muuttaa\n- **x (execute)** – suorittaa ohjelmana; hakemistolle x tarkoittaa, että siihen saa siirtyä\n\n## Kolme ryhmää\n\nOikeudet annetaan erikseen kolmelle:\n\n- **omistaja (user, u)**\n- **ryhmä (group, g)**\n- **muut (others, o)**\n\n## ls -l\n\n`ls -l` näyttää oikeudet näin: `-rwxr-xr--`. Ensimmäinen merkki kertoo tyypin (`-` tiedosto, `d` hakemisto). Sen jälkeen tulee kolme kolmen merkin ryhmää:\n\n- `rwx` – omistaja saa lukea, kirjoittaa ja suorittaa\n- `r-x` – ryhmä saa lukea ja suorittaa\n- `r--` – muut saavat vain lukea\n\n## Numeromuoto\n\nJokaisella oikeudella on arvo: **r = 4, w = 2, x = 1**. Ryhmän luku on arvojen summa: `rwx` = 7, `r-x` = 5, `r--` = 4. Siksi `-rwxr-xr--` on numeroina **754**.\n\nYleisiä yhdistelmiä: **755** (ohjelmat ja hakemistot) ja **644** (tavalliset tiedostot).\n\n## chmod\n\n`chmod` muuttaa oikeuksia:\n\n- `chmod 755 skripti.sh` – numeroina\n- `chmod u+x skripti.sh` – lisää omistajalle suoritusoikeuden\n- `chmod go-w tiedosto` – poistaa ryhmältä ja muilta kirjoitusoikeuden\n\n`stat -c %a tiedosto` tulostaa oikeudet numeroina ja `stat -c %A tiedosto` kirjaimina.\n\n## Pääkäyttäjä\n\n**root** on pääkäyttäjä, joka saa tehdä kaiken. Tavallinen käyttäjä voi ajaa yksittäisen komennon root-oikeuksin komennolla `sudo`, esimerkiksi `sudo apt update`. Tiedoston omistajan voi vaihtaa komennolla `chown`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match_pairs",
+      "prompt": "Yhdistä kirjain ja oikeus.",
+      "pairs": [
+        ["r", "lukea"],
+        ["w", "kirjoittaa"],
+        ["x", "suorittaa"]
+      ],
+      "explanation": "read, write, execute."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "bash",
+      "code": "touch skripti.sh\nchmod 754 skripti.sh\nstat -c %A skripti.sh",
+      "answer": "-rwxr-xr--",
+      "verified": true,
+      "explanation": "7 = rwx (4+2+1), 5 = r-x (4+1), 4 = r--. Ensimmäinen - tarkoittaa tavallista tiedostoa."
+    },
+    {
+      "id": "e3",
+      "type": "fill_blank",
+      "prompt": "Muunna oikeudet numeroiksi.",
+      "language": "text",
+      "code": "rw-r----- = ___",
+      "answers": ["640"],
+      "explanation": "rw- = 4+2 = 6, r-- = 4, --- = 0."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "bash",
+      "code": "touch muistio.txt\nchmod 600 muistio.txt\nchmod g+r muistio.txt\nstat -c %a muistio.txt",
+      "answer": "640",
+      "verified": true,
+      "explanation": "600 = vain omistaja lukee ja kirjoittaa. g+r lisää ryhmälle lukuoikeuden (4), joten tulos on 640."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Kenelle oikeudet -rwxr-xr-- antavat kirjoitusoikeuden?",
+      "options": ["Vain omistajalle", "Omistajalle ja ryhmälle", "Kaikille", "Ei kenellekään"],
+      "answer": 0,
+      "explanation": "w on vain ensimmäisessä ryhmässä (omistaja). Ryhmällä on r-x ja muilla r--."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Skripti ei käynnisty, ja tulee virhe Permission denied. Mikä komento todennäköisesti auttaa?",
+      "options": ["chmod u+x skripti.sh", "rm skripti.sh", "mkdir skripti.sh", "cat skripti.sh"],
+      "answer": 0,
+      "explanation": "Skriptin ajaminen vaatii suoritusoikeuden (x). u+x lisää sen omistajalle."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Skriptin pitäisi antaa kaikille lukuoikeus mutta vain omistajalle kirjoitusoikeus (rw-r--r--). Millä rivillä on virhe?",
+      "language": "bash",
+      "code": "touch julkinen.txt\nchmod 666 julkinen.txt\nstat -c %A julkinen.txt",
+      "bugLine": 2,
+      "explanation": "666 = rw-rw-rw- antaa kaikille kirjoitusoikeuden. Oikea arvo on 644."
+    },
+    {
+      "id": "e8",
+      "type": "order_lines",
+      "prompt": "Järjestä ls -l:n oikeusmerkkijonon osat vasemmalta oikealle.",
+      "language": "text",
+      "lines": ["tyyppi (- tai d)", "omistajan oikeudet", "ryhmän oikeudet", "muiden oikeudet"],
+      "explanation": "Esimerkiksi drwxr-xr-x: d = hakemisto, rwx = omistaja, r-x = ryhmä, r-x = muut."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä sudo tekee?",
+      "options": [
+        "Ajaa komennon pääkäyttäjän (root) oikeuksin",
+        "Poistaa tiedoston pysyvästi",
+        "Vaihtaa salasanan",
+        "Näyttää komennon ohjeen"
+      ],
+      "answer": 0,
+      "explanation": "sudo kysyy salasanasi ja ajaa yhden komennon root-oikeuksin. Käytä sitä vain kun on pakko."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mitä x-oikeus tarkoittaa hakemistolle?",
+      "options": ["Hakemistoon saa siirtyä (cd)", "Hakemiston voi poistaa", "Hakemisto on piilotettu", "Hakemisto on ohjelma"],
+      "answer": 0,
+      "explanation": "Hakemistoilla x-oikeus sallii niihin siirtymisen ja niiden läpi kulkemisen."
+    }
+  ]
+}

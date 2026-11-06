@@ -1,0 +1,103 @@
+{
+  "id": "linux-1-02",
+  "title": "WSL",
+  "level": 1,
+  "theory": "**WSL (Windows Subsystem for Linux)** mahdollistaa Linuxin käytön Windowsissa ilman erillistä virtuaalikoneohjelmaa tai kaksoiskäynnistystä.\n\n## WSL 2\n\nNykyinen versio **WSL 2** ajaa oikeaa Linux-ydintä kevyessä virtuaalikoneessa. Siksi lähes kaikki Linux-ohjelmat toimivat siinä samoin kuin oikeassa Linuxissa.\n\n## Asennus\n\nAvaa PowerShell järjestelmänvalvojana ja aja:\n\n```\nwsl --install\n```\n\nKomento asentaa WSL:n ja oletuksena **Ubuntu**-jakelun. Uudelleenkäynnistyksen jälkeen Ubuntu pyytää luomaan Linux-käyttäjätunnuksen ja salasanan. Ne ovat erillisiä Windows-tunnuksista.\n\n## Hyödyllisiä komentoja (PowerShellissä)\n\n- `wsl` – avaa oletusjakelun komentorivin\n- `wsl -l -v` – listaa asennetut jakelut ja niiden WSL-version\n- `wsl --shutdown` – sammuttaa kaikki käynnissä olevat jakelut\n\n## Tiedostot kahden järjestelmän välillä\n\n- Windowsin asemat näkyvät Linuxissa kansiossa `/mnt`: C-asema on `/mnt/c`.\n- Linuxin tiedostoihin pääsee Windowsin resurssienhallinnasta osoitteella `\\\\wsl$\\Ubuntu`.\n- Linuxissa komento `explorer.exe .` avaa nykyisen kansion Windowsin resurssienhallintaan.\n\nKun teet töitä Linux-työkaluilla (esim. git, npm), pidä projektit Linuxin puolella, esimerkiksi kotihakemistossa `~`. Tiedostojen käsittely `/mnt/c`:n kautta on selvästi hitaampaa.\n\n## VS Code\n\nKun VS Codeen on asennettu WSL-laajennus, komento `code .` Linuxin puolella avaa kansion VS Codessa niin, että editori käyttää Linuxin työkaluja.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä WSL on?",
+      "options": [
+        "Tapa ajaa Linuxia Windowsissa",
+        "Windowsin uusi versio",
+        "Linuxin graafinen työpöytä",
+        "Selain Linuxille"
+      ],
+      "answer": 0,
+      "explanation": "WSL (Windows Subsystem for Linux) tuo Linux-ympäristön Windowsin sisään."
+    },
+    {
+      "id": "e2",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento, joka asentaa WSL:n (PowerShellissä).",
+      "language": "text",
+      "code": "wsl ___",
+      "answers": ["--install"],
+      "explanation": "wsl --install asentaa WSL:n ja oletuksena Ubuntu-jakelun."
+    },
+    {
+      "id": "e3",
+      "type": "multiple_choice",
+      "prompt": "Missä Windowsin C-asema näkyy WSL:n Linuxissa?",
+      "options": ["/mnt/c", "/c", "/home/c", "C:\\"],
+      "answer": 0,
+      "explanation": "Windowsin asemat liitetään Linuxiin /mnt-kansion alle."
+    },
+    {
+      "id": "e4",
+      "type": "match_pairs",
+      "prompt": "Yhdistä komento ja toiminto.",
+      "pairs": [
+        ["wsl -l -v", "listaa jakelut ja versiot"],
+        ["wsl --shutdown", "sammuttaa kaikki jakelut"],
+        ["explorer.exe .", "avaa kansion resurssienhallintaan"],
+        ["code .", "avaa kansion VS Codessa"]
+      ],
+      "explanation": "Kaksi ensimmäistä ajetaan PowerShellissä, kaksi jälkimmäistä Linuxin puolella."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "bash",
+      "prompt": "Mitä komento tulostaa WSL:n Ubuntussa?",
+      "code": "uname -s",
+      "answer": "Linux",
+      "verified": true,
+      "explanation": "uname -s kertoo käyttöjärjestelmän ytimen nimen. WSL 2 ajaa oikeaa Linux-ydintä."
+    },
+    {
+      "id": "e6",
+      "type": "order_lines",
+      "prompt": "Järjestä WSL:n käyttöönoton vaiheet.",
+      "language": "text",
+      "lines": [
+        "Avaa PowerShell järjestelmänvalvojana",
+        "Aja komento wsl --install",
+        "Käynnistä tietokone uudelleen",
+        "Luo Ubuntuun Linux-käyttäjätunnus ja salasana"
+      ],
+      "explanation": "Asennuksen jälkeen tarvitaan yleensä uudelleenkäynnistys, ja ensimmäisellä avauksella luodaan Linux-tunnus."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "WSL 2 ajaa oikeaa Linux-ydintä.\nwsl --install asentaa oletuksena Ubuntun.\nLinux-käyttäjätunnus on aina sama kuin Windows-tunnus.\nProjektit kannattaa pitää Linuxin kotihakemistossa.",
+      "bugLine": 3,
+      "explanation": "Linux-tunnus ja -salasana luodaan erikseen, eivätkä ne ole Windows-tunnuksia."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Miksi npm-projekti kannattaa pitää kansiossa ~/projekti eikä /mnt/c/projekti?",
+      "options": [
+        "Tiedostojen käsittely Linuxin omassa tiedostojärjestelmässä on paljon nopeampaa",
+        "/mnt/c-kansioon ei voi tallentaa tiedostoja",
+        "npm toimii vain kansiossa ~",
+        "Windows poistaa /mnt/c-kansion tiedostot"
+      ],
+      "answer": 0,
+      "explanation": "/mnt/c:n kautta jokainen tiedosto-operaatio kulkee Windowsin ja Linuxin rajan yli, mikä hidastaa työkaluja selvästi."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Miten pääset Windowsin resurssienhallinnasta Ubuntun tiedostoihin?",
+      "options": ["Osoitteella \\\\wsl$\\Ubuntu", "Avaamalla C:\\Linux", "Ei mitenkään", "Kopioimalla tiedostot USB-tikulle"],
+      "answer": 0,
+      "explanation": "\\\\wsl$ (tai \\\\wsl.localhost) näyttää asennetut jakelut verkkokansioina."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "programming-basics-1-08",
+  "title": "Algoritmit",
+  "level": 1,
+  "theory": "Monet ohjelmointitehtävät palautuvat muutamaan perusalgoritmiin.\n\n## Lineaarihaku\n\n**Lineaarihaku (linear search)** käy alkiot läpi yksi kerrallaan, kunnes etsitty löytyy:\n\n```python\ndef etsi(lista, haettu):\n    for i in range(len(lista)):\n        if lista[i] == haettu:\n            return i\n    return -1\n```\n\nFunktio palauttaa löydetyn alkion indeksin tai −1, jos alkiota ei ole.\n\n## Suurin arvo\n\nSuurimman arvon etsinnässä pidetään kirjaa tähän asti suurimmasta:\n\n```python\nsuurin = luvut[0]\nfor luku in luvut:\n    if luku > suurin:\n        suurin = luku\n```\n\nAloitusarvoksi kannattaa ottaa listan ensimmäinen alkio eikä esimerkiksi 0 – muuten pelkistä negatiivisista luvuista koostuva lista antaisi väärän tuloksen.\n\n## Järjestäminen\n\n**Järjestämisalgoritmeja (sorting algorithm)** on monia, mutta käytännössä käytetään kielen valmista toteutusta: Pythonissa `sorted(lista)` palauttaa uuden järjestetyn listan. Järjestetyssä listassa haku voi olla paljon nopeampi.\n\n## Binäärihaku\n\n**Binäärihaku (binary search)** toimii vain **järjestetyssä** listassa: katsotaan keskimmäistä alkiota ja jatketaan siitä puoliskosta, jossa haettu voi olla. Jokainen vaihe puolittaa jäljellä olevat vaihtoehdot. 1 000 alkion listasta haku vaatii korkeintaan noin 10 vaihetta, koska 2¹⁰ = 1 024.\n\n## Tehokkuus\n\nAlgoritmin **aikavaativuus (time complexity)** kertoo, miten työmäärä kasvaa datan kasvaessa:\n\n- lineaarihaku: työ kasvaa samassa suhteessa kuin lista (merkitään O(n))\n- binäärihaku: työ kasvaa hyvin hitaasti (O(log n))\n\nMiljoonan alkion listassa ero on noin miljoona vs. noin 20 vaihetta.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "def etsi(lista, haettu):\n    for i in range(len(lista)):\n        if lista[i] == haettu:\n            return i\n    return -1\n\nprint(etsi([7, 3, 9], 9))\nprint(etsi([7, 3, 9], 5))",
+      "answer": "2\n-1",
+      "verified": true,
+      "explanation": "9 löytyy indeksistä 2. Lukua 5 ei ole listassa, joten funktio palauttaa −1."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "luvut = [3, 15, 8, 4]\nsuurin = luvut[0]\nfor luku in luvut:\n    if luku > suurin:\n        suurin = luku\nprint(suurin)",
+      "answer": "15",
+      "verified": true,
+      "explanation": "Muuttuja suurin päivittyy aina, kun löytyy sitä suurempi luku."
+    },
+    {
+      "id": "e3",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa listan suurin luku −2, mutta se tulostaa 0. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "luvut = [-5, -2, -9]\nsuurin = 0\nfor luku in luvut:\n    if luku > suurin:\n        suurin = luku\nprint(suurin)",
+      "bugLine": 2,
+      "explanation": "Mikään listan luku ei ole suurempi kuin 0, joten aloitusarvo jää voimaan. Aloita listan ensimmäisestä alkiosta: suurin = luvut[0]."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "luvut = [3, 1, 2]\nprint(sorted(luvut))\nprint(luvut)",
+      "answer": "[1, 2, 3]\n[3, 1, 2]",
+      "verified": true,
+      "explanation": "sorted palauttaa uuden järjestetyn listan eikä muuta alkuperäistä."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Mitä binäärihaku edellyttää?",
+      "options": ["Lista on järjestetty", "Listassa on alle 100 alkiota", "Alkiot ovat merkkijonoja", "Lista on tyhjä"],
+      "answer": 0,
+      "explanation": "Puolittaminen toimii vain, jos tiedetään, että pienemmät ovat toisella ja suuremmat toisella puolella."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Noin montako vaihetta binäärihaku tarvitsee korkeintaan 1 000 alkion järjestetyssä listassa?",
+      "options": ["10", "500", "1 000", "100"],
+      "answer": 0,
+      "explanation": "Jokainen vaihe puolittaa vaihtoehdot. 2¹⁰ = 1 024, joten 10 puolitusta riittää."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Järjestä binäärihaun vaiheet.",
+      "language": "text",
+      "lines": [
+        "Katso jäljellä olevan alueen keskimmäistä alkiota",
+        "Jos se on haettu, lopeta",
+        "Muuten jatka siitä puoliskosta, jossa haettu voi olla",
+        "Toista, kunnes alkio löytyy tai alue on tyhjä"
+      ],
+      "explanation": "Joka kierroksella puolet vaihtoehdoista karsitaan."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä algoritmi ja aikavaativuus.",
+      "pairs": [
+        ["Lineaarihaku", "O(n)"],
+        ["Binäärihaku", "O(log n)"]
+      ],
+      "explanation": "O(n): työ kasvaa samassa suhteessa kuin data. O(log n): työ kasvaa hyvin hitaasti."
+    },
+    {
+      "id": "e9",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että tulostetaan listan pienin luku ilman omaa silmukkaa.",
+      "language": "python",
+      "code": "luvut = [5, 2, 8]\nprint(___(luvut))",
+      "answers": ["min"],
+      "explanation": "Pythonissa on valmiit funktiot min ja max. Itse kirjoitettu silmukka on silti hyvä ymmärtää."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "python",
+      "code": "nimet = [\"Linus\", \"Ada\", \"Grace\"]\nprint(sorted(nimet)[0])",
+      "answer": "Ada",
+      "verified": true,
+      "explanation": "Merkkijonot järjestetään aakkosjärjestykseen, joten ensimmäinen on Ada."
+    }
+  ]
+}

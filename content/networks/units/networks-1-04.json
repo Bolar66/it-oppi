@@ -1,0 +1,115 @@
+{
+  "id": "networks-1-04",
+  "title": "Portit ja protokollat",
+  "level": 1,
+  "theory": "**Protokolla (protocol)** on sovittu joukko sääntöjä siitä, miten laitteet viestivät. Ilman yhteisiä sääntöjä kone ei ymmärtäisi toisen lähettämää dataa.\n\n## Portit\n\nIP-osoite kertoo, mille koneelle paketti menee. **Portti (port)** kertoo, mille ohjelmalle tai palvelulle koneen sisällä. Portti on luku 0–65535. IP-osoitteen ja portin yhdistelmä, esimerkiksi `93.184.215.14:443`, yksilöi yhteyden toisen pään.\n\nYleisiä portteja:\n\n- **22** – SSH (etäyhteys komentoriville)\n- **25** – SMTP (sähköpostin välitys)\n- **53** – DNS\n- **80** – HTTP\n- **443** – HTTPS\n\n## TCP ja UDP\n\n**TCP (Transmission Control Protocol)** on **yhteydellinen** ja luotettava: se avaa yhteyden kolmivaiheisella kättelyllä (SYN, SYN-ACK, ACK), numeroi paketit, lähettää kadonneet uudelleen ja huolehtii oikeasta järjestyksestä. Sitä käyttävät esimerkiksi verkkosivut ja sähköposti.\n\n**UDP (User Datagram Protocol)** on **yhteydetön**: se lähettää paketit ilman kättelyä ja takuita. Se on kevyempi ja nopeampi, joten sitä käytetään, kun tuoreus on tärkeämpää kuin jokaisen paketin perillemeno: videopuhelut, pelit ja DNS-kyselyt.\n\n## Palomuuri\n\n**Palomuuri (firewall)** päättää säännöillä, mitkä yhteydet sallitaan. Se voi esimerkiksi sallia saapuvat yhteydet porttiin 443 ja estää kaikki muut.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match_pairs",
+      "prompt": "Yhdistä portti ja palvelu.",
+      "pairs": [
+        ["22", "SSH"],
+        ["53", "DNS"],
+        ["80", "HTTP"],
+        ["443", "HTTPS"]
+      ],
+      "explanation": "Nämä oletusportit kannattaa muistaa – niihin törmää jatkuvasti."
+    },
+    {
+      "id": "e2",
+      "type": "multiple_choice",
+      "prompt": "Mitä portti kertoo?",
+      "options": [
+        "Mille ohjelmalle tai palvelulle koneen sisällä data kuuluu",
+        "Mikä kone verkossa on vastaanottaja",
+        "Kuinka nopea yhteys on",
+        "Mikä käyttöjärjestelmä koneessa on"
+      ],
+      "answer": 0,
+      "explanation": "IP-osoite valitsee koneen, portti palvelun koneen sisällä."
+    },
+    {
+      "id": "e3",
+      "type": "multiple_choice",
+      "prompt": "Miksi videopuhelut käyttävät usein UDP:tä?",
+      "options": [
+        "Tuoreus on tärkeämpää kuin jokaisen paketin perillemeno",
+        "UDP salaa liikenteen",
+        "UDP takaa pakettien järjestyksen",
+        "TCP ei toimi Wi-Fissä"
+      ],
+      "answer": 0,
+      "explanation": "Jos videon ruutu katoaa, sitä ei kannata lähettää uudelleen – se olisi jo vanha. UDP ei tuhlaa aikaa uudelleenlähetyksiin."
+    },
+    {
+      "id": "e4",
+      "type": "order_lines",
+      "prompt": "Järjestä TCP:n kolmivaiheisen kättelyn viestit.",
+      "language": "text",
+      "lines": [
+        "SYN: asiakas pyytää yhteyttä",
+        "SYN-ACK: palvelin hyväksyy ja vastaa",
+        "ACK: asiakas kuittaa, yhteys on auki"
+      ],
+      "explanation": "Kättelyn jälkeen molemmat osapuolet tietävät, että yhteys toimii kumpaankin suuntaan."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä HTTPS-palvelimen oletusportti.",
+      "language": "text",
+      "code": "https://example.com = example.com, portti ___",
+      "answers": ["443"],
+      "explanation": "Selain käyttää HTTPS:lle oletuksena porttia 443 ja HTTP:lle porttia 80."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "TCP lähettää kadonneet paketit uudelleen.\nUDP avaa yhteyden kolmivaiheisella kättelyllä.\nPortti on luku väliltä 0–65535.\nPalomuuri voi estää yhteyksiä porttiin.",
+      "bugLine": 2,
+      "explanation": "Kolmivaiheinen kättely kuuluu TCP:lle. UDP on yhteydetön eikä kättele."
+    },
+    {
+      "id": "e7",
+      "type": "match_pairs",
+      "prompt": "Yhdistä ominaisuus ja protokolla.",
+      "pairs": [
+        ["Luotettava, takaa järjestyksen", "TCP"],
+        ["Kevyt, ei takuita", "UDP"]
+      ],
+      "explanation": "TCP sopii, kun jokaisen tavun on mentävä perille. UDP sopii, kun nopeus on tärkeämpää."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä on protokolla?",
+      "options": ["Sovittu joukko sääntöjä laitteiden viestintään", "Verkkokaapelin tyyppi", "Reitittimen malli", "Tiedostomuoto"],
+      "answer": 0,
+      "explanation": "Esimerkiksi HTTP, TCP ja DNS ovat protokollia: ne määrittelevät viestien muodon ja kulun."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä palomuuri (firewall) tekee?",
+      "options": [
+        "Sallii tai estää yhteyksiä sääntöjen perusteella",
+        "Nopeuttaa internetyhteyttä",
+        "Jakaa IP-osoitteita",
+        "Muuntaa nimiä IP-osoitteiksi"
+      ],
+      "answer": 0,
+      "explanation": "Palomuuri suodattaa liikennettä esimerkiksi porttien ja osoitteiden perusteella."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Millä protokollalla otetaan tavallisesti etäyhteys palvelimen komentoriville?",
+      "options": ["SSH (portti 22)", "HTTP (portti 80)", "DNS (portti 53)", "SMTP (portti 25)"],
+      "answer": 0,
+      "explanation": "SSH (Secure Shell) on salattu etäyhteys komentoriville."
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "programming-basics-1-07",
+  "title": "Tietorakenteet",
+  "level": 1,
+  "theory": "Yksittäiset muuttujat eivät riitä, kun dataa on paljon. **Tietorakenne (data structure)** säilyttää monta arvoa järjestelmällisesti.\n\n## Lista\n\n**Lista (list)** on järjestetty jono arvoja. Monissa kielissä vastaava on **taulukko (array)**.\n\n```python\nluvut = [4, 8, 15]\n```\n\n- Alkioihin viitataan **indeksillä (index)**, joka alkaa **nollasta**: `luvut[0]` on 4.\n- Negatiivinen indeksi laskee lopusta: `luvut[-1]` on viimeinen eli 15.\n- `len(luvut)` kertoo pituuden (3).\n- `luvut.append(16)` lisää alkion loppuun.\n- Liian suuri indeksi, kuten `luvut[3]`, aiheuttaa virheen (IndexError), koska viimeinen indeksi on pituus − 1.\n\nListan voi käydä läpi for-silmukalla: `for luku in luvut:`.\n\n## Sanakirja\n\n**Sanakirja (dictionary, map)** tallentaa **avain–arvo-pareja (key–value)**. Arvo haetaan avaimella eikä numerolla:\n\n```python\npuhelin = {\"Ada\": \"040 123\", \"Linus\": \"050 456\"}\nprint(puhelin[\"Ada\"])\n```\n\n- Uusi pari lisätään sijoittamalla: `puhelin[\"Grace\"] = \"045 789\"`.\n- Avaimet ovat yksilöllisiä: sama avain ei voi esiintyä kahdesti.\n- `\"Ada\" in puhelin` kertoo, onko avain olemassa.\n\n## Kumpi?\n\n- **Lista**, kun järjestys on tärkeä tai alkioita käsitellään järjestyksessä (esim. kaikki pisteet).\n- **Sanakirja**, kun arvo halutaan löytää nopeasti nimen tai tunnisteen perusteella (esim. puhelinluettelo).",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "luvut = [4, 8, 15]\nprint(luvut[0], luvut[-1])",
+      "answer": "4 15",
+      "verified": true,
+      "explanation": "Indeksi 0 on ensimmäinen alkio ja -1 viimeinen."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "luvut = [4, 8, 15]\nluvut.append(16)\nprint(len(luvut))",
+      "answer": "4",
+      "verified": true,
+      "explanation": "append lisäsi yhden alkion, joten pituus on 4."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "puhelin = {\"Ada\": \"040 123\", \"Linus\": \"050 456\"}\nprint(puhelin[\"Linus\"])",
+      "answer": "050 456",
+      "verified": true,
+      "explanation": "Sanakirjasta haetaan arvo avaimella."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen IndexError. Millä rivillä virhe on?",
+      "language": "python",
+      "code": "varit = [\"punainen\", \"vihreä\", \"sininen\"]\nprint(varit[0])\nprint(varit[3])",
+      "bugLine": 3,
+      "explanation": "Listassa on kolme alkiota, joten indeksit ovat 0, 1 ja 2. Viimeinen on varit[2] tai varit[-1]."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että listan loppuun lisätään luku 23.",
+      "language": "python",
+      "code": "luvut = [4, 8, 15]\nluvut.___(23)",
+      "answers": ["append"],
+      "explanation": "append lisää alkion listan loppuun."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä tilanne ja sopiva tietorakenne.",
+      "pairs": [
+        ["Kokeen pisteet järjestyksessä", "lista"],
+        ["Puhelinnumero nimen perusteella", "sanakirja"]
+      ],
+      "explanation": "Lista sopii järjestetylle jonolle, sanakirja hakuun avaimella."
+    },
+    {
+      "id": "e7",
+      "type": "code_output",
+      "language": "python",
+      "code": "pisteet = {\"Ada\": 5}\npisteet[\"Linus\"] = 3\npisteet[\"Ada\"] = 7\nprint(pisteet)",
+      "answer": "{'Ada': 7, 'Linus': 3}",
+      "verified": true,
+      "explanation": "Uuteen avaimeen sijoittaminen lisää parin, olemassa olevaan avaimeen sijoittaminen korvaa arvon."
+    },
+    {
+      "id": "e8",
+      "type": "code_output",
+      "language": "python",
+      "code": "nimet = [\"Ada\", \"Linus\", \"Grace\"]\nfor nimi in nimet:\n    print(len(nimi))",
+      "answer": "3\n5\n5",
+      "verified": true,
+      "explanation": "Silmukka käy listan läpi, ja len kertoo kunkin nimen merkkien määrän."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Listassa on 10 alkiota. Mikä on viimeisen alkion indeksi?",
+      "options": ["9", "10", "11", "1"],
+      "answer": 0,
+      "explanation": "Indeksointi alkaa nollasta, joten viimeinen indeksi on pituus − 1."
+    },
+    {
+      "id": "e10",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit niin, että ohjelma luo tyhjän listan, lisää siihen kaksi nimeä ja tulostaa listan.",
+      "language": "python",
+      "lines": ["nimet = []", "nimet.append(\"Ada\")", "nimet.append(\"Linus\")", "print(nimet)"],
+      "explanation": "Lista pitää luoda ennen kuin siihen voi lisätä. Tuloste on ['Ada', 'Linus']."
+    }
+  ]
+}

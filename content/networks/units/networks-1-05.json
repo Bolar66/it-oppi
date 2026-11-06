@@ -1,0 +1,98 @@
+{
+  "id": "networks-1-05",
+  "title": "Asiakas ja palvelin",
+  "level": 1,
+  "theory": "Suurin osa verkon palveluista toimii **asiakas–palvelin-mallilla (client–server)**:\n\n- **Asiakas (client)** lähettää **pyynnön (request)**, esimerkiksi selain pyytää verkkosivua.\n- **Palvelin (server)** käsittelee pyynnön ja lähettää **vastauksen (response)**.\n\nYksi palvelin palvelee yleensä samaan aikaan monia asiakkaita. Asiakas voi olla selain, puhelimen sovellus tai toinen ohjelma. Vaihtoehtoinen malli on **vertaisverkko (peer-to-peer, P2P)**, jossa koneet ovat tasavertaisia ja välittävät dataa suoraan toisilleen.\n\n## URL\n\n**URL (Uniform Resource Locator)** kertoo, mistä resurssi haetaan. Esimerkki:\n\n`https://www.example.com:443/kauppa/tuote?id=5#arvostelut`\n\n- `https` – **protokolla (scheme)**\n- `www.example.com` – **isäntä (host)** eli palvelimen nimi\n- `443` – **portti**; yleensä jätetään pois, jolloin käytetään oletusta (HTTPS 443, HTTP 80)\n- `/kauppa/tuote` – **polku (path)** palvelimella\n- `?id=5` – **kyselyparametrit (query)**\n- `#arvostelut` – **ankkuri (fragment)**, kohta sivun sisällä. Selain ei lähetä sitä palvelimelle.\n\n## Mitä tapahtuu, kun avaat sivun?\n\n1. Selain selvittää DNS:llä isännän IP-osoitteen.\n2. Selain avaa yhteyden palvelimeen (HTTPS:ssä myös salauksen).\n3. Selain lähettää HTTP-pyynnön.\n4. Palvelin lähettää vastauksen, esimerkiksi HTML-sivun.\n5. Selain piirtää sivun ja hakee samalla tavalla sen kuvat, tyylit ja skriptit.\n\nTavallinen verkkosivu tarvitsee siis kymmeniäkin pyyntöjä.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match_pairs",
+      "prompt": "Yhdistä URL:n osa ja nimi. URL: https://www.example.com/kauppa?id=5#arvostelut",
+      "pairs": [
+        ["https", "protokolla"],
+        ["www.example.com", "isäntä (host)"],
+        ["/kauppa", "polku"],
+        ["?id=5", "kyselyparametrit"],
+        ["#arvostelut", "ankkuri"]
+      ],
+      "explanation": "URL luetaan vasemmalta oikealle: miten (protokolla), mistä (isäntä), mitä (polku) ja millä tarkennuksilla."
+    },
+    {
+      "id": "e2",
+      "type": "multiple_choice",
+      "prompt": "Mitä URL:n osaa selain ei lähetä palvelimelle?",
+      "options": ["Ankkuria (#…)", "Polkua", "Kyselyparametreja", "Isännän nimeä"],
+      "answer": 0,
+      "explanation": "Ankkuri (fragment) käsitellään vain selaimessa: se vierittää sivun oikeaan kohtaan."
+    },
+    {
+      "id": "e3",
+      "type": "order_lines",
+      "prompt": "Järjestä vaiheet, kun avaat verkkosivun.",
+      "language": "text",
+      "lines": [
+        "Selain selvittää DNS:llä palvelimen IP-osoitteen",
+        "Selain avaa yhteyden palvelimeen",
+        "Selain lähettää HTTP-pyynnön",
+        "Palvelin lähettää vastauksen",
+        "Selain piirtää sivun"
+      ],
+      "explanation": "Ensin tarvitaan osoite, sitten yhteys, ja vasta sitten voi pyytää ja saada sivun."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Täydennä asiakas–palvelin-mallin viestien nimet.",
+      "language": "text",
+      "code": "Asiakas lähettää ___, palvelin lähettää ___.",
+      "answers": ["pyynnön", "vastauksen"],
+      "explanation": "Pyyntö (request) ja vastaus (response) ovat asiakas–palvelin-viestinnän perusta."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Mitä porttia selain käyttää osoitteelle https://example.com, kun porttia ei ole kirjoitettu?",
+      "options": ["443", "80", "22", "8080"],
+      "answer": 0,
+      "explanation": "HTTPS:n oletusportti on 443 ja HTTP:n 80."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "Selain on asiakas.\nYksi palvelin voi palvella monta asiakasta yhtä aikaa.\nVerkkosivu ladataan aina yhdellä ainoalla pyynnöllä.\nVertaisverkossa koneet välittävät dataa suoraan toisilleen.",
+      "bugLine": 3,
+      "explanation": "Sivun kuvat, tyylit ja skriptit haetaan omilla pyynnöillään, joten pyyntöjä on yleensä monta."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on asiakas (client)?",
+      "options": ["Puhelimen sääsovellus, joka hakee ennusteen", "Verkkosivuja tarjoava palvelin", "Reititin", "DNS-tietue"],
+      "answer": 0,
+      "explanation": "Sääsovellus lähettää pyynnön ja saa vastauksen, joten se toimii asiakkaana."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä on vertaisverkon (peer-to-peer) tunnusmerkki?",
+      "options": [
+        "Koneet ovat tasavertaisia ja välittävät dataa suoraan toisilleen",
+        "Kaikki liikenne kulkee yhden palvelimen kautta",
+        "Se toimii vain lähiverkossa",
+        "Se ei käytä IP-osoitteita"
+      ],
+      "answer": 0,
+      "explanation": "Asiakas–palvelin-mallissa roolit ovat erilliset, vertaisverkossa kukin kone voi olla molempia."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "URL on https://kauppa.fi/haku?q=kengät. Mikä on haettava sana?",
+      "options": ["kengät", "haku", "kauppa", "https"],
+      "answer": 0,
+      "explanation": "Kyselyparametrit alkavat ?-merkistä: parametrin q arvo on kengät."
+    }
+  ]
+}

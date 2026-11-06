@@ -1,0 +1,101 @@
+{
+  "id": "programming-basics-1-05",
+  "title": "Silmukat",
+  "level": 1,
+  "theory": "**Silmukka (loop)** toistaa koodia. Ilman silmukoita samaa riviä pitäisi kirjoittaa yhä uudelleen.\n\n## for-silmukka\n\n`for` käy läpi jonon arvoja yksi kerrallaan. `range(n)` tuottaa luvut 0, 1, …, n−1:\n\n```python\nfor i in range(3):\n    print(i)\n```\n\nTämä tulostaa 0, 1 ja 2. `range(1, 5)` tuottaa luvut 1–4: alku kuuluu mukaan, loppu ei. For-silmukalla voi käydä läpi myös listan tai merkkijonon.\n\nKäytä for-silmukkaa, kun toistojen määrä tai läpikäytävä jono tiedetään etukäteen.\n\n## while-silmukka\n\n`while` toistaa niin kauan kuin ehto on tosi:\n\n```python\nn = 3\nwhile n > 0:\n    print(n)\n    n -= 1\n```\n\nKäytä whilea, kun et tiedä etukäteen, montako kierrosta tarvitaan – esimerkiksi kunnes käyttäjä antaa oikean vastauksen.\n\n## Ikuinen silmukka\n\nJos while-ehto ei koskaan muutu epätodeksi, silmukka jatkuu ikuisesti, ja ohjelma \"jumittuu\". Tavallinen syy on, että muuttujaa unohdetaan päivittää silmukan sisällä. Komentorivillä jumissa olevan ohjelman voi pysäyttää näppäimillä Ctrl+C.\n\n## break ja continue\n\n- `break` lopettaa silmukan heti.\n- `continue` hyppää suoraan seuraavalle kierrokselle.\n\n## Kertymä\n\nYleinen kuvio on **kertymä (accumulator)**: muuttuja alustetaan ennen silmukkaa ja sitä päivitetään joka kierroksella.\n\n```python\nsumma = 0\nfor luku in range(1, 5):\n    summa += luku\nprint(summa)\n```",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "for i in range(3):\n    print(i)",
+      "answer": "0\n1\n2",
+      "verified": true,
+      "explanation": "range(3) tuottaa luvut 0, 1 ja 2 – kolme lukua, mutta 3 ei kuulu mukaan."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "summa = 0\nfor luku in range(1, 5):\n    summa += luku\nprint(summa)",
+      "answer": "10",
+      "verified": true,
+      "explanation": "range(1, 5) on 1, 2, 3 ja 4. Summa: 1 + 2 + 3 + 4 = 10."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1\nprint(\"Lähtö!\")",
+      "answer": "3\n2\n1\nLähtö!",
+      "verified": true,
+      "explanation": "Silmukka jatkuu, kunnes n on 0. Sen jälkeen suoritetaan silmukan jälkeinen rivi."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelma jää jumiin ikuiseen silmukkaan. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "laskuri = 0\nwhile laskuri < 5:\n    print(laskuri)\n    laskuri - 1",
+      "bugLine": 4,
+      "explanation": "laskuri - 1 laskee arvon, mutta ei tallenna sitä mihinkään, joten laskuri pysyy nollana. Pitäisi olla laskuri += 1."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "python",
+      "code": "for i in range(10):\n    if i == 3:\n        break\n    print(i)",
+      "answer": "0\n1\n2",
+      "verified": true,
+      "explanation": "Kun i on 3, break lopettaa silmukan ennen tulostusta."
+    },
+    {
+      "id": "e6",
+      "type": "code_output",
+      "language": "python",
+      "code": "for i in range(5):\n    if i % 2 == 0:\n        continue\n    print(i)",
+      "answer": "1\n3",
+      "verified": true,
+      "explanation": "continue ohittaa parilliset luvut, joten vain parittomat 1 ja 3 tulostetaan."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että silmukka tulostaa luvut 1–5.",
+      "language": "python",
+      "code": "for i in range(1, ___):\n    print(i)",
+      "answers": ["6"],
+      "explanation": "range-funktion loppuarvo ei kuulu mukaan, joten luvun 5 saamiseksi loppuarvoksi tarvitaan 6."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Milloin while-silmukka sopii paremmin kuin for?",
+      "options": [
+        "Kun toistojen määrää ei tiedetä etukäteen",
+        "Kun käydään läpi listan kaikki alkiot",
+        "Kun halutaan tulostaa luvut 1–10",
+        "while ei koskaan sovi paremmin"
+      ],
+      "answer": 0,
+      "explanation": "Esimerkiksi \"kysy, kunnes vastaus on oikein\" on luonteva while-silmukka."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit niin, että ohjelma laskee luvut 1–3 yhteen ja tulostaa summan 6.",
+      "language": "python",
+      "lines": ["summa = 0", "for luku in range(1, 4):", "    summa += luku", "print(summa)"],
+      "explanation": "Kertymä alustetaan ennen silmukkaa, päivitetään sen sisällä ja tulostetaan silmukan jälkeen (ei sisennystä)."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "python",
+      "code": "for kirjain in \"abc\":\n    print(kirjain * 2)",
+      "answer": "aa\nbb\ncc",
+      "verified": true,
+      "explanation": "for käy merkkijonon läpi merkki kerrallaan, ja merkkijonon kertominen luvulla toistaa sitä."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "programming-basics-1-03",
+  "title": "Operaattorit ja lausekkeet",
+  "level": 1,
+  "theory": "**Lauseke (expression)** on koodin osa, joka lasketaan arvoksi, esimerkiksi `2 + 3` tai `hinta * 2`. Lausekkeissa käytetään **operaattoreita (operator)**.\n\n## Aritmeettiset operaattorit\n\n- `+` yhteenlasku, `-` vähennyslasku, `*` kertolasku\n- `/` jakolasku: tulos on aina liukuluku, `10 / 4` → `2.5`\n- `//` kokonaislukujako: `7 // 2` → `3`\n- `%` jakojäännös: `7 % 2` → `1`\n- `**` potenssi: `2 ** 3` → `8`\n\nJakojäännöksellä selvitetään esimerkiksi, onko luku parillinen: `luku % 2 == 0`.\n\n## Laskujärjestys\n\nKuten matematiikassa: ensin potenssi, sitten kerto- ja jakolaskut, lopuksi yhteen- ja vähennyslaskut. Sulut muuttavat järjestystä: `(2 + 3) * 4` → `20`.\n\n## Vertailuoperaattorit\n\nVertailun tulos on totuusarvo `True` tai `False`:\n\n- `==` yhtä suuri, `!=` eri suuri\n- `<`, `>`, `<=`, `>=`\n\nHuomaa ero: `=` on sijoitus, `==` vertailu.\n\n## Loogiset operaattorit\n\n- `and` – tosi, jos **molemmat** ovat tosia\n- `or` – tosi, jos **ainakin toinen** on tosi\n- `not` – kääntää totuusarvon\n\nEsimerkki: `ika >= 18 and ika < 65`.\n\n## Lyhennetty sijoitus\n\n`summa += 5` tarkoittaa samaa kuin `summa = summa + 5`. Vastaavasti toimivat `-=`, `*=` ja `/=`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(7 // 2, 7 % 2)",
+      "answer": "3 1",
+      "verified": true,
+      "explanation": "7 // 2 = 3 (kokonaislukujako) ja 7 % 2 = 1 (jakojäännös), koska 7 = 2 · 3 + 1."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(10 / 4)",
+      "answer": "2.5",
+      "verified": true,
+      "explanation": "Tavallinen jakolasku / antaa aina liukuluvun."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "print((2 + 3) * 4)\nprint(2 + 3 * 4)",
+      "answer": "20\n14",
+      "verified": true,
+      "explanation": "Sulut lasketaan ensin (5 · 4 = 20). Ilman sulkuja kertolasku tehdään ensin (2 + 12 = 14)."
+    },
+    {
+      "id": "e4",
+      "type": "match_pairs",
+      "prompt": "Yhdistä operaattori ja merkitys.",
+      "pairs": [
+        ["%", "jakojäännös"],
+        ["//", "kokonaislukujako"],
+        ["**", "potenssi"],
+        ["!=", "eri suuri"],
+        ["==", "yhtä suuri"]
+      ],
+      "explanation": "Muista: = on sijoitus, == vertailu."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "python",
+      "code": "ika = 25\nprint(ika >= 18 and ika < 20)",
+      "answer": "False",
+      "verified": true,
+      "explanation": "Ensimmäinen ehto on tosi, mutta 25 < 20 on epätosi. and vaatii molemmat tosiksi."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä ehto, joka on tosi, kun luku on parillinen.",
+      "language": "python",
+      "code": "luku = 8\nprint(luku ___ 2 == 0)",
+      "answers": ["%"],
+      "explanation": "Parillisen luvun jakojäännös kahdella jaettaessa on 0."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi laskea kahden luvun keskiarvo (6 ja 8 → 7). Millä rivillä on looginen virhe?",
+      "language": "python",
+      "code": "a = 6\nb = 8\nkeskiarvo = a + b / 2\nprint(keskiarvo)",
+      "bugLine": 3,
+      "explanation": "Jakolasku tehdään ennen yhteenlaskua, joten tulos on 6 + 4 = 10. Oikein: (a + b) / 2."
+    },
+    {
+      "id": "e8",
+      "type": "code_output",
+      "language": "python",
+      "code": "summa = 10\nsumma += 5\nsumma *= 2\nprint(summa)",
+      "answer": "30",
+      "verified": true,
+      "explanation": "10 + 5 = 15 ja 15 · 2 = 30."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mikä on lausekkeen not (3 > 2 or 1 > 5) arvo?",
+      "options": ["False", "True", "Virhe", "3"],
+      "answer": 0,
+      "explanation": "3 > 2 on tosi, joten or-lauseke on tosi. not kääntää sen epätodeksi."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(2 ** 10)",
+      "answer": "1024",
+      "verified": true,
+      "explanation": "2 potenssiin 10 on 1024 – tuttu luku bittien ja tavujen yhteydestä."
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { routes } from './routes.tsx'
+import { content } from './content/loader.ts'
 
 function renderAt(path: string) {
   const router = createMemoryRouter(routes, { initialEntries: [path] })
@@ -14,7 +15,10 @@ describe('reititys ja näkymät', () => {
   it('etusivu näyttää polut ja alanavigaation', () => {
     renderAt('/')
     expect(screen.getByRole('heading', { name: 'IT-oppi' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Python/ })).toBeInTheDocument()
+    const polut = screen.getByRole('heading', { name: 'Polut' }).parentElement!
+    for (const p of content.paths) {
+      expect(within(polut).getByText(p.title, { selector: 'div' })).toBeInTheDocument()
+    }
     expect(screen.getByRole('navigation', { name: 'Päävalikko' })).toBeInTheDocument()
   })
 

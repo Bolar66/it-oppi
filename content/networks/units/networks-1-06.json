@@ -1,0 +1,114 @@
+{
+  "id": "networks-1-06",
+  "title": "HTTP",
+  "level": 1,
+  "theory": "**HTTP (Hypertext Transfer Protocol)** on protokolla, jolla selaimet ja palvelimet vaihtavat verkkosivuja ja muuta dataa.\n\n## Pyyntö\n\nHTTP-pyynnössä on:\n\n1. **pyyntörivi**: metodi, polku ja versio, esim. `GET /index.html HTTP/1.1`\n2. **otsakkeet (headers)**, esim. `Host: www.example.com`\n3. tyhjä rivi\n4. tarvittaessa **runko (body)**, esim. lomakkeen tiedot\n\n## Metodit\n\n- **GET** – hae resurssi\n- **POST** – lähetä dataa, esim. luo uusi kohde\n- **PUT** – korvaa resurssi kokonaan\n- **PATCH** – muuta resurssia osittain\n- **DELETE** – poista resurssi\n\n## Vastaus ja tilakoodit\n\nVastauksessa on **tilakoodi (status code)**, otsakkeet ja runko. Tilakoodin ensimmäinen numero kertoo ryhmän:\n\n- **2xx onnistui**: 200 OK, 201 Created\n- **3xx uudelleenohjaus**: 301 Moved Permanently (sivu on siirtynyt pysyvästi)\n- **4xx asiakkaan virhe**: 400 Bad Request, 401 Unauthorized (ei kirjautunut), 403 Forbidden (ei oikeutta), 404 Not Found\n- **5xx palvelimen virhe**: 500 Internal Server Error\n\nTärkeä otsake on `Content-Type`, joka kertoo rungon muodon, esimerkiksi `text/html` tai `application/json`.\n\n## Tilattomuus\n\nHTTP on **tilaton (stateless)**: jokainen pyyntö käsitellään erikseen, eikä palvelin muista aiempia pyyntöjä itsestään. Siksi kirjautuminen toteutetaan esimerkiksi **evästeillä (cookie)**: palvelin antaa selaimelle tunnisteen, jonka selain lähettää jokaisen pyynnön mukana.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "match_pairs",
+      "prompt": "Yhdistä tilakoodi ja merkitys.",
+      "pairs": [
+        ["200", "onnistui"],
+        ["301", "siirretty pysyvästi"],
+        ["404", "ei löytynyt"],
+        ["500", "palvelimen sisäinen virhe"]
+      ],
+      "explanation": "2xx = onnistui, 3xx = uudelleenohjaus, 4xx = asiakkaan virhe, 5xx = palvelimen virhe."
+    },
+    {
+      "id": "e2",
+      "type": "multiple_choice",
+      "prompt": "Millä HTTP-metodilla poistetaan resurssi?",
+      "options": ["DELETE", "GET", "POST", "REMOVE"],
+      "answer": 0,
+      "explanation": "DELETE poistaa. REMOVE-metodia ei ole HTTP:ssä."
+    },
+    {
+      "id": "e3",
+      "type": "order_lines",
+      "prompt": "Järjestä HTTP-pyynnön osat.",
+      "language": "text",
+      "lines": [
+        "POST /kirjaudu HTTP/1.1",
+        "Host: www.example.com",
+        "Content-Type: application/json",
+        "(tyhjä rivi)",
+        "{\"tunnus\": \"ville\"}"
+      ],
+      "explanation": "Ensin pyyntörivi, sitten otsakkeet, tyhjä rivi ja lopuksi runko."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Täydennä tuttu virheilmoitus.",
+      "language": "text",
+      "code": "404 Not ___",
+      "answers": ["Found"],
+      "explanation": "404 Not Found: pyydettyä resurssia ei löytynyt palvelimelta."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Mikä on ero tilakoodien 401 ja 403 välillä?",
+      "options": [
+        "401: et ole kirjautunut. 403: olet kirjautunut, mutta sinulla ei ole oikeutta.",
+        "401: palvelin on kaatunut. 403: sivua ei löydy.",
+        "Ne tarkoittavat samaa.",
+        "401: onnistui. 403: uudelleenohjaus."
+      ],
+      "answer": 0,
+      "explanation": "Nimestään huolimatta 401 Unauthorized tarkoittaa käytännössä puuttuvaa tunnistautumista, 403 Forbidden puuttuvaa oikeutta."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Miten verkkokauppa muistaa, että olet kirjautunut, vaikka HTTP on tilaton?",
+      "options": [
+        "Selain lähettää jokaisen pyynnön mukana evästeen, jossa on tunniste",
+        "Palvelin muistaa IP-osoitteesi ikuisesti",
+        "HTTP-yhteys pysyy auki koko päivän",
+        "Selain lähettää salasanan jokaisessa pyynnössä"
+      ],
+      "answer": 0,
+      "explanation": "Eväste (cookie) kantaa tunnistetta pyynnöstä toiseen."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "GET hakee resurssin.\nPOST lähettää dataa palvelimelle.\n5xx-tilakoodit tarkoittavat asiakkaan virhettä.\nContent-Type kertoo rungon muodon.",
+      "bugLine": 3,
+      "explanation": "5xx tarkoittaa palvelimen virhettä. Asiakkaan virheet ovat 4xx-koodeja."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä metodi ja käyttötarkoitus.",
+      "pairs": [
+        ["GET", "hae resurssi"],
+        ["POST", "luo uusi kohde"],
+        ["PUT", "korvaa resurssi kokonaan"],
+        ["PATCH", "muuta resurssia osittain"]
+      ],
+      "explanation": "Metodi kertoo palvelimelle, mitä pyynnöllä halutaan tehdä."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Palvelin vastaa koodilla 500. Kenen virhe on todennäköisimmin?",
+      "options": ["Palvelimen", "Käyttäjän, joka kirjoitti väärän osoitteen", "Selaimen", "DNS:n"],
+      "answer": 0,
+      "explanation": "5xx-koodit kertovat, että pyyntö oli kunnossa, mutta palvelin ei pystynyt käsittelemään sitä."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mikä Content-Type kertoo, että runko on JSON-dataa?",
+      "options": ["application/json", "text/html", "image/png", "text/plain"],
+      "answer": 0,
+      "explanation": "Rajapinnat (API) käyttävät yleensä JSON-muotoa ja otsaketta Content-Type: application/json."
+    }
+  ]
+}

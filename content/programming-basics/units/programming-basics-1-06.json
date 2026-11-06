@@ -1,0 +1,95 @@
+{
+  "id": "programming-basics-1-06",
+  "title": "Funktiot",
+  "level": 1,
+  "theory": "**Funktio (function)** on nimetty koodin osa, jota voi kutsua yhä uudelleen. Funktioiden avulla ohjelma jaetaan pieniin, ymmärrettäviin palasiin, eikä samaa koodia tarvitse kopioida.\n\n## Määrittely ja kutsu\n\n```python\ndef tervehdi(nimi):\n    print(\"Hei, \" + nimi)\n\ntervehdi(\"Ada\")\ntervehdi(\"Linus\")\n```\n\n- `def` aloittaa funktion **määrittelyn**.\n- `nimi` on **parametri (parameter)**: muuttuja, joka saa arvonsa kutsussa.\n- `tervehdi(\"Ada\")` on **funktiokutsu**, ja `\"Ada\"` on **argumentti (argument)**.\n\nMäärittely ei vielä tee mitään – koodi suoritetaan vasta kutsuttaessa.\n\n## Paluuarvo\n\n`return` palauttaa arvon kutsujalle ja lopettaa funktion suorituksen:\n\n```python\ndef tuplaa(x):\n    return x * 2\n\ntulos = tuplaa(4) + 1\n```\n\n**print vs. return:** `print` vain näyttää arvon ruudulla. `return` antaa arvon takaisin, jolloin sitä voi käyttää laskuissa. Jos funktiossa ei ole returnia, Python palauttaa arvon `None`.\n\n## Näkyvyys\n\nFunktion sisällä luotu muuttuja on **paikallinen (local)**: se on olemassa vain funktion sisällä. Jos funktion sisällä sijoitetaan muuttujaan, jolla on sama nimi kuin ulkopuolisella muuttujalla, syntyy uusi paikallinen muuttuja, eikä ulkopuolinen muutu. Tätä kutsutaan **näkyvyydeksi (scope)**.\n\n## Hyvä funktio\n\n- tekee yhden asian\n- nimi kertoo, mitä se tekee: `laske_keskiarvo`\n- saa tarvitsemansa tiedot parametreina ja palauttaa tuloksen",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "def tuplaa(x):\n    return x * 2\n\nprint(tuplaa(4) + 1)",
+      "answer": "9",
+      "verified": true,
+      "explanation": "tuplaa(4) palauttaa 8, ja siihen lisätään 1."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "def tervehdi(nimi):\n    print(\"Hei, \" + nimi)\n\ntervehdi(\"Ada\")\ntervehdi(\"Linus\")",
+      "answer": "Hei, Ada\nHei, Linus",
+      "verified": true,
+      "explanation": "Funktio määritellään kerran ja kutsutaan kahdesti eri argumentilla."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "x = 1\n\ndef muuta():\n    x = 5\n\nmuuta()\nprint(x)",
+      "answer": "1",
+      "verified": true,
+      "explanation": "Funktion sisällä x = 5 luo uuden paikallisen muuttujan. Ulkopuolinen x pysyy arvossa 1."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "def summa(a, b):\n    print(a + b)\n\ntulos = summa(2, 3)\nprint(tulos)",
+      "answer": "5\nNone",
+      "verified": true,
+      "explanation": "Funktio tulostaa 5, mutta ei palauta mitään, joten tulos on None. Laskuissa käytettävä arvo pitää palauttaa returnilla."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Koodi: def tuplaa(x): return x * 2 … tuplaa(4). Yhdistä osa ja nimi.",
+      "pairs": [
+        ["def", "määrittelyn avainsana"],
+        ["x", "parametri"],
+        ["4", "argumentti"],
+        ["return", "palauttaa arvon kutsujalle"]
+      ],
+      "explanation": "Parametri on muuttuja määrittelyssä, argumentti on kutsussa annettu arvo."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että funktio palauttaa neliön.",
+      "language": "python",
+      "code": "def nelio(x):\n    ___ x * x\n\nprint(nelio(5))",
+      "answers": ["return"],
+      "explanation": "return palauttaa arvon, jonka print sitten tulostaa (25)."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa 10, mutta se tulostaa None. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "def kerro(a, b):\n    tulo = a * b\n\nprint(kerro(2, 5))",
+      "bugLine": 2,
+      "explanation": "Funktio laskee tulon, mutta ei palauta sitä. Rivillä 2 pitäisi olla return a * b."
+    },
+    {
+      "id": "e8",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit niin, että ohjelma määrittelee funktion ja tulostaa 7.",
+      "language": "python",
+      "lines": ["def lisaa(a, b):", "    return a + b", "print(lisaa(3, 4))"],
+      "explanation": "Funktio pitää määritellä ennen kuin sitä kutsutaan."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä tapahtuu, kun Python lukee rivin def tervehdi():?",
+      "options": [
+        "Funktio määritellään, mutta sen koodia ei vielä suoriteta",
+        "Funktion koodi suoritetaan heti",
+        "Funktio poistetaan",
+        "Ohjelma pysähtyy"
+      ],
+      "answer": 0,
+      "explanation": "Koodi suoritetaan vasta, kun funktiota kutsutaan, esim. tervehdi()."
+    }
+  ]
+}

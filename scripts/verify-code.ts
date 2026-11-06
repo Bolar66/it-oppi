@@ -26,7 +26,7 @@ import { runValidation } from './validate-content.ts'
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const CACHE_FILE = join(ROOT, 'node_modules', '.cache', 'it-oppi', 'verify-code.json')
 /** Kasvata, jos ajotapa muuttuu (mitätöi välimuistin). */
-const RUNNER_VERSION = 1
+const RUNNER_VERSION = 2
 const TIMEOUT_MS = 30_000
 const CONCURRENCY = 4
 const WIN = process.platform === 'win32'
@@ -146,17 +146,21 @@ const linux = (args: string[], stdin: string) =>
     ? run('wsl.exe', ['--', 'bash', '-c', `base64 -d | ${args.join(' ')}`], Buffer.from(stdin, 'utf8').toString('base64'))
     : run(args[0]!, args.slice(1), stdin)
 
-/** Bash-skripti, joka kirjoittaa koodin väliaikaiskansioon (heredoc) ja ajaa komennon siellä. */
+/**
+ * Bash-skripti, joka kirjoittaa koodin väliaikaiskansioon $d (heredoc) ja ajaa komennon erillisessä,
+ * tyhjässä työkansiossa $w – näin koodin oma tiedosto ei näy esimerkiksi ls-tulosteessa.
+ */
 function inTempDir(fileName: string, code: string, command: string): string {
   const eof = 'IT_OPPI_EOF_' + createHash('sha1').update(code).digest('hex').slice(0, 8)
   return [
     'set -e',
     'd=$(mktemp -d)',
-    'trap \'rm -rf "$d"\' EXIT',
-    'cd "$d"',
-    `cat > ${fileName} <<'${eof}'`,
+    'w=$(mktemp -d)',
+    'trap \'rm -rf "$d" "$w"\' EXIT',
+    `cat > "$d/${fileName}" <<'${eof}'`,
     code,
     eof,
+    'cd "$w"',
     'set +e',
     command,
   ].join('\n')
@@ -183,10 +187,13 @@ const VENV_PYTHON = WIN ? join(homedir(), '.venvs', 'it-oppi', 'Scripts', 'pytho
 export const runners: Record<RuntimeId, (code: string) => Promise<RunResult>> = {
   python: (code) => linux(['python3', '-'], code),
   'python-data': (code) => run(VENV_PYTHON, ['-X', 'utf8', '-'], code),
-  cpp: (code) => linux(['bash', '-s'], inTempDir('main.cpp', code, 'g++ -std=c++20 -O0 -o main main.cpp && ./main')),
-  bash: (code) => linux(['bash', '-s'], inTempDir('script.sh', code, 'bash script.sh')),
+  cpp: (code) => linux(['bash', '-s'], inTempDir('main.cpp', code, 'g++ -std=c++20 -O0 -o "$d/main" "$d/main.cpp" && "$d/main"')),
+  bash: (code) => linux(['bash', '-s'], inTempDir('script.sh', code, 'bash "$d/script.sh"')),
   kotlin: (code) =>
-    linux(['bash', '-s'], inTempDir('main.kt', code, 'kotlinc main.kt -include-runtime -d main.jar 2>/dev/null && java -jar main.jar')),
+    linux(
+      ['bash', '-s'],
+      inTempDir('main.kt', code, 'kotlinc "$d/main.kt" -include-runtime -d "$d/main.jar" 2>/dev/null && java -jar "$d/main.jar"'),
+    ),
   javascript: (code) => run(process.execPath, ['-'], code),
   typescript: (code) => {
     const dir = mkdtempSync(join(tmpdir(), 'it-oppi-ts-'))

@@ -1,0 +1,43 @@
+{
+  "terms": [
+    { "id": "algorithm", "term": "algoritmi", "en": "algorithm", "definition": "Yksiselitteinen, vaihe vaiheelta etenevä ohje tehtävän ratkaisemiseksi.", "level": 1, "unit": "programming-basics-1-01" },
+    { "id": "syntax", "term": "syntaksi", "en": "syntax", "definition": "Ohjelmointikielen kielioppi: säännöt sille, miten koodi kirjoitetaan.", "level": 1, "unit": "programming-basics-1-01" },
+    { "id": "compiler", "term": "kääntäjä", "en": "compiler", "definition": "Ohjelma, joka muuntaa koko lähdekoodin konekieleksi ennen ajoa.", "example": "g++ (C++)", "level": 1, "unit": "programming-basics-1-01" },
+    { "id": "interpreter", "term": "tulkki", "en": "interpreter", "definition": "Ohjelma, joka lukee ja suorittaa koodia ajon aikana.", "example": "Python", "level": 1, "unit": "programming-basics-1-01" },
+    { "id": "logic-error", "term": "looginen virhe", "en": "logic error", "definition": "Virhe, jossa ohjelma toimii mutta tuottaa väärän tuloksen.", "level": 1, "unit": "programming-basics-1-01" },
+    { "id": "debugging", "term": "debuggaus", "en": "debugging", "definition": "Virheiden etsiminen ja korjaaminen ohjelmasta.", "level": 1, "unit": "programming-basics-1-01" },
+
+    { "id": "pb-variable", "term": "muuttuja (ohjelmointi)", "en": "variable", "definition": "Nimetty paikka, johon ohjelma tallentaa arvon.", "example": "pisteet = 10", "level": 1, "unit": "programming-basics-1-02" },
+    { "id": "data-type", "term": "tietotyyppi (ohjelmointi)", "en": "data type", "definition": "Arvon laji, joka määrää, mitä arvolla voi tehdä.", "example": "kokonaisluku, merkkijono", "level": 1, "unit": "programming-basics-1-02" },
+    { "id": "type-conversion", "term": "tyyppimuunnos", "en": "type conversion", "definition": "Arvon muuttaminen toiseen tietotyyppiin.", "example": "int(\"7\")", "level": 1, "unit": "programming-basics-1-02" },
+
+    { "id": "expression", "term": "lauseke", "en": "expression", "definition": "Koodin osa, joka lasketaan arvoksi.", "example": "hinta * 2", "level": 1, "unit": "programming-basics-1-03" },
+    { "id": "operator", "term": "operaattori", "en": "operator", "definition": "Merkki, joka tekee laskun tai vertailun.", "example": "+, ==, and", "level": 1, "unit": "programming-basics-1-03" },
+    { "id": "modulo", "term": "jakojäännös", "en": "modulo", "definition": "Jakolaskussa yli jäävä osa; Pythonissa operaattori %.", "example": "7 % 2 = 1", "level": 1, "unit": "programming-basics-1-03" },
+
+    { "id": "conditional", "term": "ehtolause", "en": "conditional statement", "definition": "Rakenne, joka suorittaa koodia vain, jos ehto on tosi.", "example": "if, elif, else", "level": 1, "unit": "programming-basics-1-04" },
+    { "id": "indentation", "term": "sisennys", "en": "indentation", "definition": "Rivin alun välilyönnit, jotka Pythonissa kertovat, mihin lohkoon rivi kuuluu.", "level": 1, "unit": "programming-basics-1-04" },
+    { "id": "truth-table", "term": "totuustaulu", "en": "truth table", "definition": "Taulukko, joka näyttää yhdistetyn ehdon tuloksen kaikilla totuusarvoilla.", "level": 1, "unit": "programming-basics-1-04" },
+
+    { "id": "loop", "term": "silmukka", "en": "loop", "definition": "Rakenne, joka toistaa koodia.", "example": "for, while", "level": 1, "unit": "programming-basics-1-05" },
+    { "id": "infinite-loop", "term": "ikuinen silmukka", "en": "infinite loop", "definition": "Silmukka, jonka ehto ei koskaan muutu epätodeksi, joten se ei lopu.", "level": 1, "unit": "programming-basics-1-05" },
+    { "id": "accumulator", "term": "kertymä", "en": "accumulator", "definition": "Muuttuja, jota päivitetään silmukan jokaisella kierroksella, esim. summa.", "level": 1, "unit": "programming-basics-1-05" },
+    { "id": "break", "term": "break", "definition": "Avainsana, joka lopettaa silmukan heti.", "level": 1, "unit": "programming-basics-1-05" },
+
+    { "id": "function", "term": "funktio", "en": "function", "definition": "Nimetty koodin osa, jota voi kutsua yhä uudelleen.", "example": "def tuplaa(x):", "level": 1, "unit": "programming-basics-1-06" },
+    { "id": "parameter", "term": "parametri", "en": "parameter", "definition": "Funktion määrittelyssä oleva muuttuja, joka saa arvonsa kutsussa.", "level": 1, "unit": "programming-basics-1-06" },
+    { "id": "argument", "term": "argumentti", "en": "argument", "definition": "Funktiokutsussa annettu arvo.", "example": "tuplaa(4): argumentti on 4", "level": 1, "unit": "programming-basics-1-06" },
+    { "id": "return-value", "term": "paluuarvo (funktio)", "en": "return value", "definition": "Arvo, jonka funktio antaa takaisin kutsujalle return-lauseella.", "level": 1, "unit": "programming-basics-1-06" },
+    { "id": "scope", "term": "näkyvyys", "en": "scope", "definition": "Koodin alue, jossa muuttuja on olemassa; funktion sisäiset muuttujat ovat paikallisia.", "level": 1, "unit": "programming-basics-1-06" },
+
+    { "id": "data-structure", "term": "tietorakenne", "en": "data structure", "definition": "Tapa säilyttää monta arvoa järjestelmällisesti.", "example": "lista, sanakirja", "level": 1, "unit": "programming-basics-1-07" },
+    { "id": "list", "term": "lista", "en": "list, array", "definition": "Järjestetty jono arvoja, joihin viitataan indeksillä.", "example": "[4, 8, 15]", "level": 1, "unit": "programming-basics-1-07" },
+    { "id": "index", "term": "indeksi", "en": "index", "definition": "Alkion paikkanumero listassa; alkaa nollasta.", "level": 1, "unit": "programming-basics-1-07" },
+    { "id": "dictionary", "term": "sanakirja", "en": "dictionary, map", "definition": "Tietorakenne, joka tallentaa avain–arvo-pareja.", "example": "{\"Ada\": 36}", "level": 1, "unit": "programming-basics-1-07" },
+
+    { "id": "linear-search", "term": "lineaarihaku", "en": "linear search", "definition": "Haku, joka käy alkiot läpi yksi kerrallaan.", "level": 1, "unit": "programming-basics-1-08" },
+    { "id": "binary-search", "term": "binäärihaku", "en": "binary search", "definition": "Haku järjestetystä listasta, joka puolittaa vaihtoehdot joka vaiheessa.", "level": 1, "unit": "programming-basics-1-08" },
+    { "id": "sorting", "term": "järjestäminen", "en": "sorting", "definition": "Alkioiden asettaminen järjestykseen, esim. pienimmästä suurimpaan.", "example": "sorted(lista)", "level": 1, "unit": "programming-basics-1-08" },
+    { "id": "time-complexity", "term": "aikavaativuus", "en": "time complexity", "definition": "Kuvaus siitä, miten algoritmin työmäärä kasvaa datan kasvaessa.", "example": "O(n), O(log n)", "level": 1, "unit": "programming-basics-1-08" }
+  ]
+}

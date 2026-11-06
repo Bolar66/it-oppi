@@ -1,0 +1,97 @@
+{
+  "id": "linux-1-01",
+  "title": "Komentorivi ja shell",
+  "level": 1,
+  "theory": "Graafisen käyttöliittymän lisäksi tietokonetta voi käyttää **komentoriviltä (command line)** kirjoittamalla komentoja. Ohjelmoijat ja palvelinten ylläpitäjät käyttävät sitä päivittäin, koska se on nopea ja komennot voi tallentaa skripteiksi.\n\n## Terminaali ja shell\n\n- **Terminaali (terminal)** on ikkuna, johon kirjoitetaan.\n- **Shell** on ohjelma, joka tulkitsee komennot ja ajaa ne. Linuxin yleisin shell on **bash**; macOSissa oletus on zsh.\n\nShell näyttää **kehotteen (prompt)**, esimerkiksi `ville@kone:~$`. Merkki `$` kertoo, että olet tavallinen käyttäjä, ja `#` että olet pääkäyttäjä (root).\n\n## Komennon rakenne\n\n```bash\nls -l /home\n```\n\n- `ls` on **komento** (näytä hakemiston sisältö)\n- `-l` on **valitsin (option)**, joka muuttaa toimintaa (pitkä muoto)\n- `/home` on **argumentti**, jolle komento tehdään\n\nKomento `echo` tulostaa tekstiä. Shell erottelee argumentit välilyöntien kohdalta, joten `echo a    b` tulostaa `a b`. Lainausmerkeissä välilyönnit säilyvät: `echo \"a    b\"`.\n\nIsot ja pienet kirjaimet ovat eri asia: `echo` toimii, `Echo` ei.\n\n## Apua\n\n- `man ls` näyttää komennon käyttöohjeen (poistu painamalla q).\n- Monille komennoille toimii myös `ls --help`.\n\n## Pikakeinot\n\n- **Tab** täydentää komennon tai tiedostonimen.\n- **Nuoli ylös** hakee edellisen komennon.\n- `history` näyttää aiemmat komennot.\n- `clear` tyhjentää näytön.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä on shell?",
+      "options": ["Ohjelma, joka tulkitsee ja ajaa komennot", "Tietokoneen kotelo", "Selainlaajennus", "Tiedostomuoto"],
+      "answer": 0,
+      "explanation": "Terminaali on ikkuna, shell (esim. bash) on ohjelma, joka ymmärtää komennot."
+    },
+    {
+      "id": "e2",
+      "type": "match_pairs",
+      "prompt": "Komento: ls -l /home. Yhdistä osa ja sen nimi.",
+      "pairs": [
+        ["ls", "komento"],
+        ["-l", "valitsin"],
+        ["/home", "argumentti"]
+      ],
+      "explanation": "Valitsin muuttaa komennon toimintaa, argumentti kertoo, mihin komento kohdistuu."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "bash",
+      "code": "echo Hei maailma",
+      "answer": "Hei maailma",
+      "verified": true,
+      "explanation": "echo tulostaa argumenttinsa välilyönnillä erotettuina."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "bash",
+      "code": "echo a    b",
+      "answer": "a b",
+      "verified": true,
+      "explanation": "Shell jakaa rivin argumenteiksi välilyöntien kohdalta, joten echo saa kaksi argumenttia (a ja b) ja tulostaa ne yhdellä välilyönnillä."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "bash",
+      "code": "echo \"a    b\"",
+      "answer": "a    b",
+      "verified": true,
+      "explanation": "Lainausmerkeissä teksti on yksi argumentti, joten välilyönnit säilyvät."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento, joka näyttää ls-komennon käyttöohjeen.",
+      "language": "bash",
+      "code": "___ ls",
+      "answers": ["man"],
+      "explanation": "man (manual) avaa käyttöohjeen. Siitä poistutaan q-näppäimellä."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Skripti kaatuu virheeseen. Millä rivillä virhe on?",
+      "language": "bash",
+      "code": "echo \"Aloitetaan\"\nEcho \"Työ käynnissä\"\necho \"Valmis\"",
+      "bugLine": 2,
+      "explanation": "Komennot ovat kirjainkokoherkkiä. Echo-komentoa ei ole (command not found), oikea on echo."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä Tab-näppäin tekee komentorivillä?",
+      "options": ["Täydentää komennon tai tiedostonimen", "Poistaa rivin", "Sulkee terminaalin", "Ajaa komennon kahdesti"],
+      "answer": 0,
+      "explanation": "Tab-täydennys säästää kirjoittamista ja estää kirjoitusvirheitä tiedostonimissä."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Kehote päättyy merkkiin #. Mitä se yleensä tarkoittaa?",
+      "options": ["Olet pääkäyttäjä (root)", "Olet tavallinen käyttäjä", "Komento on virheellinen", "Olet kommenttitilassa"],
+      "answer": 0,
+      "explanation": "$ = tavallinen käyttäjä, # = root. Rootina kannattaa olla varovainen, sillä se voi muuttaa mitä tahansa."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "bash",
+      "code": "echo $((3 + 4 * 2))",
+      "answer": "11",
+      "verified": true,
+      "explanation": "$(( )) laskee kokonaislukulaskun. Kertolasku tehdään ennen yhteenlaskua: 3 + 8 = 11."
+    }
+  ]
+}

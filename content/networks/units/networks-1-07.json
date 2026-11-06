@@ -1,0 +1,102 @@
+{
+  "id": "networks-1-07",
+  "title": "HTTPS",
+  "level": 1,
+  "theory": "Tavallinen HTTP kulkee verkossa selväkielisenä: kuka tahansa matkan varrella, esimerkiksi samassa julkisessa Wi-Fissä, voi lukea tai muuttaa sitä. **HTTPS** on HTTP, joka kulkee **TLS (Transport Layer Security)** -salauksen sisällä.\n\n## Mitä HTTPS suojaa?\n\n- **Luottamuksellisuus** – ulkopuolinen ei voi lukea sisältöä, kuten salasanoja.\n- **Eheys** – sisältöä ei voi muuttaa matkalla huomaamatta.\n- **Aitous** – palvelin todistaa olevansa se, joka väittää olevansa.\n\n## Varmenteet\n\nAitous perustuu **varmenteeseen (certificate)**. Sen myöntää **varmentaja (CA, certificate authority)**, joka tarkistaa, että hakija hallitsee verkkotunnusta. Selaimessa ja käyttöjärjestelmässä on lista luotetuista varmentajista. Esimerkiksi **Let's Encrypt** myöntää varmenteita ilmaiseksi.\n\nJos varmenne on vanhentunut tai väärälle nimelle, selain näyttää varoituksen. Sitä ei kannata ohittaa kevyin perustein.\n\n## Yhteyden avaus\n\nTLS-kättelyssä selain ottaa yhteyden palvelimeen, palvelin lähettää varmenteensa, selain tarkistaa sen ja osapuolet sopivat salausavaimista. Sen jälkeen varsinainen HTTP-liikenne kulkee salattuna. HTTPS:n oletusportti on 443.\n\n## Lukko ei tarkoita luotettavaa\n\nSelaimen lukkokuvake kertoo vain, että **yhteys** on salattu ja palvelimella on nimeen sopiva varmenne. Se ei kerro, että sivuston ylläpitäjä on rehellinen: myös huijaussivustoilla on usein HTTPS. Tarkista siis aina myös osoite.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mitä HTTPS lisää tavalliseen HTTP:hen?",
+      "options": ["TLS-salauksen", "Nopeamman latauksen", "Uuden tiedostomuodon", "DNS-palvelun"],
+      "answer": 0,
+      "explanation": "HTTPS = HTTP TLS-salauksen sisällä."
+    },
+    {
+      "id": "e2",
+      "type": "multiple_choice",
+      "prompt": "Mitä selaimen lukkokuvake kertoo?",
+      "options": [
+        "Yhteys on salattu ja palvelimella on nimeen sopiva varmenne",
+        "Sivusto on varmasti luotettava ja rehellinen",
+        "Sivustolla ei ole viruksia",
+        "Sivusto on suomalainen"
+      ],
+      "answer": 0,
+      "explanation": "Lukko koskee yhteyttä. Huijaussivustollakin voi olla voimassa oleva varmenne."
+    },
+    {
+      "id": "e3",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja kuvaus.",
+      "pairs": [
+        ["TLS", "salausprotokolla HTTPS:n alla"],
+        ["Varmenne", "todistaa palvelimen aitouden"],
+        ["Varmentaja (CA)", "myöntää varmenteita"],
+        ["443", "HTTPS:n oletusportti"]
+      ],
+      "explanation": "Nämä yhdessä tekevät HTTPS:stä turvallisen."
+    },
+    {
+      "id": "e4",
+      "type": "order_lines",
+      "prompt": "Järjestä HTTPS-yhteyden avauksen vaiheet (yksinkertaistettu).",
+      "language": "text",
+      "lines": [
+        "Selain ottaa yhteyden palvelimeen",
+        "Palvelin lähettää varmenteensa",
+        "Selain tarkistaa varmenteen",
+        "Osapuolet sopivat salausavaimista",
+        "Salattu HTTP-liikenne alkaa"
+      ],
+      "explanation": "Varmenne tarkistetaan ennen kuin mitään arkaluonteista lähetetään."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä.",
+      "language": "text",
+      "code": "HTTPS = HTTP + ___-salaus",
+      "answers": ["TLS"],
+      "explanation": "TLS (Transport Layer Security) on SSL:n seuraaja. Arkikielessä puhutaan joskus vielä SSL-varmenteista."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "HTTPS estää ulkopuolisia lukemasta liikennettä.\nVarmenteen myöntää varmentaja (CA).\nHuijaussivustoilla ei voi olla HTTPS:ää.\nVanhentuneesta varmenteesta selain näyttää varoituksen.",
+      "bugLine": 3,
+      "explanation": "Varmenteen voi saada kuka tahansa, joka hallitsee verkkotunnusta, myös huijari. HTTPS ei kerro sivuston rehellisyydestä."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Miksi salasanaa ei pidä syöttää HTTP-sivulle julkisessa Wi-Fissä?",
+      "options": [
+        "Salaamattoman liikenteen voi lukea samassa verkossa",
+        "HTTP-sivut eivät ota vastaan salasanoja",
+        "Julkinen Wi-Fi poistaa salasanat",
+        "Salasana muuttuu automaattisesti"
+      ],
+      "answer": 0,
+      "explanation": "HTTP:ssä salasana kulkee selväkielisenä, joten verkon muut käyttäjät tai verkon ylläpitäjä voivat siepata sen."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista myöntää varmenteita ilmaiseksi?",
+      "options": ["Let's Encrypt", "DHCP", "DNS", "TCP"],
+      "answer": 0,
+      "explanation": "Let's Encrypt on varmentaja, jonka ilmaiset varmenteet ovat tehneet HTTPS:stä yleisen."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mikä HTTPS:n ominaisuus estää muuttamasta sivun sisältöä matkalla huomaamatta?",
+      "options": ["Eheys", "Nopeus", "Tilattomuus", "Välimuisti"],
+      "answer": 0,
+      "explanation": "Eheys tarkoittaa, että vastaanottaja huomaa, jos dataa on muutettu matkalla."
+    }
+  ]
+}

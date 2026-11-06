@@ -42,6 +42,11 @@ describe('checkQuality', () => {
     expect(r.warnings.join('\n')).toMatch(/exams\/level-1\.json/)
   })
 
+  it('Markdown-taulukko on virhe (ei renderöidy)', () => {
+    const table = 'Portit:\n\n| Portti | Palvelu |\n|---|---|\n| 22 | SSH |'
+    expect(checkQuality(tree(unit([mc('e1'), co('e2'), bug('e3')], table))).errors.join()).toMatch(/Markdown-taulukko/)
+  })
+
   it('countWords ohittaa koodilohkot ja pelkät merkit', () => {
     expect(countWords('Yksi kaksi\n\n```python\nprint(1)\nx = 2\n```\n\n- kolme `=`')).toBe(3)
   })

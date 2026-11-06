@@ -1,0 +1,108 @@
+{
+  "id": "linux-1-07",
+  "title": "Putket ja uudelleenohjaus",
+  "level": 1,
+  "theory": "Linuxin komennot ovat pieniä työkaluja, joita yhdistellään. Siihen tarvitaan **uudelleenohjausta** ja **putkia**.\n\n## Kolme virtaa\n\nJokaisella ohjelmalla on kolme virtaa:\n\n- **stdin** (standard input) – syöte, oletuksena näppäimistö\n- **stdout** (standard output) – tavallinen tuloste, oletuksena näyttö\n- **stderr** (standard error) – virheilmoitukset, oletuksena näyttö\n\n## Uudelleenohjaus\n\n- `komento > tiedosto` – kirjoittaa tulosteen tiedostoon ja **korvaa** vanhan sisällön\n- `komento >> tiedosto` – **lisää** tulosteen tiedoston loppuun\n- `komento 2> virheet.txt` – ohjaa virheilmoitukset tiedostoon\n- `komento < tiedosto` – lukee syötteen tiedostosta\n\nErikoistiedosto `/dev/null` on \"musta aukko\": sinne ohjattu tuloste katoaa.\n\n## Putki\n\n**Putki (pipe)** `|` ohjaa yhden komennon tulosteen seuraavan komennon syötteeksi:\n\n```bash\ncat loki.txt | grep virhe | wc -l\n```\n\nTämä laskee, monellako rivillä lukee \"virhe\".\n\n## Hyödyllisiä suodattimia\n\n- `grep sana` – näyttää rivit, joilla sana esiintyy (`-i` ei välitä kirjainkoosta)\n- `wc -l` – laskee rivit (word count, lines)\n- `sort` – järjestää rivit\n- `uniq` – poistaa peräkkäiset toistot (siksi yleensä `sort | uniq`)\n- `head` ja `tail` – alku ja loppu\n\n`printf` tulostaa tekstin muotoiltuna; `\\n` tarkoittaa rivinvaihtoa: `printf \"a\\nb\\n\"` tulostaa a:n ja b:n omille riveilleen.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "bash",
+      "code": "echo yksi > a.txt\necho kaksi >> a.txt\ncat a.txt",
+      "answer": "yksi\nkaksi",
+      "verified": true,
+      "explanation": "> loi tiedoston ja >> lisäsi toisen rivin loppuun."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "bash",
+      "code": "echo yksi > a.txt\necho kaksi > a.txt\ncat a.txt",
+      "answer": "kaksi",
+      "verified": true,
+      "explanation": "Toinen > korvasi tiedoston koko sisällön. Lisäämiseen tarvitaan >>."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "bash",
+      "code": "printf \"omena\\nbanaani\\nomena\\n\" | sort | uniq",
+      "answer": "banaani\nomena",
+      "verified": true,
+      "explanation": "sort järjestää rivit (banaani, omena, omena), ja uniq poistaa peräkkäiset toistot."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "bash",
+      "code": "printf \"kissa\\nkoira\\nkala\\nhevonen\\n\" | grep k | wc -l",
+      "answer": "3",
+      "verified": true,
+      "explanation": "grep k päästää läpi rivit, joilla on k-kirjain (kissa, koira, kala), ja wc -l laskee ne."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Yhdistä merkintä ja tarkoitus.",
+      "pairs": [
+        [">", "kirjoita tiedostoon (korvaa)"],
+        [">>", "lisää tiedoston loppuun"],
+        ["2>", "ohjaa virheilmoitukset"],
+        ["|", "ohjaa tulosteen seuraavalle komennolle"]
+      ],
+      "explanation": "Uudelleenohjaus vie tulosteen tiedostoon, putki toiselle komennolle."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento, joka laskee tiedoston loki.txt rivit, joilla lukee virhe.",
+      "language": "bash",
+      "code": "grep virhe loki.txt ___ wc -l",
+      "answers": ["|"],
+      "explanation": "Putki vie grepin tulosteen wc:n syötteeksi."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Järjestä putken osat: tulosta tiedosto, valitse rivit joilla on \"error\", järjestä ne ja näytä kolme ensimmäistä.",
+      "language": "bash",
+      "lines": ["cat loki.txt |", "grep error |", "sort |", "head -n 3"],
+      "explanation": "Data kulkee putkessa vasemmalta oikealle: jokainen vaihe muokkaa edellisen tulostetta."
+    },
+    {
+      "id": "e8",
+      "type": "find_bug",
+      "prompt": "Skriptin pitäisi kerätä molemmat rivit tiedostoon. Millä rivillä on virhe?",
+      "language": "bash",
+      "code": "echo \"ensimmäinen\" > tulos.txt\necho \"toinen\" > tulos.txt\ncat tulos.txt",
+      "bugLine": 2,
+      "explanation": "Toinen > korvaa tiedoston, joten ensimmäinen rivi katoaa. Rivillä 2 pitäisi olla >>."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mihin virheilmoitukset menevät, kun ajat komento > tulos.txt?",
+      "options": [
+        "Näytölle, koska > ohjaa vain tavallisen tulosteen (stdout)",
+        "Tiedostoon tulos.txt",
+        "Ne katoavat",
+        "Tiedostoon virheet.txt"
+      ],
+      "answer": 0,
+      "explanation": "Virheet kulkevat omassa virrassaan (stderr). Ne ohjataan erikseen merkinnällä 2>."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Miksi uniq-komentoa edeltää yleensä sort?",
+      "options": [
+        "uniq poistaa vain peräkkäiset toistot, joten samat rivit pitää ensin järjestää vierekkäin",
+        "uniq ei toimi ilman sortia lainkaan",
+        "sort nopeuttaa tiedoston lukemista",
+        "sort poistaa tyhjät rivit"
+      ],
+      "answer": 0,
+      "explanation": "Ilman järjestämistä uniq jättäisi esimerkiksi rivit omena, banaani, omena ennalleen."
+    }
+  ]
+}

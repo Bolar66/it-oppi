@@ -1,0 +1,86 @@
+{
+  "id": "programming-basics-1-04",
+  "title": "Ehtolauseet",
+  "level": 1,
+  "theory": "Ohjelman pitää usein toimia eri tavalla eri tilanteissa. Siihen käytetään **ehtolauseita (conditional statement)**.\n\n## if, elif ja else\n\n```python\nlampotila = 25\nif lampotila > 20:\n    print(\"Lämmintä\")\nelif lampotila > 0:\n    print(\"Viileää\")\nelse:\n    print(\"Pakkasta\")\n```\n\n- `if` – suoritetaan, jos ehto on tosi\n- `elif` (else if) – tarkistetaan vain, jos aiemmat ehdot olivat epätosia\n- `else` – suoritetaan, jos mikään ehto ei ollut tosi\n\nEhdot tarkistetaan **ylhäältä alas**, ja vain **ensimmäinen** tosi haara suoritetaan.\n\n## Sisennys\n\nPythonissa ehtoon kuuluvat rivit **sisennetään (indentation)** neljällä välilyönnillä, ja ehtorivi päättyy kaksoispisteeseen. Monissa muissa kielissä lohko merkitään aaltosulkeilla `{ }`, mutta ajatus on sama.\n\n## Sisäkkäiset ehdot\n\nEhdon sisällä voi olla toinen ehto. Usein selkeämpää on kuitenkin yhdistää ehdot loogisilla operaattoreilla:\n\n```python\nif ika >= 18 and on_lippu:\n    print(\"Sisään\")\n```\n\n## Totuustaulu\n\nTotuustaulu näyttää yhdistettyjen ehtojen tuloksen kaikilla vaihtoehdoilla:\n\n- `True and True` → True, muut and-yhdistelmät → False\n- `False or False` → False, muut or-yhdistelmät → True\n\n## Yleisiä virheitä\n\n- `=` (sijoitus) ehdossa `==`:n (vertailu) sijaan\n- unohtunut kaksoispiste\n- ehdot väärässä järjestyksessä: jos laajempi ehto on ensin, tarkempaa ei koskaan tarkisteta",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "ika = 17\nif ika >= 18:\n    print(\"aikuinen\")\nelse:\n    print(\"alaikäinen\")",
+      "answer": "alaikäinen",
+      "verified": true,
+      "explanation": "17 >= 18 on epätosi, joten suoritetaan else-haara."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "lampotila = 5\nif lampotila > 20:\n    print(\"Lämmintä\")\nelif lampotila > 0:\n    print(\"Viileää\")\nelse:\n    print(\"Pakkasta\")",
+      "answer": "Viileää",
+      "verified": true,
+      "explanation": "5 > 20 on epätosi, mutta 5 > 0 on tosi, joten elif-haara suoritetaan."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "pisteet = 95\nif pisteet > 50:\n    print(\"Läpi\")\nelif pisteet > 90:\n    print(\"Erinomainen\")",
+      "answer": "Läpi",
+      "verified": true,
+      "explanation": "Vain ensimmäinen tosi haara suoritetaan. 95 > 50 on tosi, joten elif-haaraa ei tarkisteta lainkaan."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelma ei käynnisty. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "x = 5\nif x = 5:\n    print(\"viisi\")",
+      "bugLine": 2,
+      "explanation": "Ehdossa pitää käyttää vertailua ==. Pelkkä = on sijoitus, ja se on tässä syntaksivirhe."
+    },
+    {
+      "id": "e5",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit niin, että ohjelma tulostaa \"Parillinen\" tai \"Pariton\".",
+      "language": "python",
+      "lines": ["luku = 7", "if luku % 2 == 0:", "    print(\"Parillinen\")", "else:", "    print(\"Pariton\")"],
+      "explanation": "Muuttuja asetetaan ensin, sitten if-haara sisennyksineen ja lopuksi else-haara."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä avainsana, joka tarkistaa uuden ehdon, jos edellinen oli epätosi.",
+      "language": "python",
+      "code": "if x > 10:\n    print(\"iso\")\n___ x > 5:\n    print(\"keskikokoinen\")\nelse:\n    print(\"pieni\")",
+      "answers": ["elif"],
+      "explanation": "elif = else if. Haaroja voi olla useita peräkkäin."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Mikä on lausekkeen True and (False or True) arvo?",
+      "options": ["True", "False", "Virhe", "None"],
+      "answer": 0,
+      "explanation": "Sulut lasketaan ensin: False or True on True. Sitten True and True on True."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä Pythonissa käytetään merkitsemään, mitkä rivit kuuluvat if-lauseeseen?",
+      "options": ["Sisennystä", "Aaltosulkeita { }", "Puolipisteitä", "Rivinumeroita"],
+      "answer": 0,
+      "explanation": "Pythonissa lohko merkitään sisennyksellä. Esimerkiksi JavaScript ja C++ käyttävät aaltosulkeita."
+    },
+    {
+      "id": "e9",
+      "type": "code_output",
+      "language": "python",
+      "code": "ika = 20\nlippu = False\nif ika >= 18 and lippu:\n    print(\"Sisään\")\nelse:\n    print(\"Ei pääsyä\")",
+      "answer": "Ei pääsyä",
+      "verified": true,
+      "explanation": "Ikä riittää, mutta lippu on False, joten and-ehto on epätosi."
+    }
+  ]
+}

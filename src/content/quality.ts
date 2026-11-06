@@ -33,6 +33,9 @@ export function checkQuality(content: ContentTree): QualityReport {
       if (types.size < MIN_EXERCISE_TYPES) {
         errors.push(`${file}: vain ${types.size} harjoitustyyppiä (vähintään ${MIN_EXERCISE_TYPES})`)
       }
+      if (/^\s*\|?\s*:?-{3,}:?\s*\|/m.test(unit.theory)) {
+        errors.push(`${file}: teoriassa on Markdown-taulukko, jota sovellus ei renderöi – käytä listaa`)
+      }
       const words = countWords(unit.theory)
       if (words > THEORY_WORD_WARN) warnings.push(`${file}: teoria ${words} sanaa (ohje ~300)`)
       if (!termUnits.has(unit.id)) warnings.push(`${file}: yksiköllä ei ole termejä terms.json-tiedostossa`)

@@ -1,0 +1,109 @@
+{
+  "id": "linux-1-04",
+  "title": "Tiedostojen käsittely",
+  "level": 1,
+  "theory": "Tavallisimmat komennot tiedostojen käsittelyyn:\n\n- `touch muistio.txt` – luo tyhjän tiedoston (tai päivittää olemassa olevan aikaleiman)\n- `cp a.txt b.txt` – kopioi (copy)\n- `mv a.txt b.txt` – siirtää tai nimeää uudelleen (move)\n- `mv a.txt kansio/` – siirtää tiedoston kansioon\n- `rm a.txt` – poistaa tiedoston (remove)\n- `rm -r kansio` – poistaa kansion ja kaiken sen sisällön\n- `cp -r kansio kopio` – kopioi kansion sisältöineen\n\n**Varoitus:** `rm` ei siirrä roskakoriin, vaan poistaa heti. Tarkista komento ennen Enteriä.\n\n## Sisällön katselu\n\n- `cat tiedosto` – tulostaa koko tiedoston\n- `less tiedosto` – selaa pitkää tiedostoa (poistu q:lla)\n- `head -n 5 tiedosto` – ensimmäiset 5 riviä\n- `tail -n 5 tiedosto` – viimeiset 5 riviä\n\nKomento `echo teksti > tiedosto.txt` kirjoittaa tekstin tiedostoon, ja `seq 1 5` tulostaa luvut 1–5 omille riveilleen.\n\n## nano-editori\n\n**nano** on helppo tekstieditori terminaalissa: `nano muistio.txt`. Ruudun alareunassa näkyvät pikanäppäimet, joissa `^` tarkoittaa Ctrl-näppäintä:\n\n- **Ctrl+O** – tallenna (write Out), vahvista nimi Enterillä\n- **Ctrl+X** – poistu\n- **Ctrl+K** – leikkaa rivi\n- **Ctrl+U** – liitä\n- **Ctrl+W** – etsi\n\n## Jokerimerkit\n\n**Jokerimerkki (wildcard)** `*` tarkoittaa mitä tahansa merkkejä: `rm *.tmp` poistaa kaikki .tmp-päätteiset tiedostot nykyisestä hakemistosta.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "bash",
+      "code": "echo rivi > a.txt\ncp a.txt b.txt\nls",
+      "answer": "a.txt\nb.txt",
+      "verified": true,
+      "explanation": "cp teki kopion, joten molemmat tiedostot ovat olemassa. ls listaa ne aakkosjärjestyksessä."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "bash",
+      "code": "touch vanha.txt\nmv vanha.txt uusi.txt\nls",
+      "answer": "uusi.txt",
+      "verified": true,
+      "explanation": "mv nimesi tiedoston uudelleen, joten vanhaa nimeä ei enää ole."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "bash",
+      "code": "seq 1 5 > luvut.txt\ntail -n 2 luvut.txt",
+      "answer": "4\n5",
+      "verified": true,
+      "explanation": "seq kirjoitti tiedostoon luvut 1–5 omille riveilleen. tail -n 2 näyttää kaksi viimeistä riviä."
+    },
+    {
+      "id": "e4",
+      "type": "match_pairs",
+      "prompt": "Yhdistä komento ja toiminto.",
+      "pairs": [
+        ["cp", "kopioi"],
+        ["mv", "siirtää tai nimeää uudelleen"],
+        ["rm", "poistaa"],
+        ["touch", "luo tyhjän tiedoston"],
+        ["cat", "tulostaa tiedoston sisällön"]
+      ],
+      "explanation": "Komennot ovat lyhenteitä: cp = copy, mv = move, rm = remove, cat = concatenate."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento, joka poistaa kansion vanhat ja kaiken sen sisällön.",
+      "language": "bash",
+      "code": "rm ___ vanhat",
+      "answers": ["-r"],
+      "explanation": "-r (recursive) käy läpi myös alikansiot. Ilman sitä rm ei poista kansiota."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Millä pikanäppäimellä tallennat tiedoston nano-editorissa?",
+      "options": ["Ctrl+O", "Ctrl+S", "Ctrl+X", "Ctrl+Q"],
+      "answer": 0,
+      "explanation": "nanossa tallennus on Ctrl+O (write Out) ja poistuminen Ctrl+X."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Järjestä vaiheet: muokkaa tiedostoa nanolla ja tallenna.",
+      "language": "text",
+      "lines": [
+        "Aja komento nano muistio.txt",
+        "Kirjoita teksti",
+        "Paina Ctrl+O ja vahvista nimi Enterillä",
+        "Poistu painamalla Ctrl+X"
+      ],
+      "explanation": "Jos painat Ctrl+X ennen tallennusta, nano kysyy, tallennetaanko muutokset."
+    },
+    {
+      "id": "e8",
+      "type": "find_bug",
+      "prompt": "Skriptin pitäisi tulostaa kopion sisältö. Millä rivillä virhe on?",
+      "language": "bash",
+      "code": "echo tervehdys > alkuperainen.txt\ncp alkuperainen.txt kopio.txt\ncat kopio.text",
+      "bugLine": 3,
+      "explanation": "Tiedoston nimi on kopio.txt, mutta cat yrittää lukea tiedostoa kopio.text, jota ei ole."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä komento rm *.tmp tekee?",
+      "options": [
+        "Poistaa nykyisestä hakemistosta kaikki .tmp-päätteiset tiedostot",
+        "Poistaa tiedoston, jonka nimi on *.tmp",
+        "Siirtää .tmp-tiedostot roskakoriin",
+        "Poistaa kaikki tiedostot koko koneelta"
+      ],
+      "answer": 0,
+      "explanation": "Shell laajentaa jokerimerkin * vastaaviksi tiedostonimiksi ennen kuin rm ajetaan. rm ei käytä roskakoria."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "bash",
+      "code": "mkdir arkisto\ntouch raportti.txt\nmv raportti.txt arkisto/\nls arkisto",
+      "answer": "raportti.txt",
+      "verified": true,
+      "explanation": "mv siirsi tiedoston arkisto-kansioon, joten ls arkisto näyttää sen."
+    }
+  ]
+}

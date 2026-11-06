@@ -1,0 +1,45 @@
+{
+  "terms": [
+    { "id": "network", "term": "tietoverkko", "en": "network", "definition": "Joukko laitteita, jotka voivat vaihtaa tietoa keskenään.", "level": 1, "unit": "networks-1-01" },
+    { "id": "lan", "term": "lähiverkko", "en": "LAN, local area network", "definition": "Pienen alueen, kuten kodin tai toimiston, verkko.", "level": 1, "unit": "networks-1-01" },
+    { "id": "router", "term": "reititin", "en": "router", "definition": "Laite, joka välittää liikennettä verkkojen välillä.", "example": "kotireititin", "level": 1, "unit": "networks-1-01" },
+    { "id": "switch", "term": "kytkin", "en": "switch", "definition": "Laite, joka yhdistää laitteet samaan lähiverkkoon.", "level": 1, "unit": "networks-1-01" },
+    { "id": "packet", "term": "paketti", "en": "packet", "definition": "Pieni datan osa, jossa on lähettäjän ja vastaanottajan osoite.", "level": 1, "unit": "networks-1-01" },
+    { "id": "bandwidth", "term": "kaistanleveys", "en": "bandwidth", "definition": "Kuinka paljon dataa yhteys voi siirtää sekunnissa.", "example": "100 Mbit/s", "level": 1, "unit": "networks-1-01" },
+    { "id": "latency", "term": "viive", "en": "latency", "definition": "Aika, joka yhden paketin matkaan kuluu.", "example": "20 ms", "level": 1, "unit": "networks-1-01" },
+
+    { "id": "ip-address", "term": "IP-osoite", "en": "IP address", "definition": "Laitteen osoite verkossa, jonka avulla paketit löytävät perille.", "example": "192.168.1.10", "level": 1, "unit": "networks-1-02" },
+    { "id": "private-address", "term": "yksityinen osoite", "en": "private address", "definition": "Lähiverkossa käytettävä IP-osoite, jota ei reititetä internetissä.", "example": "192.168.x.x, 10.x.x.x", "level": 1, "unit": "networks-1-02" },
+    { "id": "nat", "term": "NAT", "en": "network address translation", "definition": "Tekniikka, jolla reititin jakaa yhden julkisen osoitteen usealle lähiverkon laitteelle.", "level": 1, "unit": "networks-1-02" },
+    { "id": "dhcp", "term": "DHCP", "en": "Dynamic Host Configuration Protocol", "definition": "Palvelu, joka antaa laitteille IP-osoitteet automaattisesti.", "level": 1, "unit": "networks-1-02" },
+    { "id": "localhost", "term": "localhost", "definition": "Nimi, joka tarkoittaa laitetta itseään; IPv4:ssä 127.0.0.1 ja IPv6:ssa ::1.", "level": 1, "unit": "networks-1-02" },
+
+    { "id": "dns", "term": "DNS", "en": "Domain Name System", "definition": "Palvelu, joka muuntaa verkkotunnuksen IP-osoitteeksi.", "example": "Selain kysyy DNS:ltä, mikä IP-osoite vastaa nimeä.", "level": 1, "unit": "networks-1-03" },
+    { "id": "domain-name", "term": "verkkotunnus", "en": "domain name", "definition": "Ihmisen muistettava nimi palvelulle internetissä.", "example": "yle.fi", "level": 1, "unit": "networks-1-03" },
+    { "id": "tld", "term": "ylätason verkkotunnus", "en": "TLD, top-level domain", "definition": "Verkkotunnuksen oikeanpuoleisin osa.", "example": ".fi, .com", "level": 1, "unit": "networks-1-03" },
+    { "id": "dns-record", "term": "DNS-tietue", "en": "DNS record", "definition": "Nimipalvelimen tallentama tieto nimestä, esim. sen IPv4-osoite (A) tai sähköpostipalvelin (MX).", "level": 1, "unit": "networks-1-03" },
+    { "id": "ttl", "term": "TTL", "en": "time to live", "definition": "Aika sekunteina, jonka DNS-vastauksen saa säilyttää välimuistissa.", "level": 1, "unit": "networks-1-03" },
+
+    { "id": "protocol", "term": "protokolla", "en": "protocol", "definition": "Sovittu joukko sääntöjä siitä, miten laitteet viestivät.", "example": "HTTP, TCP, DNS", "level": 1, "unit": "networks-1-04" },
+    { "id": "port", "term": "portti", "en": "port", "definition": "Luku 0–65535, joka kertoo, mille palvelulle koneen sisällä data kuuluu.", "example": "443", "level": 1, "unit": "networks-1-04" },
+    { "id": "tcp", "term": "TCP", "en": "Transmission Control Protocol", "definition": "Yhteydellinen ja luotettava protokolla, joka takaa pakettien perillemenon ja järjestyksen.", "level": 1, "unit": "networks-1-04" },
+    { "id": "udp", "term": "UDP", "en": "User Datagram Protocol", "definition": "Yhteydetön ja kevyt protokolla ilman toimitustakuita.", "example": "videopuhelut, DNS-kyselyt", "level": 1, "unit": "networks-1-04" },
+    { "id": "firewall", "term": "palomuuri", "en": "firewall", "definition": "Ohjelma tai laite, joka sallii tai estää yhteyksiä sääntöjen perusteella.", "level": 1, "unit": "networks-1-04" },
+
+    { "id": "client", "term": "asiakas", "en": "client", "definition": "Ohjelma tai laite, joka lähettää pyyntöjä palvelimelle.", "example": "selain", "level": 1, "unit": "networks-1-05" },
+    { "id": "server", "term": "palvelin", "en": "server", "definition": "Ohjelma tai kone, joka käsittelee pyyntöjä ja lähettää vastauksia.", "level": 1, "unit": "networks-1-05" },
+    { "id": "url", "term": "URL", "en": "Uniform Resource Locator", "definition": "Osoite, joka kertoo protokollan, palvelimen ja polun haettavaan resurssiin.", "example": "https://example.com/kauppa?id=5", "level": 1, "unit": "networks-1-05" },
+    { "id": "peer-to-peer", "term": "vertaisverkko", "en": "peer-to-peer, P2P", "definition": "Verkko, jossa tasavertaiset koneet välittävät dataa suoraan toisilleen.", "level": 1, "unit": "networks-1-05" },
+
+    { "id": "http", "term": "HTTP", "en": "Hypertext Transfer Protocol", "definition": "Protokolla, jolla selaimet ja palvelimet vaihtavat verkkosivuja ja muuta dataa.", "level": 1, "unit": "networks-1-06" },
+    { "id": "http-method", "term": "HTTP-metodi", "en": "HTTP method", "definition": "Pyynnön verbi, joka kertoo halutun toiminnon.", "example": "GET, POST, DELETE", "level": 1, "unit": "networks-1-06" },
+    { "id": "status-code", "term": "tilakoodi", "en": "status code", "definition": "Kolminumeroinen luku vastauksessa, joka kertoo pyynnön tuloksen.", "example": "200, 404, 500", "level": 1, "unit": "networks-1-06" },
+    { "id": "header", "term": "otsake", "en": "header", "definition": "HTTP-viestin lisätieto muodossa nimi: arvo.", "example": "Content-Type: application/json", "level": 1, "unit": "networks-1-06" },
+    { "id": "cookie", "term": "eväste", "en": "cookie", "definition": "Selaimen tallentama pieni tieto, joka lähetetään palvelimelle pyyntöjen mukana.", "example": "kirjautumisen tunniste", "level": 1, "unit": "networks-1-06" },
+
+    { "id": "https", "term": "HTTPS", "definition": "HTTP TLS-salauksen sisällä.", "level": 1, "unit": "networks-1-07" },
+    { "id": "tls", "term": "TLS", "en": "Transport Layer Security", "definition": "Salausprotokolla, joka suojaa liikenteen luottamuksellisuuden, eheyden ja aitouden.", "level": 1, "unit": "networks-1-07" },
+    { "id": "certificate", "term": "varmenne", "en": "certificate", "definition": "Varmentajan allekirjoittama todistus palvelimen henkilöllisyydestä.", "level": 1, "unit": "networks-1-07" },
+    { "id": "certificate-authority", "term": "varmentaja", "en": "CA, certificate authority", "definition": "Taho, joka myöntää varmenteita ja johon selaimet luottavat.", "example": "Let's Encrypt", "level": 1, "unit": "networks-1-07" }
+  ]
+}

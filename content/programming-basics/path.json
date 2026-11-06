@@ -1,0 +1,22 @@
+{
+  "id": "programming-basics",
+  "title": "Ohjelmoinnin perusteet",
+  "description": "Kieliriippumattomat perusteet Python-esimerkein: muuttujat, ehdot, silmukat, funktiot, tietorakenteet ja algoritmit.",
+  "levels": [
+    {
+      "level": 1,
+      "title": "Perusteet",
+      "units": [
+        "programming-basics-1-01",
+        "programming-basics-1-02",
+        "programming-basics-1-03",
+        "programming-basics-1-04",
+        "programming-basics-1-05",
+        "programming-basics-1-06",
+        "programming-basics-1-07",
+        "programming-basics-1-08"
+      ]
+    }
+  ],
+  "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
+}

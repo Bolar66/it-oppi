@@ -1,0 +1,97 @@
+{
+  "id": "linux-1-03",
+  "title": "Hakemistot",
+  "level": 1,
+  "theory": "Linuxissa kaikki tiedostot ovat yhdessä puussa, jonka juuri on `/`. Kansiota kutsutaan usein **hakemistoksi (directory)**.\n\n## Missä olen?\n\n- `pwd` (print working directory) tulostaa **työhakemiston** eli kansion, jossa olet.\n- `ls` listaa hakemiston sisällön. `ls -a` näyttää myös piilotetut (pisteellä alkavat) ja `ls -l` lisätietoja.\n\n## Liikkuminen\n\n`cd` (change directory) vaihtaa hakemistoa:\n\n- `cd kuvat` – alihakemistoon kuvat\n- `cd ..` – yläkansioon\n- `cd ~` tai pelkkä `cd` – kotihakemistoon\n- `cd /` – juureen\n- `cd -` – edelliseen hakemistoon\n\n`~` tarkoittaa **kotihakemistoa (home directory)**, esimerkiksi `/home/ville`. `.` on nykyinen ja `..` yläkansio.\n\n## Hakemistojen luonti ja poisto\n\n- `mkdir projekti` luo hakemiston.\n- `mkdir -p a/b/c` luo koko polun kerralla.\n- `rmdir projekti` poistaa tyhjän hakemiston.\n\n## Tärkeitä hakemistoja\n\n- `/home` – käyttäjien kotihakemistot\n- `/etc` – järjestelmän asetustiedostot\n- `/tmp` – väliaikaiset tiedostot\n- `/usr` – asennetut ohjelmat ja kirjastot\n- `/var` – muuttuva data, kuten lokit (`/var/log`)\n- `/bin` – peruskomennot, kuten `ls`\n\nWindowsista poiketen Linuxissa ei ole asemakirjaimia: myös muut levyt liitetään puuhun jonnekin juuren alle.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä komento tulostaa nykyisen hakemiston?",
+      "options": ["pwd", "ls", "cd", "mkdir"],
+      "answer": 0,
+      "explanation": "pwd = print working directory."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "bash",
+      "code": "cd /usr/bin\ncd ../..\npwd",
+      "answer": "/",
+      "verified": true,
+      "explanation": "Ensimmäinen .. vie kansioon /usr ja toinen juureen /."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "bash",
+      "code": "mkdir -p a/b/c\ncd a/b\nls",
+      "answer": "c",
+      "verified": true,
+      "explanation": "mkdir -p loi koko polun a/b/c. Hakemistossa a/b on vain hakemisto c."
+    },
+    {
+      "id": "e4",
+      "type": "match_pairs",
+      "prompt": "Yhdistä hakemisto ja sisältö.",
+      "pairs": [
+        ["/home", "käyttäjien kotihakemistot"],
+        ["/etc", "asetustiedostot"],
+        ["/tmp", "väliaikaiset tiedostot"],
+        ["/var/log", "lokitiedostot"]
+      ],
+      "explanation": "Hakemistojen nimet ovat vakiintuneita, joten ne löytyvät samoista paikoista lähes kaikista Linux-jakeluista."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento, joka siirtyy yläkansioon.",
+      "language": "bash",
+      "code": "cd ___",
+      "answers": [".."],
+      "explanation": "Kaksi pistettä tarkoittaa yläkansiota."
+    },
+    {
+      "id": "e6",
+      "type": "order_lines",
+      "prompt": "Järjestä komennot: luo hakemisto projekti, siirry sinne ja luo sen sisään hakemisto src.",
+      "language": "bash",
+      "lines": ["mkdir projekti", "cd projekti", "mkdir src"],
+      "explanation": "Hakemistoon voi siirtyä vasta, kun se on luotu, ja src syntyy siihen hakemistoon, jossa olet."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Skriptin pitäisi siirtyä luotuun hakemistoon. Millä rivillä on virhe?",
+      "language": "bash",
+      "code": "mkdir raportit\ncd raportti\npwd",
+      "bugLine": 2,
+      "explanation": "Hakemiston nimi on raportit, mutta cd-komennossa lukee raportti. cd epäonnistuu, eikä työhakemisto vaihdu."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä merkki ~ tarkoittaa polussa?",
+      "options": ["Kotihakemistoa", "Juurihakemistoa", "Yläkansiota", "Väliaikaista hakemistoa"],
+      "answer": 0,
+      "explanation": "Esimerkiksi ~/projekti tarkoittaa käyttäjälle ville polkua /home/ville/projekti."
+    },
+    {
+      "id": "e9",
+      "type": "code_output",
+      "language": "bash",
+      "code": "mkdir kuvat\ncd kuvat\ncd ..\nls",
+      "answer": "kuvat",
+      "verified": true,
+      "explanation": "Siirryttiin kuvat-hakemistoon ja takaisin. Lähtöhakemistossa on hakemisto kuvat."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mikä valitsin saa ls-komennon näyttämään myös piilotetut tiedostot?",
+      "options": ["-a", "-l", "-h", "-p"],
+      "answer": 0,
+      "explanation": "ls -a (all) näyttää myös pisteellä alkavat tiedostot, kuten .bashrc."
+    }
+  ]
+}

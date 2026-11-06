@@ -1,0 +1,104 @@
+{
+  "id": "programming-basics-1-02",
+  "title": "Muuttujat ja tietotyypit",
+  "level": 1,
+  "theory": "Ohjelmat tarvitsevat paikan, johon arvoja tallennetaan. Sitä varten on **muuttujat (variable)**.\n\n## Muuttuja ja sijoitus\n\nMuuttuja on nimi, joka viittaa arvoon. Arvo annetaan **sijoituksella (assignment)**:\n\n```python\npisteet = 10\npisteet = pisteet + 5\n```\n\nSijoituksessa lasketaan ensin oikea puoli ja tulos tallennetaan vasemmalla olevaan muuttujaan. `=` ei siis tarkoita matematiikan yhtäsuuruutta vaan \"aseta arvoksi\".\n\nKun kirjoitat `b = a`, b saa a:n **senhetkisen** arvon. Jos a muuttuu myöhemmin, b ei muutu.\n\n## Tietotyypit\n\nJokaisella arvolla on **tietotyyppi (data type)**, joka määrää, mitä arvolla voi tehdä:\n\n- **kokonaisluku (integer)**: `42`, `-7`\n- **liukuluku (float)**: `3.14`\n- **merkkijono (string)**: `\"kissa\"`\n- **totuusarvo (boolean)**: `True` tai `False`\n\nTyyppi vaikuttaa laskutoimituksiin: `5 + 5` on `10`, mutta `\"5\" + \"5\"` on `\"55\"`, koska merkkijonot liitetään yhteen.\n\n## Tyyppimuunnokset\n\nArvon voi muuntaa toiseen tyyppiin:\n\n- `int(\"7\")` → kokonaisluku 7\n- `str(7)` → merkkijono \"7\"\n- `float(\"2.5\")` → liukuluku 2.5\n\nTämä on tarpeen, kun käyttäjän syöttämä teksti halutaan laskea lukuna.\n\n## Hyvät nimet\n\nAnna muuttujille kuvaavat nimet, kuten `hinta` tai `opiskelijoiden_maara`, ei `x` tai `a1`. Koodia luetaan paljon useammin kuin kirjoitetaan.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "pisteet = 10\npisteet = pisteet + 5\nprint(pisteet)",
+      "answer": "15",
+      "verified": true,
+      "explanation": "Oikea puoli lasketaan ensin (10 + 5) ja tulos sijoitetaan muuttujaan."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "a = \"5\"\nb = \"5\"\nprint(a + b)",
+      "answer": "55",
+      "verified": true,
+      "explanation": "a ja b ovat merkkijonoja, joten + liittää ne yhteen eikä laske summaa."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "x = 10\ny = x\nx = 20\nprint(y)",
+      "answer": "10",
+      "verified": true,
+      "explanation": "y sai x:n arvon sillä hetkellä (10). x:n myöhempi muutos ei vaikuta y:hyn."
+    },
+    {
+      "id": "e4",
+      "type": "match_pairs",
+      "prompt": "Yhdistä arvo ja tietotyyppi.",
+      "pairs": [
+        ["42", "kokonaisluku"],
+        ["3.14", "liukuluku"],
+        ["\"kissa\"", "merkkijono"],
+        ["False", "totuusarvo"]
+      ],
+      "explanation": "Lainausmerkit tekevät arvosta merkkijonon: \"42\" olisi merkkijono, 42 kokonaisluku."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(int(\"7\") + 1)",
+      "answer": "8",
+      "verified": true,
+      "explanation": "int muuntaa merkkijonon \"7\" luvuksi 7, joten summa on 8."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että tulos on luku 12 eikä merkkijono \"57\".",
+      "language": "python",
+      "code": "a = \"5\"\nprint(___(a) + 7)",
+      "answers": ["int"],
+      "explanation": "int(a) muuntaa merkkijonon kokonaisluvuksi, jonka jälkeen + laskee summan."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen. Millä rivillä virhe on?",
+      "language": "python",
+      "code": "ika = 30\nviesti = \"Ikä: \" + ika\nprint(viesti)",
+      "bugLine": 2,
+      "explanation": "Merkkijonoon ei voi lisätä lukua suoraan (TypeError). Korjaus: \"Ikä: \" + str(ika)."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä = tarkoittaa ohjelmassa pisteet = pisteet + 1?",
+      "options": [
+        "Aseta muuttujan arvoksi oikean puolen tulos",
+        "Tarkista, ovatko puolet yhtä suuret",
+        "Kyseessä on virhe, koska yhtälö ei voi olla tosi",
+        "Poista muuttuja"
+      ],
+      "answer": 0,
+      "explanation": "Sijoitus kasvattaa pisteitä yhdellä. Yhtäsuuruuden vertailu kirjoitetaan ==."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on paras muuttujan nimi ostoskorin kokonaishinnalle?",
+      "options": ["kokonaishinta", "x", "a1", "data"],
+      "answer": 0,
+      "explanation": "Kuvaava nimi kertoo lukijalle heti, mitä muuttuja sisältää."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(type(True))",
+      "answer": "<class 'bool'>",
+      "verified": true,
+      "explanation": "True on totuusarvo, jonka tyyppi Pythonissa on bool."
+    }
+  ]
+}

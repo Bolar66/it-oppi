@@ -1,0 +1,13 @@
+{
+  "id": "linux",
+  "title": "Linux ja komentorivi",
+  "description": "Komentorivin käyttö: WSL, hakemistot, tiedostot, oikeudet, prosessit ja putket.",
+  "levels": [
+    {
+      "level": 1,
+      "title": "Perusteet",
+      "units": ["linux-1-01", "linux-1-02", "linux-1-03", "linux-1-04", "linux-1-05", "linux-1-06", "linux-1-07"]
+    }
+  ],
+  "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
+}

@@ -1,0 +1,102 @@
+{
+  "id": "linux-1-06",
+  "title": "Prosessit",
+  "level": 1,
+  "theory": "**Prosessi (process)** on käynnissä oleva ohjelma. Jokaisella prosessilla on yksilöllinen numero, **PID (process ID)**.\n\n## Prosessien katselu\n\n- `ps` – oman päätteen prosessit\n- `ps aux` – kaikki järjestelmän prosessit\n- `top` (tai `htop`, jos asennettu) – reaaliaikainen näkymä, joka näyttää myös prosessorin ja muistin käytön. Poistu q:lla.\n\n## Prosessin pysäyttäminen\n\n- **Ctrl+C** pysäyttää etualalla käynnissä olevan ohjelman.\n- `kill 1234` pyytää prosessia 1234 lopettamaan (signaali SIGTERM). Ohjelma voi siivota jälkensä ennen lopetusta.\n- `kill -9 1234` pakottaa lopettamaan heti (SIGKILL). Käytä vasta, jos tavallinen kill ei auta.\n\n## Tausta ja etuala\n\nTavallisesti komento ajetaan **etualalla (foreground)**: shell odottaa, että se päättyy. Kun komennon perään lisää `&`, se ajetaan **taustalla (background)**, ja voit jatkaa töitä.\n\n- **Ctrl+Z** keskeyttää etualan ohjelman tauolle.\n- `jobs` listaa taustatyöt.\n- `fg` tuo työn etualalle, `bg` jatkaa sitä taustalla.\n\n## Paluuarvo\n\nKun ohjelma päättyy, se palauttaa **paluuarvon (exit status)**: **0 tarkoittaa onnistumista** ja muu luku virhettä. Edellisen komennon paluuarvo on muuttujassa `$?`.\n\n```bash\nls olematon_kansio\necho $?\n```\n\nTämä tulostaa virheilmoituksen ja sitten luvun 2, koska `ls` epäonnistui. Komennot `true` ja `false` eivät tee mitään muuta kuin palauttavat arvon 0 tai 1.\n\nOperaattori `&&` ajaa seuraavan komennon vain, jos edellinen onnistui: `mkdir uusi && cd uusi`. Operaattori `||` taas ajaa seuraavan vain, jos edellinen epäonnistui.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä on PID?",
+      "options": ["Prosessin yksilöllinen numero", "Prosessorin malli", "Tiedoston oikeudet", "Käyttäjän salasana"],
+      "answer": 0,
+      "explanation": "PID (process ID) yksilöi prosessin. kill-komento tarvitsee sen."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "bash",
+      "code": "true\necho $?\nfalse\necho $?",
+      "answer": "0\n1",
+      "verified": true,
+      "explanation": "true palauttaa aina 0 (onnistui) ja false 1 (epäonnistui). $? sisältää edellisen komennon paluuarvon."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "bash",
+      "code": "mkdir uusi && echo luotu\nmkdir uusi && echo luotu uudelleen\nmkdir uusi || echo jo olemassa",
+      "answer": "luotu\njo olemassa",
+      "verified": true,
+      "explanation": "Ensimmäinen mkdir onnistuu, joten && ajaa echon. Toinen ja kolmas mkdir epäonnistuvat, koska hakemisto on jo olemassa (virheilmoitukset menevät virhetulosteeseen): && jättää echon ajamatta, || taas ajaa sen."
+    },
+    {
+      "id": "e4",
+      "type": "match_pairs",
+      "prompt": "Yhdistä komento tai näppäin ja toiminto.",
+      "pairs": [
+        ["Ctrl+C", "pysäyttää etualan ohjelman"],
+        ["Ctrl+Z", "keskeyttää etualan ohjelman tauolle"],
+        ["kill -9", "pakottaa prosessin lopettamaan heti"],
+        ["ps aux", "listaa kaikki prosessit"],
+        ["&", "ajaa komennon taustalla"]
+      ],
+      "explanation": "Näillä hallitset, mitä koneella on käynnissä."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento niin, että se ajetaan taustalla.",
+      "language": "bash",
+      "code": "sleep 60 ___",
+      "answers": ["&"],
+      "explanation": "& komennon lopussa käynnistää sen taustalle, ja kehote palaa heti käyttöön."
+    },
+    {
+      "id": "e6",
+      "type": "multiple_choice",
+      "prompt": "Mitä paluuarvo 0 tarkoittaa?",
+      "options": ["Komento onnistui", "Komento epäonnistui", "Komento ei tulostanut mitään", "Komento on yhä käynnissä"],
+      "answer": 0,
+      "explanation": "Unix-perinteessä 0 tarkoittaa onnistumista, ja nollasta poikkeavat arvot kertovat virheen laadusta."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Ohjelma on jumissa. Järjestä toimet suositeltuun järjestykseen.",
+      "language": "text",
+      "lines": [
+        "Etsi prosessin PID komennolla ps aux",
+        "Pyydä lopettamaan: kill PID",
+        "Jos ei auta, pakota: kill -9 PID"
+      ],
+      "explanation": "Tavallinen kill antaa ohjelmalle mahdollisuuden siivota. kill -9 on viimeinen keino."
+    },
+    {
+      "id": "e8",
+      "type": "find_bug",
+      "prompt": "Skriptin pitäisi tulostaa \"ok\" vain, jos hakemiston luonti onnistui. Millä rivillä on virhe?",
+      "language": "bash",
+      "code": "mkdir tulokset\nfalse\necho $?",
+      "bugLine": 2,
+      "explanation": "Rivi false muuttaa muuttujan $? arvoksi 1 riippumatta siitä, onnistuiko mkdir. Paluuarvo pitää tarkistaa heti, tai käyttää muotoa mkdir tulokset && echo ok."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mikä komento näyttää prosessit reaaliajassa ja niiden prosessori- ja muistikäytön?",
+      "options": ["top", "ls", "pwd", "cat"],
+      "answer": 0,
+      "explanation": "top päivittyy jatkuvasti. Siitä poistutaan q-näppäimellä."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "bash",
+      "code": "ls olematon_kansio 2> /dev/null\necho $?",
+      "answer": "2",
+      "verified": true,
+      "explanation": "ls epäonnistuu, koska kansiota ei ole, ja palauttaa arvon 2. Virheilmoitus ohjattiin pois näkyvistä (2> /dev/null)."
+    }
+  ]
+}

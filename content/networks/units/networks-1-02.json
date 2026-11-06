@@ -1,0 +1,109 @@
+{
+  "id": "networks-1-02",
+  "title": "IP-osoitteet",
+  "level": 1,
+  "theory": "Jokaisella verkon laitteella on **IP-osoite (IP address)**, jonka avulla paketit löytävät perille – vähän kuin postiosoite.\n\n## IPv4\n\n**IPv4**-osoite on 32 bittiä pitkä. Se kirjoitetaan neljänä pisteillä erotettuna lukuna, joista jokainen on 0–255, esimerkiksi `192.168.1.10`. Erilaisia IPv4-osoitteita on 2³² eli noin 4,3 miljardia, mikä ei riitä kaikille maailman laitteille.\n\n## Yksityiset ja julkiset osoitteet\n\n**Yksityisiä osoitteita (private address)** käytetään lähiverkoissa, eikä niitä reititetä internetissä. Yksityiset alueet ovat:\n\n- `10.0.0.0`–`10.255.255.255`\n- `172.16.0.0`–`172.31.255.255`\n- `192.168.0.0`–`192.168.255.255`\n\n**Julkinen osoite (public address)** näkyy internetiin. Kotiverkossa reititin saa palveluntarjoajalta julkisen osoitteen ja jakaa sen kotiverkon laitteille **NAT**-tekniikalla (network address translation). Siksi monella kodilla voi olla samat yksityiset osoitteet.\n\n## Osoitteen saaminen\n\nLaitteet saavat osoitteen yleensä automaattisesti **DHCP**-palvelulta, joka toimii kotona reitittimessä. Laite kysyy osoitetta, DHCP-palvelin tarjoaa sellaista, laite pyytää sitä ja palvelin vahvistaa.\n\n## Oma kone\n\nOsoite `127.0.0.1` eli **localhost** tarkoittaa aina laitetta itseään. Sitä käytetään esimerkiksi, kun ohjelmoija ajaa kehityspalvelinta omalla koneellaan.\n\n## IPv6\n\n**IPv6**-osoite on 128 bittiä pitkä, joten osoitteita riittää valtavasti. Se kirjoitetaan heksadesimaaliryhminä kaksoispisteillä erotettuna, esimerkiksi `2001:db8::1`. IPv6:n localhost on `::1`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on kelvollinen IPv4-osoite?",
+      "options": ["192.168.1.300", "10.0.0.256", "172.16.5.4", "1.2.3"],
+      "answer": 2,
+      "explanation": "IPv4-osoitteessa on neljä lukua, joista jokainen on 0–255. 300 ja 256 ovat liian suuria, ja 1.2.3 on vain kolme lukua."
+    },
+    {
+      "id": "e2",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista on yksityinen osoite?",
+      "options": ["192.168.0.20", "8.8.8.8", "1.1.1.1", "93.184.216.34"],
+      "answer": 0,
+      "explanation": "192.168.x.x kuuluu yksityiseen osoitealueeseen. Muut ovat julkisia internet-osoitteita."
+    },
+    {
+      "id": "e3",
+      "type": "match_pairs",
+      "prompt": "Yhdistä osoite ja kuvaus.",
+      "pairs": [
+        ["127.0.0.1", "oma kone (IPv4)"],
+        ["::1", "oma kone (IPv6)"],
+        ["10.0.0.5", "yksityinen osoite"],
+        ["8.8.8.8", "julkinen osoite"]
+      ],
+      "explanation": "localhost on aina laite itse. Yksityiset osoitteet toimivat vain lähiverkossa."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Täydennä osoitteiden pituudet.",
+      "language": "text",
+      "code": "IPv4-osoite = ___ bittiä\nIPv6-osoite = ___ bittiä",
+      "answers": ["32", "128"],
+      "explanation": "IPv4 on 32-bittinen (noin 4,3 miljardia osoitetta) ja IPv6 128-bittinen."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Miksi monen kodin lähiverkossa voi olla sama osoite 192.168.1.10?",
+      "options": [
+        "Yksityisiä osoitteita ei reititetä internetissä, vaan reititin jakaa julkisen osoitteen NAT:lla",
+        "Internetissä kaikilla on sama osoite",
+        "Osoite vaihtuu joka sekunti",
+        "IP-osoitteita ei tarvita kotona"
+      ],
+      "answer": 0,
+      "explanation": "Yksityinen osoite on käytössä vain lähiverkon sisällä. Internetiin näkyy reitittimen julkinen osoite."
+    },
+    {
+      "id": "e6",
+      "type": "order_lines",
+      "prompt": "Järjestä DHCP:n vaiheet, kun laite liittyy verkkoon.",
+      "language": "text",
+      "lines": [
+        "Laite kysyy, onko verkossa DHCP-palvelinta",
+        "Palvelin tarjoaa vapaata osoitetta",
+        "Laite pyytää tarjottua osoitetta",
+        "Palvelin vahvistaa osoitteen laitteelle"
+      ],
+      "explanation": "Vaiheiden englanninkieliset nimet ovat Discover, Offer, Request ja Acknowledge (DORA)."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "IPv4-osoitteessa on neljä lukua 0–255.\nIPv6-osoite on 64 bittiä pitkä.\n127.0.0.1 tarkoittaa laitetta itseään.\nDHCP jakaa laitteille IP-osoitteita.",
+      "bugLine": 2,
+      "explanation": "IPv6-osoite on 128 bittiä pitkä."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä palvelu antaa laitteelle IP-osoitteen automaattisesti?",
+      "options": ["DHCP", "DNS", "HTTP", "NAT"],
+      "answer": 0,
+      "explanation": "DHCP jakaa osoitteet. DNS muuntaa nimiä osoitteiksi, ja NAT jakaa yhden julkisen osoitteen usealle laitteelle."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Miksi IPv6 otettiin käyttöön?",
+      "options": [
+        "IPv4-osoitteet (noin 4,3 miljardia) eivät riitä kaikille laitteille",
+        "IPv4 ei toimi Wi-Fissä",
+        "IPv6-osoitteet ovat lyhyempiä muistaa",
+        "IPv4 ei tue sähköpostia"
+      ],
+      "answer": 0,
+      "explanation": "IPv6:ssa on 2¹²⁸ osoitetta, joten osoitteet eivät lopu kesken."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Ohjelmoija avaa selaimessa osoitteen http://127.0.0.1:5173. Missä sivua tarjoava palvelin toimii?",
+      "options": ["Ohjelmoijan omalla koneella", "Googlen palvelimella", "Reitittimessä", "Palveluntarjoajan verkossa"],
+      "answer": 0,
+      "explanation": "127.0.0.1 eli localhost tarkoittaa aina omaa konetta."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "terms": [
+    { "id": "command-line", "term": "komentorivi", "en": "command line", "definition": "Käyttöliittymä, jossa tietokonetta ohjataan kirjoittamalla komentoja.", "level": 1, "unit": "linux-1-01" },
+    { "id": "terminal", "term": "terminaali", "en": "terminal", "definition": "Ikkuna, jossa komentoriviä käytetään.", "level": 1, "unit": "linux-1-01" },
+    { "id": "shell", "term": "shell", "definition": "Ohjelma, joka tulkitsee komennot ja ajaa ne.", "example": "bash, zsh", "level": 1, "unit": "linux-1-01" },
+    { "id": "prompt", "term": "kehote", "en": "prompt", "definition": "Shellin näyttämä merkkijono, joka kertoo, että se odottaa komentoa.", "example": "ville@kone:~$", "level": 1, "unit": "linux-1-01" },
+    { "id": "option", "term": "valitsin", "en": "option", "definition": "Komennon perään kirjoitettava lisäys, joka muuttaa sen toimintaa.", "example": "ls -l", "level": 1, "unit": "linux-1-01" },
+
+    { "id": "wsl", "term": "WSL", "en": "Windows Subsystem for Linux", "definition": "Windowsin ominaisuus, jolla Linuxia voi käyttää Windowsin sisällä.", "level": 1, "unit": "linux-1-02" },
+    { "id": "wsl-install", "term": "wsl --install", "definition": "PowerShell-komento, joka asentaa WSL:n ja oletuksena Ubuntu-jakelun.", "level": 1, "unit": "linux-1-02" },
+    { "id": "mnt-c", "term": "/mnt/c", "definition": "Hakemisto, jossa Windowsin C-asema näkyy WSL:n Linuxissa.", "level": 1, "unit": "linux-1-02" },
+
+    { "id": "directory", "term": "hakemisto", "en": "directory", "definition": "Kansio, joka sisältää tiedostoja ja muita hakemistoja.", "level": 1, "unit": "linux-1-03" },
+    { "id": "working-directory", "term": "työhakemisto", "en": "working directory", "definition": "Hakemisto, jossa olet; suhteelliset polut lasketaan siitä.", "example": "pwd näyttää sen", "level": 1, "unit": "linux-1-03" },
+    { "id": "home-directory", "term": "kotihakemisto", "en": "home directory", "definition": "Käyttäjän oma hakemisto, merkitään ~.", "example": "/home/ville", "level": 1, "unit": "linux-1-03" },
+    { "id": "etc", "term": "/etc", "definition": "Hakemisto, jossa ovat järjestelmän asetustiedostot.", "level": 1, "unit": "linux-1-03" },
+
+    { "id": "nano", "term": "nano", "definition": "Helppokäyttöinen tekstieditori terminaalissa; Ctrl+O tallentaa ja Ctrl+X poistuu.", "level": 1, "unit": "linux-1-04" },
+    { "id": "wildcard", "term": "jokerimerkki", "en": "wildcard", "definition": "Merkki, joka vastaa mitä tahansa merkkejä tiedostonimessä.", "example": "*.txt", "level": 1, "unit": "linux-1-04" },
+    { "id": "recursive", "term": "rekursiivinen", "en": "recursive", "definition": "Toiminto, joka käsittelee hakemiston ja kaikki sen alihakemistot.", "example": "rm -r, cp -r", "level": 1, "unit": "linux-1-04" },
+
+    { "id": "permissions", "term": "oikeudet", "en": "permissions", "definition": "Määrittelevät, kuka saa lukea (r), kirjoittaa (w) ja suorittaa (x) tiedoston.", "example": "-rwxr-xr--", "level": 1, "unit": "linux-1-05" },
+    { "id": "chmod", "term": "chmod", "definition": "Komento, joka muuttaa tiedoston oikeuksia.", "example": "chmod 755 skripti.sh", "level": 1, "unit": "linux-1-05" },
+    { "id": "root", "term": "root", "en": "pääkäyttäjä", "definition": "Linuxin käyttäjä, jolla on kaikki oikeudet.", "level": 1, "unit": "linux-1-05" },
+    { "id": "sudo", "term": "sudo", "definition": "Komento, jolla yksittäinen komento ajetaan pääkäyttäjän oikeuksin.", "example": "sudo apt update", "level": 1, "unit": "linux-1-05" },
+
+    { "id": "pid", "term": "PID", "en": "process ID", "definition": "Prosessin yksilöllinen numero.", "level": 1, "unit": "linux-1-06" },
+    { "id": "exit-status", "term": "paluuarvo", "en": "exit status", "definition": "Luku, jonka ohjelma palauttaa päättyessään; 0 tarkoittaa onnistumista.", "example": "echo $?", "level": 1, "unit": "linux-1-06" },
+    { "id": "background", "term": "taustaprosessi", "en": "background process", "definition": "Komento, joka on käynnissä taustalla, kun shell on jo vapaa uusille komennoille.", "example": "sleep 60 &", "level": 1, "unit": "linux-1-06" },
+    { "id": "signal", "term": "signaali", "en": "signal", "definition": "Prosessille lähetettävä viesti, esim. pyyntö lopettaa.", "example": "SIGTERM, SIGKILL", "level": 1, "unit": "linux-1-06" },
+
+    { "id": "stdout", "term": "stdout", "en": "standard output", "definition": "Ohjelman tavallinen tulostevirta, oletuksena näyttö.", "level": 1, "unit": "linux-1-07" },
+    { "id": "stderr", "term": "stderr", "en": "standard error", "definition": "Ohjelman virheilmoitusten virta, ohjataan merkinnällä 2>.", "level": 1, "unit": "linux-1-07" },
+    { "id": "pipe", "term": "putki", "en": "pipe", "definition": "Merkki |, joka ohjaa komennon tulosteen seuraavan komennon syötteeksi.", "example": "grep virhe loki.txt | wc -l", "level": 1, "unit": "linux-1-07" },
+    { "id": "redirection", "term": "uudelleenohjaus", "en": "redirection", "definition": "Tulosteen ohjaaminen tiedostoon tai syötteen lukeminen tiedostosta.", "example": "> ja >>", "level": 1, "unit": "linux-1-07" },
+    { "id": "grep", "term": "grep", "definition": "Komento, joka näyttää vain rivit, joilla haettu teksti esiintyy.", "level": 1, "unit": "linux-1-07" }
+  ]
+}

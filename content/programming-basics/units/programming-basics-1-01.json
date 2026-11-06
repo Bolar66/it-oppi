@@ -1,0 +1,101 @@
+{
+  "id": "programming-basics-1-01",
+  "title": "Mitä ohjelmointi on?",
+  "level": 1,
+  "theory": "**Ohjelmointi** on tarkkojen ohjeiden kirjoittamista tietokoneelle.\n\n## Algoritmi\n\n**Algoritmi (algorithm)** on yksiselitteinen, vaihe vaiheelta etenevä ohje jonkin tehtävän ratkaisemiseksi – vähän kuin resepti. Tietokone ei arvaa, mitä tarkoitit, vaan tekee täsmälleen sen, mitä käsketään, ja ohjeet suoritetaan järjestyksessä ylhäältä alas.\n\n## Ohjelma ja ohjelmointikieli\n\n**Ohjelma** on algoritmi kirjoitettuna **ohjelmointikielellä**, kuten Pythonilla, JavaScriptillä tai C++:lla. Jokaisella kielellä on oma **syntaksinsa (syntax)** eli kielioppi. Tällä polulla esimerkit ovat Pythonia, koska se on helppolukuinen, mutta samat ideat toimivat kaikissa kielissä.\n\n```python\nprint(\"Hei maailma\")\n```\n\n## Kääntäjä ja tulkki\n\nProsessori ymmärtää vain konekieltä, joten ohjelma pitää muuntaa:\n\n- **Kääntäjä (compiler)** muuntaa koko ohjelman konekieleksi ennen ajoa. Esimerkiksi C++ käännetään.\n- **Tulkki (interpreter)** lukee ja suorittaa ohjelmaa ajon aikana. Esimerkiksi Python ajetaan tulkilla.\n\n## Virheet\n\nOhjelmoija tekee aina virheitä, ja niiden korjaaminen eli **debuggaus** on tärkeä taito:\n\n- **Syntaksivirhe (syntax error)** – ohjelma on kirjoitettu kieliopin vastaisesti, eikä sitä voi ajaa. Esimerkki: puuttuva sulku.\n- **Ajonaikainen virhe (runtime error)** – ohjelma kaatuu kesken ajon, esimerkiksi jaettaessa nollalla.\n- **Looginen virhe (logic error)** – ohjelma toimii, mutta tekee väärän asian, esimerkiksi laskee keskiarvon väärin. Nämä ovat vaikeimpia löytää.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä on algoritmi?",
+      "options": ["Yksiselitteinen, vaihe vaiheelta etenevä ohje tehtävän ratkaisemiseksi", "Ohjelmointikieli", "Tietokoneen osa", "Virheilmoitus"],
+      "answer": 0,
+      "explanation": "Algoritmi on ohje. Ohjelma on algoritmi kirjoitettuna ohjelmointikielellä."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(\"Hei\")\nprint(\"maailma\")",
+      "answer": "Hei\nmaailma",
+      "verified": true,
+      "explanation": "Rivit suoritetaan järjestyksessä ylhäältä alas, ja jokainen print tulostaa omalle rivilleen."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(2 + 3 * 4)",
+      "answer": "14",
+      "verified": true,
+      "explanation": "Kuten matematiikassa, kertolasku lasketaan ennen yhteenlaskua: 2 + 12 = 14."
+    },
+    {
+      "id": "e4",
+      "type": "match_pairs",
+      "prompt": "Yhdistä virhetyyppi ja esimerkki.",
+      "pairs": [
+        ["Syntaksivirhe", "sulku puuttuu, ohjelmaa ei voi ajaa"],
+        ["Ajonaikainen virhe", "ohjelma kaatuu jakaessaan nollalla"],
+        ["Looginen virhe", "ohjelma toimii, mutta keskiarvo on väärin"]
+      ],
+      "explanation": "Looginen virhe on salakavalin, koska ohjelma ei ilmoita siitä itse."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Mikä on kääntäjän (compiler) ja tulkin (interpreter) ero?",
+      "options": [
+        "Kääntäjä muuntaa koko ohjelman konekieleksi ennen ajoa, tulkki suorittaa ohjelmaa ajon aikana",
+        "Kääntäjä kääntää ohjelman toiselle ihmiskielelle",
+        "Tulkki on nopeampi kirjoittaa kuin kääntäjä",
+        "Niillä ei ole eroa"
+      ],
+      "answer": 0,
+      "explanation": "C++ käännetään etukäteen, Python ajetaan tulkilla."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelma ei käynnisty. Millä rivillä on syntaksivirhe?",
+      "language": "python",
+      "code": "print(\"Ensimmäinen rivi\")\nprint(\"Toinen rivi\"\nprint(\"Kolmas rivi\")",
+      "bugLine": 2,
+      "explanation": "Rivin 2 lopusta puuttuu sulkeva sulku. Python saattaa ilmoittaa virheen vasta seuraavalla rivillä, joten tarkista aina myös edellinen rivi."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Ohjelman pitää tulostaa ensin otsikko, sitten laskun tulos ja lopuksi Valmis. Järjestä rivit.",
+      "language": "python",
+      "lines": ["print(\"Laskin\")", "print(6 * 7)", "print(\"Valmis\")"],
+      "explanation": "Tietokone suorittaa rivit täsmälleen siinä järjestyksessä, jossa ne on kirjoitettu."
+    },
+    {
+      "id": "e8",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento, joka tulostaa tekstin näytölle.",
+      "language": "python",
+      "code": "___(\"Hei maailma\")",
+      "answers": ["print"],
+      "explanation": "Pythonissa tulostetaan funktiolla print."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mikä on syntaksi (syntax)?",
+      "options": ["Ohjelmointikielen kielioppi", "Ohjelman nopeus", "Tietokoneen muisti", "Virheen nimi"],
+      "answer": 0,
+      "explanation": "Syntaksi määrää, miten ohjelma kirjoitetaan, jotta kääntäjä tai tulkki ymmärtää sen."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(\"2 + 3\")\nprint(2 + 3)",
+      "answer": "2 + 3\n5",
+      "verified": true,
+      "explanation": "Lainausmerkeissä oleva on tekstiä, joka tulostetaan sellaisenaan. Ilman lainausmerkkejä Python laskee lausekkeen."
+    }
+  ]
+}

@@ -1,3 +1,9 @@
 {
-  "paths": ["computer-basics", "python"]
+  "paths": [
+    "computer-basics",
+    "networks",
+    "linux",
+    "programming-basics",
+    "python"
+  ]
 }

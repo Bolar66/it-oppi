@@ -1,0 +1,112 @@
+{
+  "id": "networks-1-01",
+  "title": "Mikä verkko on?",
+  "level": 1,
+  "theory": "**Tietoverkko (network)** on joukko laitteita, jotka voivat vaihtaa tietoa keskenään.\n\n## Verkkojen koot\n\n- **Lähiverkko (LAN, local area network)** – esimerkiksi kodin tai toimiston verkko.\n- **Laajaverkko (WAN, wide area network)** – yhdistää kaukana toisistaan olevia verkkoja.\n- **Internet** – maailmanlaajuinen verkkojen verkko.\n\n## Verkkolaitteet\n\n- **Kytkin (switch)** yhdistää laitteet samaan lähiverkkoon.\n- **Reititin (router)** välittää liikennettä verkkojen välillä. Kotona se yhdistää kotiverkon internetiin.\n- **Langaton tukiasema (access point)** tarjoaa Wi-Fi-yhteyden.\n\nKotireititin on yleensä kaikkea tätä yhdessä laitteessa.\n\n## Langallinen ja langaton\n\n**Ethernet**-kaapeliyhteys on vakaa ja nopea. **Wi-Fi** on kätevä, mutta seinät ja muut laitteet voivat heikentää sitä.\n\n## Paketit\n\nData ei kulje verkossa yhtenä möhkäleenä, vaan se pilkotaan **paketteihin (packet)**. Jokaisessa paketissa on lähettäjän ja vastaanottajan osoite, ja reitittimet välittävät paketteja eteenpäin kohti määränpäätä. Perillä paketit kootaan takaisin yhteen.\n\n## Nopeus\n\n- **Kaistanleveys (bandwidth)** kertoo, paljonko dataa voi siirtää sekunnissa, esimerkiksi 100 Mbit/s.\n- **Viive (latency)** kertoo, kauanko yhden paketin matka kestää, esimerkiksi 20 ms. Pieni viive on tärkeä peleissä ja videopuheluissa.\n\nNopeudet ilmoitetaan yleensä **bitteinä** sekunnissa, tiedostokoot taas **tavuina**. Koska tavu on 8 bittiä, 100 Mbit/s on noin 12,5 MB/s.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä on lähiverkko (LAN)?",
+      "options": ["Esimerkiksi kodin tai toimiston verkko", "Koko maailman kattava verkko", "Matkapuhelinverkon mastojen verkko", "Yksittäinen verkkokaapeli"],
+      "answer": 0,
+      "explanation": "Lähiverkko (LAN) kattaa pienen alueen, kuten kodin tai toimiston. Internet on verkkojen verkko."
+    },
+    {
+      "id": "e2",
+      "type": "match_pairs",
+      "prompt": "Yhdistä verkkolaite ja sen tehtävä.",
+      "pairs": [
+        ["Kytkin (switch)", "yhdistää laitteet samaan lähiverkkoon"],
+        ["Reititin (router)", "välittää liikennettä verkkojen välillä"],
+        ["Tukiasema (access point)", "tarjoaa langattoman Wi-Fi-yhteyden"]
+      ],
+      "explanation": "Kotireititin hoitaa yleensä kaikki kolme tehtävää yhdessä laitteessa."
+    },
+    {
+      "id": "e3",
+      "type": "multiple_choice",
+      "prompt": "Mikä on kotireitittimen tärkein tehtävä?",
+      "options": [
+        "Yhdistää kotiverkko internetiin",
+        "Tallentaa perheen valokuvat",
+        "Nopeuttaa tietokoneen prosessoria",
+        "Toimia näyttönä"
+      ],
+      "answer": 0,
+      "explanation": "Reititin välittää paketteja kotiverkon ja internetin välillä."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Mikä on englannin packet suomeksi (perusmuodossa)?",
+      "language": "text",
+      "code": "packet = ___",
+      "answers": ["paketti"],
+      "explanation": "Data pilkotaan verkossa paketteihin, joissa on lähettäjän ja vastaanottajan osoite."
+    },
+    {
+      "id": "e5",
+      "type": "multiple_choice",
+      "prompt": "Videopuhelu pätkii, vaikka kaistanleveys riittää. Mikä on todennäköinen syy?",
+      "options": ["Suuri viive (latency)", "Liian suuri näyttö", "Liian vähän tallennustilaa", "Liian nopea prosessori"],
+      "answer": 0,
+      "explanation": "Kaistanleveys kertoo datan määrän sekunnissa, viive taas matkan keston. Reaaliaikaisissa sovelluksissa suuri viive näkyy pätkimisenä."
+    },
+    {
+      "id": "e6",
+      "type": "order_lines",
+      "prompt": "Kannettava hakee verkkosivua. Järjestä paketin matkan vaiheet.",
+      "language": "text",
+      "lines": [
+        "Kannettava lähettää paketin Wi-Fi-tukiasemalle",
+        "Kotireititin välittää paketin palveluntarjoajan verkkoon",
+        "Internetin reitittimet välittävät pakettia eteenpäin",
+        "Paketti saapuu verkkosivun palvelimelle"
+      ],
+      "explanation": "Paketti kulkee lähiverkosta reitittimen kautta internetiin ja reititin kerrallaan kohti palvelinta."
+    },
+    {
+      "id": "e7",
+      "type": "find_bug",
+      "prompt": "Mikä väite on väärin?",
+      "language": "text",
+      "code": "Internet on verkkojen verkko.\nReititin välittää liikennettä verkkojen välillä.\nData kulkee verkossa aina yhtenä suurena kappaleena.\nWi-Fi on langaton yhteys.",
+      "bugLine": 3,
+      "explanation": "Data pilkotaan pieniin paketteihin, jotka kootaan perillä takaisin yhteen."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Liittymän nopeus on 100 Mbit/s. Paljonko se on noin megatavuina sekunnissa?",
+      "options": ["12,5 MB/s", "100 MB/s", "800 MB/s", "1 MB/s"],
+      "answer": 0,
+      "explanation": "Tavussa on 8 bittiä, joten 100 Mbit/s ÷ 8 = 12,5 MB/s."
+    },
+    {
+      "id": "e9",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja kuvaus.",
+      "pairs": [
+        ["Kaistanleveys", "siirrettävän datan määrä sekunnissa"],
+        ["Viive", "yhden paketin matkan kesto"],
+        ["Ethernet", "kaapeliyhteys"],
+        ["WAN", "kaukana toisistaan olevia verkkoja yhdistävä verkko"]
+      ],
+      "explanation": "Kaistanleveys ja viive ovat eri asioita: leveä tie voi silti olla pitkä."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Miksi pelikonsoli kannattaa kytkeä kaapelilla eikä Wi-Fillä?",
+      "options": [
+        "Kaapeliyhteys on vakaampi ja viive pienempi",
+        "Wi-Fi ei toimi peleissä lainkaan",
+        "Kaapeli lisää konsolin tallennustilaa",
+        "Kaapeliyhteys ei käytä IP-osoitteita"
+      ],
+      "answer": 0,
+      "explanation": "Langaton yhteys altistuu häiriöille. Ethernet-kaapeli antaa tasaisemman yhteyden ja yleensä pienemmän viiveen."
+    }
+  ]
+}

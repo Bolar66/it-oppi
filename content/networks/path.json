@@ -1,0 +1,13 @@
+{
+  "id": "networks",
+  "title": "Verkot",
+  "description": "Miten internet toimii: IP-osoitteet, DNS, portit, asiakas ja palvelin, HTTP ja HTTPS.",
+  "levels": [
+    {
+      "level": 1,
+      "title": "Perusteet",
+      "units": ["networks-1-01", "networks-1-02", "networks-1-03", "networks-1-04", "networks-1-05", "networks-1-06", "networks-1-07"]
+    }
+  ],
+  "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
+}
