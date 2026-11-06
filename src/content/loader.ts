@@ -1,5 +1,5 @@
 import { validateContent, type ContentTree, type LoadedPath } from './validate.ts'
-import type { Unit } from '../schemas/content.ts'
+import type { Exercise, Unit } from '../schemas/content.ts'
 
 const PREFIX = '/content/'
 
@@ -28,4 +28,8 @@ export function getPath(pathId: string): LoadedPath | undefined {
 
 export function getUnit(pathId: string, unitId: string): Unit | undefined {
   return getPath(pathId)?.units[unitId]
+}
+
+export function getExercise(pathId: string, unitId: string, exerciseId: string): Exercise | undefined {
+  return getUnit(pathId, unitId)?.exercises.find((e) => e.id === exerciseId)
 }

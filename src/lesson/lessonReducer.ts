@@ -1,8 +1,6 @@
 import type { Exercise } from '../schemas/content.ts'
 import { emptyAnswer, grade, isComplete, type Answer } from '../exercises/grade.ts'
-
-export const XP_PER_CORRECT = 10
-export const PERFECT_BONUS_XP = 20
+import { PERFECT_BONUS_XP, XP_PER_CORRECT } from '../progress/xp.ts'
 
 export interface LessonState {
   exercises: Exercise[]
@@ -12,8 +10,10 @@ export interface LessonState {
   phase: 'answering' | 'feedback' | 'done'
   answer: Answer
   lastCorrect: boolean | null
-  /** Harjoituksen id → menikö oikein ensimmäisellä yrityksellä. */
-  firstTry: Record<string, boolean>
+  /** Harjoitusindeksi → menikö oikein ensimmäisellä yrityksellä. */
+  firstTry: Record<number, boolean>
+  /** Jokainen tarkistus järjestyksessä (tilastoja varten). */
+  log: { index: number; correct: boolean }[]
   /** Oikein vastattujen eri harjoitusten määrä (edistymispalkki). */
   solved: number
   /** Kasvaa jokaisella kysymyksellä; käytetään komponentin key:nä, jotta sekoitus tehdään uudelleen. */
@@ -33,13 +33,18 @@ export function initLesson(exercises: Exercise[]): LessonState {
     answer: emptyAnswer(first),
     lastCorrect: null,
     firstTry: {},
+    log: [],
     solved: 0,
     attempt: 0,
   }
 }
 
+export function currentIndex(state: LessonState): number {
+  return state.queue[state.position]!
+}
+
 export function currentExercise(state: LessonState): Exercise {
-  return state.exercises[state.queue[state.position]!]!
+  return state.exercises[currentIndex(state)]!
 }
 
 export function lessonReducer(state: LessonState, action: LessonAction): LessonState {
@@ -49,16 +54,18 @@ export function lessonReducer(state: LessonState, action: LessonAction): LessonS
       return { ...state, answer: action.answer }
 
     case 'check': {
-      const ex = currentExercise(state)
+      const index = currentIndex(state)
+      const ex = state.exercises[index]!
       if (state.phase !== 'answering' || !isComplete(ex, state.answer)) return state
       const correct = grade(ex, state.answer)
       return {
         ...state,
         phase: 'feedback',
         lastCorrect: correct,
-        firstTry: ex.id in state.firstTry ? state.firstTry : { ...state.firstTry, [ex.id]: correct },
+        firstTry: index in state.firstTry ? state.firstTry : { ...state.firstTry, [index]: correct },
+        log: [...state.log, { index, correct }],
         solved: state.solved + (correct ? 1 : 0),
-        queue: correct ? state.queue : [...state.queue, state.queue[state.position]!],
+        queue: correct ? state.queue : [...state.queue, index],
       }
     }
 
@@ -78,6 +85,11 @@ export function lessonReducer(state: LessonState, action: LessonAction): LessonS
   }
 }
 
+/** firstTry taulukkona harjoitusten järjestyksessä. */
+export function firstTryList(state: LessonState): boolean[] {
+  return state.exercises.map((_, i) => state.firstTry[i] ?? false)
+}
+
 export interface LessonSummary {
   total: number
   firstTryCorrect: number
@@ -85,9 +97,15 @@ export interface LessonSummary {
   xp: number
 }
 
-export function summarize(state: LessonState): LessonSummary {
+/** @param perfectBonus virheettömyysbonus (vain oppitunnit, ei kertaus) */
+export function summarize(state: LessonState, perfectBonus = true): LessonSummary {
   const total = state.exercises.length
-  const firstTryCorrect = Object.values(state.firstTry).filter(Boolean).length
+  const firstTryCorrect = firstTryList(state).filter(Boolean).length
   const perfect = firstTryCorrect === total
-  return { total, firstTryCorrect, perfect, xp: firstTryCorrect * XP_PER_CORRECT + (perfect ? PERFECT_BONUS_XP : 0) }
+  return {
+    total,
+    firstTryCorrect,
+    perfect,
+    xp: firstTryCorrect * XP_PER_CORRECT + (perfect && perfectBonus ? PERFECT_BONUS_XP : 0),
+  }
 }

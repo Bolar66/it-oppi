@@ -1,64 +1,26 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
-import userEvent, { type UserEvent } from '@testing-library/user-event'
+import { describe, expect, it } from 'vitest'
+import { render, screen, waitFor, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { routes } from '../routes.tsx'
 import { getUnit } from '../content/loader.ts'
-import type { Exercise } from '../schemas/content.ts'
-import { loadReports } from '../reports/errorReports.ts'
+import { db } from '../progress/db.ts'
+import { answerCorrectly, currentExercise, startExercises } from '../test/answer.ts'
 
 const unit = getUnit('python', 'python-1-01')!
+const current = () => currentExercise('python', () => unit.id)
 
-function start() {
-  const router = createMemoryRouter(routes, { initialEntries: ['/lesson/python/python-1-01'] })
+function start(path = '/lesson/python/python-1-01') {
+  const router = createMemoryRouter(routes, { initialEntries: [path] })
   render(<RouterProvider router={router} />)
   return router
 }
 
-function current(): Exercise {
-  const id = screen.getByTestId('exercise').dataset.exerciseId
-  return unit.exercises.find((e) => e.id === id)!
-}
-
-async function answerCorrectly(user: UserEvent, ex: Exercise) {
-  switch (ex.type) {
-    case 'multiple_choice':
-      return user.click(screen.getByRole('radio', { name: ex.options[ex.answer] }))
-    case 'code_output':
-      await user.click(screen.getByRole('textbox', { name: 'Vastaus' }))
-      return user.paste(ex.answer)
-    case 'fill_blank':
-      for (const [i, value] of ex.answers.entries()) {
-        await user.click(screen.getByRole('textbox', { name: `Aukko ${i + 1}` }))
-        await user.paste(value)
-      }
-      return
-    case 'order_lines': {
-      const pool = screen.getByRole('region', { name: 'Rivit' })
-      for (const line of ex.lines) await user.click(within(pool).getByRole('button', { name: line.trim() }))
-      return
-    }
-    case 'match_pairs': {
-      const left = screen.getByRole('group', { name: 'Vasen sarake' })
-      const right = screen.getByRole('group', { name: 'Oikea sarake' })
-      for (const [l, r] of ex.pairs) {
-        await user.click(within(left).getByRole('button', { name: l }))
-        await user.click(within(right).getByRole('button', { name: r }))
-      }
-      return
-    }
-    case 'find_bug':
-      return user.click(screen.getByRole('radio', { name: `Rivi ${ex.bugLine}` }))
-  }
-}
-
 describe('oppitunnin kulku', () => {
-  beforeEach(() => localStorage.clear())
-
-  it('teoria → kaikki harjoitukset oikein → virheetön yhteenveto', async () => {
+  it('teoria → kaikki oikein → virheetön yhteenveto → edistyminen tallentuu', async () => {
     const user = userEvent.setup()
     const router = start()
-    await user.click(screen.getByRole('button', { name: /Aloita harjoitukset/ }))
+    await startExercises(user)
 
     for (let i = 0; i < unit.exercises.length; i++) {
       const check = screen.getByRole('button', { name: 'Tarkista' })
@@ -71,19 +33,28 @@ describe('oppitunnin kulku', () => {
     }
 
     expect(screen.getByRole('heading', { name: 'Virheetön oppitunti!' })).toBeInTheDocument()
-    expect(screen.getByText(`+${unit.exercises.length * 10 + 20} XP`)).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Takaisin polulle' }))
+    const xp = unit.exercises.length * 10 + 20
+    expect(screen.getByText(`+${xp} XP`)).toBeInTheDocument()
+
+    const back = screen.getByRole('button', { name: 'Takaisin polulle' })
+    await waitFor(() => expect(back).toBeEnabled())
+    expect((await db.xpEvents.toArray()).map((e) => e.amount)).toEqual([xp])
+    expect(await db.unitProgress.get(unit.id)).toMatchObject({ timesCompleted: 1, bestFirstTry: unit.exercises.length })
+    expect(await db.attempts.count()).toBe(unit.exercises.length)
+    expect(await db.reviewItems.count()).toBe(0)
+
+    await user.click(back)
     expect(router.state.location.pathname).toBe('/path/python')
+    expect(await screen.findByRole('link', { name: `${unit.title} (suoritettu)` })).toBeInTheDocument()
   })
 
-  it('väärä vastaus näyttää oikean vastauksen ja kysytään uudelleen', async () => {
+  it('väärä vastaus: oikea vastaus näytetään, kysytään uudelleen ja menee kertausjonoon', async () => {
     const user = userEvent.setup()
     start()
-    await user.click(screen.getByRole('button', { name: /Aloita harjoitukset/ }))
+    await startExercises(user)
 
     const first = current()
-    expect(first.type).toBe('multiple_choice')
-    if (first.type !== 'multiple_choice') return
+    if (first.type !== 'multiple_choice') throw new Error('odotettiin monivalintaa')
     const wrong = first.options.find((_, i) => i !== first.answer)!
     await user.click(screen.getByRole('radio', { name: wrong }))
     await user.click(screen.getByRole('button', { name: 'Tarkista' }))
@@ -102,13 +73,14 @@ describe('oppitunnin kulku', () => {
       await user.click(screen.getByRole('button', { name: 'Jatka' }))
     }
     expect(seen.at(-1)).toBe(first.id)
-    expect(screen.getByText('+100 XP')).toBeInTheDocument()
+    expect(screen.getByText(`+${(unit.exercises.length - 1) * 10} XP`)).toBeInTheDocument()
+    await waitFor(async () => expect(await db.reviewItems.get(`${unit.id}/${first.id}`)).toMatchObject({ box: 0 }))
   })
 
   it('näppäimistö: numero valitsee ja Enter tarkistaa ja jatkaa', async () => {
     const user = userEvent.setup()
     start()
-    await user.click(screen.getByRole('button', { name: /Aloita harjoitukset/ }))
+    await startExercises(user)
     const first = current()
     if (first.type !== 'multiple_choice') throw new Error('odotettiin monivalintaa')
     await user.keyboard(String(first.answer + 1))
@@ -122,7 +94,7 @@ describe('oppitunnin kulku', () => {
   it('match_pairs: parin voi purkaa napauttamalla uudelleen', async () => {
     const user = userEvent.setup()
     start()
-    await user.click(screen.getByRole('button', { name: /Aloita harjoitukset/ }))
+    await startExercises(user)
     while (current().type !== 'match_pairs') {
       await answerCorrectly(user, current())
       await user.keyboard('{Enter}{Enter}')
@@ -142,10 +114,12 @@ describe('oppitunnin kulku', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Oikein!')
   })
 
-  it('lopetus kysyy vahvistuksen', async () => {
+  it('lopetus kysyy vahvistuksen eikä tallenna mitään', async () => {
     const user = userEvent.setup()
     const router = start()
-    await user.click(screen.getByRole('button', { name: /Aloita harjoitukset/ }))
+    await startExercises(user)
+    await answerCorrectly(user, current())
+    await user.keyboard('{Enter}{Enter}')
     await user.click(screen.getByRole('button', { name: 'Lopeta oppitunti' }))
     const dialog = screen.getByRole('dialog', { name: 'Lopetetaanko oppitunti?' })
     await user.click(within(dialog).getByRole('button', { name: 'Jatka harjoittelua' }))
@@ -153,31 +127,34 @@ describe('oppitunnin kulku', () => {
     await user.click(screen.getByRole('button', { name: 'Lopeta oppitunti' }))
     await user.click(screen.getByRole('button', { name: 'Lopeta' }))
     expect(router.state.location.pathname).toBe('/path/python')
+    expect(await db.xpEvents.count()).toBe(0)
   })
 
   it('teoria aukeaa kesken harjoitusten', async () => {
     const user = userEvent.setup()
     start()
-    await user.click(screen.getByRole('button', { name: /Aloita harjoitukset/ }))
+    await startExercises(user)
     await user.click(screen.getByRole('button', { name: 'Teoria' }))
     expect(within(screen.getByRole('dialog')).getByRole('heading', { name: 'Muuttujat' })).toBeInTheDocument()
   })
 
-  it('virheilmoitus tallentuu ja näkyy asetuksissa', async () => {
+  it('virheilmoitus tallentuu IndexedDB:hen ja näkyy asetuksissa', async () => {
     const user = userEvent.setup()
     const router = start()
-    await user.click(screen.getByRole('button', { name: /Aloita harjoitukset/ }))
+    await startExercises(user)
     await user.click(screen.getByRole('button', { name: /Ilmoita virheestä/ }))
     const dialog = within(screen.getByRole('dialog', { name: 'Ilmoita virheestä' }))
     expect(dialog.getByRole('button', { name: 'Tallenna ilmoitus' })).toBeDisabled()
     await user.type(dialog.getByRole('textbox'), 'Selitys on epäselvä')
     await user.click(dialog.getByRole('button', { name: 'Tallenna ilmoitus' }))
-    expect(dialog.getByText(/Kiitos/)).toBeInTheDocument()
-    expect(loadReports()).toMatchObject([{ unitId: 'python-1-01', exerciseId: 'e1', message: 'Selitys on epäselvä' }])
+    expect(await dialog.findByText(/Kiitos/)).toBeInTheDocument()
+    expect(await db.errorReports.toArray()).toMatchObject([
+      { unitId: 'python-1-01', exerciseId: 'e1', message: 'Selitys on epäselvä' },
+    ])
 
     await router.navigate('/settings')
     expect(await screen.findByText('Selitys on epäselvä')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: /Poista ilmoitus/ }))
-    expect(screen.getByText(/Ei ilmoituksia/)).toBeInTheDocument()
+    expect(await screen.findByText(/Ei ilmoituksia/)).toBeInTheDocument()
   })
 })

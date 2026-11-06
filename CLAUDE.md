@@ -112,7 +112,11 @@ content/
 - Kertaus: väärin menneet harjoitukset menevät kertausjonoon (Leitner-laatikot: 1, 3, 7, 14 päivää).
 - Kokeet: 20 kysymystä tason yksiköistä, ei vihjeitä, tulos ja virheiden läpikäynti lopuksi.
 - "Ilmoita virheestä" -nappi jokaisessa harjoituksessa → tallentuu listaan, jonka voi korjata myöhemmin.
-  (Vaiheesta 2 alkaen localStoragessa, siirretään IndexedDB:hen vaiheessa 3.)
+  (IndexedDB:ssä vaiheesta 3 alkaen.)
+- Putki kasvaa jokaisena päivänä, jona on ansaittu XP:tä (päivätavoitetta ei vaadita).
+- Kertaus ja kokeet: +10 XP per oikea; virheettömyysbonus +20 vain oppitunneista.
+- Yksikkö on suoritettu, kun oppitunti on viety loppuun (pisteistä riippumatta).
+- Kertauskierroksessa enintään 20 erääntynyttä harjoitusta.
 - Oppitunnilla väärin menneet kysytään uudelleen lopussa; XP ja virheettömyys lasketaan 1. yrityksistä.
 - Termit: harjoittelutilat kortit (flashcards), tunnista termi määritelmästä (4 vaihtoehtoa, häiriövaihtoehdot
   saman polun termeistä) ja parit (match_pairs). Termeillä on omat Leitner-laatikot (1, 3, 7, 14 päivää).

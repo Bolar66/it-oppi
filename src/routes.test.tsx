@@ -20,7 +20,7 @@ describe('reititys ja näkymät', () => {
 
   it('polkukartta näyttää yksiköt ja vie oppituntiin', async () => {
     const router = renderAt('/path/python')
-    expect(screen.getByRole('heading', { name: 'Taso 1: Perusteet' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Taso 1: Perusteet' })).toBeInTheDocument()
     await userEvent.click(screen.getByRole('link', { name: 'Ensimmäinen ohjelma: print ja muuttujat' }))
     expect(router.state.location.pathname).toBe('/lesson/python/python-1-01')
     expect(screen.getByRole('heading', { level: 2, name: 'Muuttujat' })).toBeInTheDocument()

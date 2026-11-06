@@ -2,7 +2,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import { routes } from './routes.tsx'
+import { migrateLegacyReports } from './progress/repo.ts'
 import './index.css'
+
+// Vaiheen 2 localStorage-virheilmoitukset IndexedDB:hen (kerran).
+void migrateLegacyReports().catch((e: unknown) => console.error('Virheilmoitusten siirto epäonnistui', e))
 
 const router = createBrowserRouter(routes)
 

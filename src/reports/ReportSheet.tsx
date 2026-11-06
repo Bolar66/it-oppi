@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Sheet from '../components/Sheet.tsx'
-import { addReport } from './errorReports.ts'
+import { addReport } from '../progress/repo.ts'
 
 interface Props {
   pathId: string
@@ -14,9 +14,9 @@ export default function ReportSheet({ pathId, unitId, exerciseId, onClose }: Pro
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const submit = () => {
+  const submit = async () => {
     try {
-      addReport({ pathId, unitId, exerciseId, message: message.trim() })
+      await addReport({ pathId, unitId, exerciseId, message: message.trim() })
       setSaved(true)
     } catch {
       setError('Tallennus epäonnistui. Selaimen tallennustila voi olla estetty.')
@@ -37,7 +37,7 @@ export default function ReportSheet({ pathId, unitId, exerciseId, onClose }: Pro
           className="space-y-3 py-1"
           onSubmit={(e) => {
             e.preventDefault()
-            submit()
+            void submit()
           }}
         >
           <p className="text-sm text-slate-400">
