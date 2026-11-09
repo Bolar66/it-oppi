@@ -1,0 +1,91 @@
+{
+  "id": "javascript-1-06",
+  "title": "Taulukot",
+  "level": 1,
+  "theory": "**Taulukko (array)** on järjestetty lista arvoja: `const luvut = [4, 8, 15]`.\n\n## Perusteet\n\n- `luvut[0]` – ensimmäinen alkio (indeksi alkaa nollasta)\n- `luvut.length` – pituus (ominaisuus, ei funktio: ei sulkeita)\n- `luvut.push(16)` – lisää loppuun\n- `luvut.pop()` – poistaa ja palauttaa viimeisen\n- `luvut.includes(8)` – löytyykö arvo\n- `luvut.join(\", \")` – yhdistää merkkijonoksi\n\nVaikka taulukko on `const`, sen sisältöä voi muuttaa: `const` estää vain uuden taulukon sijoittamisen muuttujaan.\n\nJos indeksi on taulukon ulkopuolella, tulos on `undefined` – virhettä ei tule.\n\n## Tärkeimmät metodit\n\nNämä metodit ottavat **takaisinkutsun** ja palauttavat uuden arvon muuttamatta alkuperäistä:\n\n- `map` – muuntaa jokaisen alkion: `luvut.map(x => x * 2)`\n- `filter` – suodattaa: `luvut.filter(x => x > 5)`\n- `find` – palauttaa ensimmäisen ehdon täyttävän alkion tai `undefined`\n- `reduce` – yhdistää alkiot yhdeksi arvoksi, esim. summaksi\n\nNiitä voi ketjuttaa: `luvut.filter(x => x > 5).map(x => x * 2)`.\n\n## Levitys\n\n**Levitysoperaattori (spread)** `...` purkaa taulukon alkiot: `[...a, ...b]` yhdistää kaksi taulukkoa uudeksi taulukoksi.\n\n## Tulostus\n\nNode tulostaa taulukon muodossa `[ 1, 2, 3 ]` ja merkkijonot heittomerkeissä: `[ 'a', 'b' ]`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const luvut = [4, 8, 15]\nluvut.push(16)\nconsole.log(luvut.length, luvut[0], luvut[10])",
+      "answer": "4 4 undefined",
+      "verified": true,
+      "explanation": "push kasvatti pituuden neljään. Olematon indeksi palauttaa undefined eikä aiheuta virhettä."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const luvut = [1, 2, 3, 4]\nconsole.log(luvut.map(x => x * 10))\nconsole.log(luvut.filter(x => x % 2 === 0))",
+      "answer": "[ 10, 20, 30, 40 ]\n[ 2, 4 ]",
+      "verified": true,
+      "explanation": "map muuntaa jokaisen alkion, filter säilyttää vain ehdon täyttävät."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const nimet = [\"Ada\", \"Linus\", \"Grace\"]\nconsole.log(nimet.find(n => n.length > 3))\nconsole.log(nimet.join(\", \"))",
+      "answer": "Linus\nAda, Linus, Grace",
+      "verified": true,
+      "explanation": "find palauttaa ensimmäisen ehdon täyttävän alkion. join yhdistää alkiot merkkijonoksi."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const luvut = [3, 7, 10]\nconst summa = luvut.reduce((kertyma, x) => kertyma + x, 0)\nconsole.log(summa)",
+      "answer": "20",
+      "verified": true,
+      "explanation": "reduce kulkee alkiot läpi ja kerää tuloksen. Alkuarvo on 0."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const a = [1, 2]\nconst b = [3]\nconsole.log([...a, ...b, 4])",
+      "answer": "[ 1, 2, 3, 4 ]",
+      "verified": true,
+      "explanation": "Levitysoperaattori purkaa taulukoiden alkiot uuteen taulukkoon."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen TypeError. Millä rivillä virhe on?",
+      "language": "javascript",
+      "code": "const luvut = [1, 2, 3]\nconsole.log(luvut.length())",
+      "bugLine": 2,
+      "explanation": "length on ominaisuus, ei funktio, joten sitä ei kutsuta sulkeilla. Oikein: luvut.length."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä metodi, joka palauttaa uuden taulukon, jossa jokainen luku on kaksinkertainen.",
+      "language": "javascript",
+      "code": "const tuplat = luvut.___(x => x * 2)",
+      "answers": ["map"],
+      "explanation": "map palauttaa uuden taulukon, jossa takaisinkutsua on sovellettu jokaiseen alkioon."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä metodi ja palautettava arvo.",
+      "pairs": [
+        ["map", "uusi taulukko muunnetuista alkioista"],
+        ["filter", "uusi taulukko ehdon täyttävistä"],
+        ["find", "ensimmäinen ehdon täyttävä alkio"],
+        ["includes", "true tai false"]
+      ],
+      "explanation": "Nämä eivät muuta alkuperäistä taulukkoa."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä ketju: suodata yli 5:n luvut, kaksinkertaista ne ja tulosta.",
+      "language": "javascript",
+      "lines": ["const tulos = [3, 6, 9]", "  .filter(x => x > 5)", "  .map(x => x * 2)", "console.log(tulos)"],
+      "explanation": "Metodit ketjutetaan ja suoritetaan järjestyksessä. Tulos on [ 12, 18 ]."
+    }
+  ]
+}

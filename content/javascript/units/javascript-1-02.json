@@ -1,0 +1,95 @@
+{
+  "id": "javascript-1-02",
+  "title": "Muuttujat ja tyypit",
+  "level": 1,
+  "theory": "## let ja const\n\n```js\nlet pisteet = 0\npisteet = pisteet + 10\n\nconst nimi = \"Ada\"\n```\n\n- `let` – muuttuja, jonka arvoa voi muuttaa.\n- `const` – muuttujaan ei voi sijoittaa uutta arvoa. Jos yrität, tulee `TypeError`.\n- Vanha `var` toimii yhä, mutta sen näkyvyyssäännöt ovat yllättäviä. Uudessa koodissa käytetään `let`- ja `const`-avainsanoja.\n\nHyvä käytäntö: käytä oletuksena `const` ja vaihda `let`-avainsanaan vain, jos arvo muuttuu.\n\n## Tyypit\n\nJavaScript on **dynaamisesti tyypitetty**: tyyppi kuuluu arvolle, ei muuttujalle. Perustyyppejä (primitive) ovat mm.:\n\n- `number` – kaikki luvut: `42`, `3.14`\n- `string` – teksti: `\"kissa\"` tai `'kissa'`\n- `boolean` – `true` tai `false`\n- `undefined` – muuttujalla ei ole vielä arvoa\n- `null` – tarkoituksellisesti \"ei arvoa\"\n\n`typeof` kertoo arvon tyypin merkkijonona: `typeof 42` on `\"number\"`. Historiallinen erikoisuus: `typeof null` on `\"object\"`.\n\n## Template literal\n\n**Template literal** kirjoitetaan takahipsuihin (backtick), ja `${}`-kohtiin voi kirjoittaa lausekkeita:\n\n```js\nconst ika = 36\nconsole.log(`${nimi} on ${ika} vuotta`)\n```\n\n## Liukuluvut\n\nJavaScriptin luvut ovat liukulukuja, joten `0.1 + 0.2` on `0.30000000000000004`. Rahasummat kannattaa laskea esimerkiksi sentteinä kokonaislukuina.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const nimi = \"Ada\"\nconst ika = 36\nconsole.log(`${nimi} on ${ika} vuotta`)",
+      "answer": "Ada on 36 vuotta",
+      "verified": true,
+      "explanation": "Template literalin ${}-kohdat korvataan lausekkeiden arvoilla."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "console.log(typeof 42, typeof \"42\", typeof true)\nconsole.log(typeof undefined, typeof null)",
+      "answer": "number string boolean\nundefined object",
+      "verified": true,
+      "explanation": "typeof null on \"object\", mikä on kielen vanha erikoisuus."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "console.log(0.1 + 0.2)",
+      "answer": "0.30000000000000004",
+      "verified": true,
+      "explanation": "Liukuluvut eivät pysty esittämään kaikkia desimaalilukuja tarkasti."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen TypeError. Millä rivillä virhe on?",
+      "language": "javascript",
+      "code": "const pisteet = 10\nconsole.log(pisteet)\npisteet = 20\nconsole.log(pisteet)",
+      "bugLine": 3,
+      "explanation": "const-muuttujaan ei voi sijoittaa uutta arvoa. Jos arvo muuttuu, käytä let."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "let x\nconsole.log(x)\nx = 5\nconsole.log(x)",
+      "answer": "undefined\n5",
+      "verified": true,
+      "explanation": "Muuttujalla, jolle ei ole annettu arvoa, on arvo undefined."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä arvo ja typeof-tulos.",
+      "pairs": [
+        ["3.14", "\"number\""],
+        ["'kissa'", "\"string\""],
+        ["false", "\"boolean\""],
+        ["undefined", "\"undefined\""]
+      ],
+      "explanation": "JavaScriptissä kaikki luvut, myös desimaaliluvut, ovat number-tyyppiä."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä avainsana muuttujalle, jonka arvo muuttuu.",
+      "language": "javascript",
+      "code": "___ laskuri = 0\nlaskuri = laskuri + 1",
+      "answers": ["let"],
+      "explanation": "let sallii uuden arvon sijoittamisen, const ei."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä tarkoittaa, että JavaScript on dynaamisesti tyypitetty?",
+      "options": [
+        "Tyyppi kuuluu arvolle, ja sama muuttuja voi sisältää eri tyyppisiä arvoja",
+        "Muuttujien arvoja ei voi muuttaa",
+        "Kaikki tyypit tarkistetaan ennen ajoa",
+        "JavaScriptissä ei ole tyyppejä"
+      ],
+      "answer": 0,
+      "explanation": "Tyyppivirheet huomataan vasta ajon aikana. TypeScript lisää tyyppitarkistuksen ennen ajoa."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: tulosta \"Hei, Ada!\" template literalilla.",
+      "language": "javascript",
+      "lines": ["const nimi = \"Ada\"", "const viesti = `Hei, ${nimi}!`", "console.log(viesti)"],
+      "explanation": "Muuttujan pitää olla määritelty ennen kuin sitä käytetään template literalissa."
+    }
+  ]
+}

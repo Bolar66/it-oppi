@@ -1,0 +1,91 @@
+{
+  "id": "javascript-1-07",
+  "title": "Oliot",
+  "level": 1,
+  "theory": "**Olio (object)** kokoaa yhteen kuuluvat tiedot avain–arvo-pareiksi:\n\n```js\nconst kayttaja = {\n  nimi: \"Ada\",\n  ika: 36,\n  kielet: [\"Python\", \"JavaScript\"],\n}\n```\n\n## Ominaisuuksien käsittely\n\n- **Pisteellä:** `kayttaja.nimi`\n- **Hakasulkeilla:** `kayttaja[\"nimi\"]` – tarpeen, kun avain on muuttujassa: `kayttaja[kentta]`\n- Uuden ominaisuuden voi lisätä sijoittamalla: `kayttaja.kaupunki = \"Lontoo\"`\n- Puuttuva ominaisuus antaa `undefined`.\n- `Object.keys(kayttaja)` palauttaa avaimet taulukkona.\n\n## Metodit\n\nOlion ominaisuus voi olla funktio eli **metodi**:\n\n```js\nconst laskuri = {\n  arvo: 0,\n  kasvata() {\n    this.arvo++\n  },\n}\n```\n\n`this` viittaa olioon, jonka metodia kutsuttiin.\n\n## Purkaminen\n\n**Purkaminen (destructuring)** poimii ominaisuudet muuttujiin:\n\n```js\nconst { nimi, ika } = kayttaja\n```\n\n## JSON\n\n**JSON (JavaScript Object Notation)** on tekstimuoto datan siirtoon, esimerkiksi palvelimen ja selaimen välillä:\n\n- `JSON.stringify(olio)` muuntaa olion JSON-merkkijonoksi.\n- `JSON.parse(teksti)` muuntaa JSON-merkkijonon olioksi.\n\nJSON:ssa avaimet ovat aina lainausmerkeissä: `{\"nimi\":\"Ada\"}`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const kayttaja = { nimi: \"Ada\", ika: 36 }\nconst kentta = \"ika\"\nconsole.log(kayttaja.nimi, kayttaja[kentta], kayttaja.kaupunki)",
+      "answer": "Ada 36 undefined",
+      "verified": true,
+      "explanation": "Hakasulkeilla avaimen voi lukea muuttujasta. Puuttuva ominaisuus on undefined."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const laskuri = {\n  arvo: 0,\n  kasvata() {\n    this.arvo++\n  },\n}\nlaskuri.kasvata()\nlaskuri.kasvata()\nconsole.log(laskuri.arvo)",
+      "answer": "2",
+      "verified": true,
+      "explanation": "this viittaa laskuri-olioon, joten jokainen kutsu kasvattaa sen arvoa."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const kayttaja = { nimi: \"Ada\", ika: 36 }\nconst { nimi, ika } = kayttaja\nconsole.log(`${nimi} (${ika})`)",
+      "answer": "Ada (36)",
+      "verified": true,
+      "explanation": "Purkaminen luo muuttujat, joilla on samat nimet kuin olion ominaisuuksilla."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const tuote = { nimi: \"kahvi\", hinta: 2.5 }\nconst teksti = JSON.stringify(tuote)\nconsole.log(teksti)\nconsole.log(JSON.parse(teksti).hinta)",
+      "answer": "{\"nimi\":\"kahvi\",\"hinta\":2.5}\n2.5",
+      "verified": true,
+      "explanation": "stringify tuottaa JSON-merkkijonon, jossa avaimet ovat lainausmerkeissä. parse muuntaa sen takaisin olioksi."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const auto = { merkki: \"Volvo\", vuosi: 2020 }\nauto.vari = \"sininen\"\nconsole.log(Object.keys(auto).length)",
+      "answer": "3",
+      "verified": true,
+      "explanation": "Sijoittaminen lisäsi kolmannen ominaisuuden, ja Object.keys palauttaa kaikki avaimet."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa käyttäjän nimi, mutta se tulostaa undefined. Millä rivillä on virhe?",
+      "language": "javascript",
+      "code": "const kayttaja = { nimi: \"Ada\" }\nconst kentta = \"nimi\"\nconsole.log(kayttaja.kentta)",
+      "bugLine": 3,
+      "explanation": "kayttaja.kentta etsii ominaisuutta nimeltä \"kentta\". Muuttujan arvolla haetaan hakasulkeilla: kayttaja[kentta]."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä funktio, joka muuntaa olion JSON-merkkijonoksi.",
+      "language": "javascript",
+      "code": "const teksti = JSON.___(olio)",
+      "answers": ["stringify"],
+      "explanation": "JSON.stringify muuntaa olion tekstiksi, JSON.parse tekstin olioksi."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja esimerkki.",
+      "pairs": [
+        ["pistenotaatio", "olio.nimi"],
+        ["hakasulkunotaatio", "olio[avain]"],
+        ["purkaminen", "const { nimi } = olio"],
+        ["metodi", "olio.kasvata()"]
+      ],
+      "explanation": "Hakasulkunotaatiota tarvitaan, kun avain on muuttujassa tai sisältää erikoismerkkejä."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: luo olio, lisää sille ominaisuus ja tulosta se JSONina.",
+      "language": "javascript",
+      "lines": ["const kirja = { nimi: \"Taikavuori\" }", "kirja.sivuja = 700", "console.log(JSON.stringify(kirja))"],
+      "explanation": "Olio pitää luoda ennen kuin siihen voi lisätä ominaisuuksia."
+    }
+  ]
+}

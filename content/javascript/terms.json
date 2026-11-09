@@ -1,0 +1,41 @@
+{
+  "terms": [
+    { "id": "javascript", "term": "JavaScript", "definition": "Verkon ohjelmointikieli, jota ajetaan selaimissa ja Node.js:llä.", "level": 1, "unit": "javascript-1-01" },
+    { "id": "nodejs", "term": "Node.js", "definition": "Ajonaikainen ympäristö, jolla JavaScriptiä ajetaan selaimen ulkopuolella.", "example": "node ohjelma.js", "level": 1, "unit": "javascript-1-01" },
+    { "id": "console", "term": "konsoli", "en": "console", "definition": "Näkymä, johon ohjelman tulosteet ja virheilmoitukset tulevat.", "example": "console.log(\"Hei\")", "level": 1, "unit": "javascript-1-01" },
+    { "id": "runtime", "term": "ajonaikainen ympäristö", "en": "runtime", "definition": "Ohjelmisto, joka suorittaa koodia ja tarjoaa sille palveluja.", "example": "selain, Node.js", "level": 1, "unit": "javascript-1-01" },
+
+    { "id": "let-const", "term": "let ja const", "definition": "Muuttujien esittelyavainsanat: let sallii uuden arvon, const ei.", "level": 1, "unit": "javascript-1-02" },
+    { "id": "template-literal", "term": "template literal", "definition": "Takahipsuihin kirjoitettu merkkijono, jonka ${}-kohdat korvataan lausekkeiden arvoilla.", "example": "`Hei ${nimi}`", "level": 1, "unit": "javascript-1-02" },
+    { "id": "undefined", "term": "undefined", "definition": "Arvo, joka muuttujalla on, kun sille ei ole annettu arvoa.", "level": 1, "unit": "javascript-1-02" },
+    { "id": "dynamic-typing", "term": "dynaaminen tyypitys", "en": "dynamic typing", "definition": "Tyyppi kuuluu arvolle, ja tyyppivirheet huomataan vasta ajon aikana.", "level": 1, "unit": "javascript-1-02" },
+
+    { "id": "strict-equality", "term": "tiukka yhtäsuuruus", "en": "strict equality", "definition": "Vertailu ===, joka vertaa sekä arvoa että tyyppiä.", "example": "5 === \"5\" on false", "level": 1, "unit": "javascript-1-03" },
+    { "id": "type-coercion", "term": "tyyppimuunnos (automaattinen)", "en": "type coercion", "definition": "JavaScriptin tekemä automaattinen tyypin muunnos, esim. \"5\" + 3 = \"53\".", "level": 1, "unit": "javascript-1-03" },
+    { "id": "falsy", "term": "falsy", "definition": "Arvo, joka tulkitaan ehdossa epätodeksi: false, 0, \"\", null, undefined ja NaN.", "level": 1, "unit": "javascript-1-03" },
+    { "id": "nan", "term": "NaN", "en": "Not a Number", "definition": "Arvo, joka syntyy epäonnistuneesta lukumuunnoksesta.", "example": "Number(\"kissa\")", "level": 1, "unit": "javascript-1-03" },
+
+    { "id": "for-of", "term": "for...of", "definition": "Silmukka, joka käy läpi taulukon tai merkkijonon arvot.", "level": 1, "unit": "javascript-1-04" },
+    { "id": "block-scope", "term": "lohkonäkyvyys", "en": "block scope", "definition": "let- ja const-muuttujat ovat olemassa vain siinä aaltosulkeiden lohkossa, jossa ne esitellään.", "level": 1, "unit": "javascript-1-04" },
+    { "id": "js-ternary", "term": "ehtolauseke (?:)", "en": "ternary operator", "definition": "Lyhyt valinta muotoa ehto ? arvo1 : arvo2.", "level": 1, "unit": "javascript-1-04" },
+
+    { "id": "arrow-function", "term": "nuolifunktio", "en": "arrow function", "definition": "Lyhyt funktion kirjoitustapa merkillä =>.", "example": "x => x * 2", "level": 1, "unit": "javascript-1-05" },
+    { "id": "callback", "term": "takaisinkutsu", "en": "callback", "definition": "Funktio, joka annetaan argumenttina toiselle funktiolle.", "example": "luvut.map(x => x * 2)", "level": 1, "unit": "javascript-1-05" },
+    { "id": "hoisting", "term": "hoisting", "definition": "function-määrittelyt ovat käytettävissä jo ennen kohtaa, jossa ne kirjoitetaan.", "level": 1, "unit": "javascript-1-05" },
+
+    { "id": "array", "term": "taulukko", "en": "array", "definition": "Järjestetty lista arvoja hakasulkeissa.", "example": "[4, 8, 15]", "level": 1, "unit": "javascript-1-06" },
+    { "id": "map-method", "term": "map", "definition": "Taulukon metodi, joka palauttaa uuden taulukon muunnetuista alkioista.", "level": 1, "unit": "javascript-1-06" },
+    { "id": "filter-method", "term": "filter", "definition": "Taulukon metodi, joka palauttaa uuden taulukon ehdon täyttävistä alkioista.", "level": 1, "unit": "javascript-1-06" },
+    { "id": "spread", "term": "levitysoperaattori", "en": "spread operator", "definition": "Merkintä ..., joka purkaa taulukon tai olion alkiot.", "example": "[...a, ...b]", "level": 1, "unit": "javascript-1-06" },
+
+    { "id": "object", "term": "olio", "en": "object", "definition": "Avain–arvo-pareista koostuva tietorakenne.", "example": "{ nimi: \"Ada\" }", "level": 1, "unit": "javascript-1-07" },
+    { "id": "destructuring", "term": "purkaminen (JS)", "en": "destructuring", "definition": "Ominaisuuksien poimiminen oliosta tai taulukosta muuttujiin.", "example": "const { nimi } = kayttaja", "level": 1, "unit": "javascript-1-07" },
+    { "id": "json", "term": "JSON", "en": "JavaScript Object Notation", "definition": "Tekstimuoto datan siirtoon; avaimet aina lainausmerkeissä.", "example": "{\"nimi\":\"Ada\"}", "level": 1, "unit": "javascript-1-07" },
+    { "id": "method", "term": "metodi", "en": "method", "definition": "Olion ominaisuus, joka on funktio.", "example": "laskuri.kasvata()", "level": 1, "unit": "javascript-1-07" },
+
+    { "id": "typescript", "term": "TypeScript", "definition": "JavaScript, johon on lisätty tyyppimerkinnät ja tyyppitarkistus ennen ajoa.", "level": 1, "unit": "javascript-1-08" },
+    { "id": "type-annotation", "term": "tyyppimerkintä", "en": "type annotation", "definition": "Muuttujan tai parametrin perään kirjoitettu tyyppi.", "example": "let ika: number", "level": 1, "unit": "javascript-1-08" },
+    { "id": "interface", "term": "rajapinta", "en": "interface", "definition": "TypeScriptin kuvaus olion muodosta: mitä ominaisuuksia ja minkä tyyppisiä.", "level": 1, "unit": "javascript-1-08" },
+    { "id": "union-type", "term": "yhdistetty tyyppi", "en": "union type", "definition": "Tyyppi, joka sallii useamman vaihtoehdon.", "example": "\"auki\" | \"kiinni\"", "level": 1, "unit": "javascript-1-08" }
+  ]
+}

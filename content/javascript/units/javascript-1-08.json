@@ -1,0 +1,99 @@
+{
+  "id": "javascript-1-08",
+  "title": "TypeScriptin perusteet",
+  "level": 1,
+  "theory": "**TypeScript (TS)** on JavaScript, johon on lisätty **tyyppimerkinnät (type annotations)**. TypeScript-koodi muunnetaan tavalliseksi JavaScriptiksi, joten se toimii kaikkialla, missä JavaScriptkin.\n\n## Miksi?\n\nJavaScript huomaa tyyppivirheet vasta ajon aikana – usein käyttäjän edessä. TypeScriptin kääntäjä (`tsc`) tarkistaa tyypit **ennen ajoa**, ja editori näyttää virheet jo kirjoittaessa. Isoissa projekteissa tämä estää paljon bugeja.\n\n## Tyyppimerkinnät\n\n```ts\nlet ika: number = 36\nconst nimi: string = \"Ada\"\n\nfunction tuplaa(x: number): number {\n  return x * 2\n}\n```\n\nUsein merkintää ei tarvita, koska TypeScript **päättelee (infer)** tyypin arvosta: `let ika = 36` on automaattisesti number.\n\n## Oliotyypit\n\nOlion muoto kuvataan **rajapinnalla (interface)** tai tyyppialiaksella:\n\n```ts\ninterface Kayttaja {\n  nimi: string\n  ika: number\n  sahkoposti?: string\n}\n```\n\n`?` tarkoittaa, että ominaisuus on valinnainen.\n\n## Yhdistetyt tyypit\n\n**Yhdistetty tyyppi (union type)** sallii useamman vaihtoehdon: `let tila: \"auki\" | \"kiinni\" = \"auki\"`. Muu arvo, kuten `\"rikki\"`, on tyyppivirhe.\n\n## Tärkeää\n\nTyyppimerkinnät poistetaan muunnoksessa JavaScriptiksi, joten ne eivät vaikuta ajoon – ne ovat työkalu virheiden löytämiseen ennen ajoa.\n\nTiedostopääte on `.ts` (React-komponenteissa `.tsx`). Vite-projektit tukevat TypeScriptiä valmiiksi.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Mikä on TypeScriptin tärkein hyöty?",
+      "options": [
+        "Tyyppivirheet huomataan ennen ajoa",
+        "Ohjelma toimii nopeammin",
+        "Selain ymmärtää TypeScriptiä suoraan",
+        "Se korvaa HTML:n"
+      ],
+      "answer": 0,
+      "explanation": "Tyyppitarkistus tapahtuu kääntäjässä ja editorissa, ei ajon aikana."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "typescript",
+      "code": "function tuplaa(x: number): number {\n  return x * 2\n}\nconst tulos: number = tuplaa(21)\nconsole.log(tulos)",
+      "answer": "42",
+      "verified": true,
+      "explanation": "Tyyppimerkinnät eivät muuta ajoa: ohjelma toimii kuten vastaava JavaScript."
+    },
+    {
+      "id": "e3",
+      "type": "find_bug",
+      "prompt": "TypeScript-kääntäjä ilmoittaa tyyppivirheestä. Millä rivillä virhe on?",
+      "language": "typescript",
+      "code": "function tuplaa(x: number): number {\n  return x * 2\n}\nconsole.log(tuplaa(\"5\"))",
+      "bugLine": 4,
+      "explanation": "Funktio odottaa lukua, mutta saa merkkijonon. TypeScript huomaa virheen ennen ajoa."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "TypeScript-kääntäjä ilmoittaa tyyppivirheestä. Millä rivillä virhe on?",
+      "language": "typescript",
+      "code": "interface Kayttaja {\n  nimi: string\n  ika: number\n}\nconst ada: Kayttaja = { nimi: \"Ada\", ika: \"36\" }",
+      "bugLine": 5,
+      "explanation": "Rajapinnan mukaan ika on number, mutta arvo on merkkijono \"36\"."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä tyyppimerkintä niin, että nimi on merkkijono.",
+      "language": "typescript",
+      "code": "const nimi: ___ = \"Ada\"",
+      "answers": ["string"],
+      "explanation": "TypeScriptin perustyypit ovat number, string ja boolean (pienellä alkukirjaimella)."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä merkintä ja merkitys.",
+      "pairs": [
+        ["x: number", "x on luku"],
+        ["sahkoposti?: string", "valinnainen ominaisuus"],
+        ["\"auki\" | \"kiinni\"", "yhdistetty tyyppi"],
+        ["interface", "olion muodon kuvaus"]
+      ],
+      "explanation": "Nämä ovat TypeScriptin yleisimmät rakennuspalikat."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Mitä tyyppimerkinnöille tapahtuu, kun TypeScript muunnetaan JavaScriptiksi?",
+      "options": [
+        "Ne poistetaan, eivätkä ne vaikuta ajoon",
+        "Ne tarkistetaan uudelleen jokaisella ajokerralla",
+        "Ne muuttuvat kommenteiksi, jotka selain lukee",
+        "Ne nopeuttavat ohjelmaa"
+      ],
+      "answer": 0,
+      "explanation": "Tyypit ovat olemassa vain kehitysvaiheessa."
+    },
+    {
+      "id": "e8",
+      "type": "code_output",
+      "language": "typescript",
+      "code": "type Tila = \"auki\" | \"kiinni\"\nlet tila: Tila = \"auki\"\ntila = \"kiinni\"\nconsole.log(`Ovi on ${tila}`)",
+      "answer": "Ovi on kiinni",
+      "verified": true,
+      "explanation": "Molemmat arvot kuuluvat yhdistettyyn tyyppiin Tila, joten sijoitukset ovat sallittuja."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: määrittele rajapinta ja sitä noudattava olio.",
+      "language": "typescript",
+      "lines": ["interface Tuote {", "  nimi: string", "  hinta: number", "}", "const kahvi: Tuote = { nimi: \"kahvi\", hinta: 2.5 }"],
+      "explanation": "Rajapinta määritellään ensin, sitten sitä käytetään muuttujan tyyppinä."
+    }
+  ]
+}

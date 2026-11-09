@@ -1,0 +1,94 @@
+{
+  "id": "javascript-1-01",
+  "title": "JavaScript ja sen ajaminen",
+  "level": 1,
+  "theory": "**JavaScript (JS)** on verkon ohjelmointikieli. Se ajetaan alun perin selaimessa, jossa se tekee sivuista interaktiivisia, mutta nykyään sitä käytetään myös palvelimilla.\n\n## Missä JavaScript toimii?\n\n- **Selaimessa** – jokaisessa selaimessa on JavaScript-moottori. Kehittäjätyökalujen konsoliin (yleensä F12) voi kirjoittaa koodia suoraan.\n- **Node.js:ssä** – ajonaikainen ympäristö (runtime), jolla JavaScriptiä ajetaan selaimen ulkopuolella. Tiedosto ajetaan komennolla `node ohjelma.js`.\n\n## Tulostaminen\n\n`console.log` tulostaa konsoliin. Useat arvot erotetaan pilkuilla, ja ne tulostuvat välilyönnillä erotettuina:\n\n```js\nconsole.log(\"Hei maailma\")\nconsole.log(\"Summa:\", 2 + 3)\n```\n\n## Kirjoitustapa\n\n- Lauseet suoritetaan ylhäältä alas.\n- Lauseen loppuun voi kirjoittaa puolipisteen `;`. Se on useimmiten vapaaehtoinen, mutta tyyli kannattaa pitää yhtenäisenä.\n- Isot ja pienet kirjaimet ovat eri asia: `console.log` toimii, `Console.log` ei.\n- `//` aloittaa kommentin rivin loppuun ja `/* ... */` useamman rivin kommentin.\n\n## Virheet\n\nJos koodissa on virhe, konsoliin tulee virheilmoitus, jossa kerrotaan virheen tyyppi ja rivi, esimerkiksi `ReferenceError: x is not defined`. Virheilmoituksen lukeminen on ohjelmoijan tärkeimpiä taitoja.\n\nJavaScriptillä ei ole mitään tekemistä Javan kanssa, vaikka nimet muistuttavat toisiaan.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "console.log(\"Hei maailma\")\nconsole.log(\"Summa:\", 2 + 3)",
+      "answer": "Hei maailma\nSumma: 5",
+      "verified": true,
+      "explanation": "Pilkuilla erotetut arvot tulostuvat välilyönnillä erotettuina."
+    },
+    {
+      "id": "e2",
+      "type": "multiple_choice",
+      "prompt": "Millä JavaScriptiä ajetaan selaimen ulkopuolella, esimerkiksi palvelimella?",
+      "options": ["Node.js", "HTML", "Java", "CSS"],
+      "answer": 0,
+      "explanation": "Node.js on JavaScriptin ajonaikainen ympäristö selaimen ulkopuolella."
+    },
+    {
+      "id": "e3",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen. Millä rivillä virhe on?",
+      "language": "javascript",
+      "code": "console.log(\"Alku\")\nConsole.log(\"Keskikohta\")\nconsole.log(\"Loppu\")",
+      "bugLine": 2,
+      "explanation": "JavaScript erottaa isot ja pienet kirjaimet. Console-nimistä oliota ei ole (ReferenceError)."
+    },
+    {
+      "id": "e4",
+      "type": "fill_blank",
+      "prompt": "Täydennä komento, joka tulostaa konsoliin.",
+      "language": "javascript",
+      "code": "console.___(\"Valmis\")",
+      "answers": ["log"],
+      "explanation": "console.log tulostaa arvot konsoliin."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "// console.log(\"A\")\nconsole.log(\"B\") // tulostetaan B\n/* console.log(\"C\") */",
+      "answer": "B",
+      "verified": true,
+      "explanation": "Kommentoitua koodia ei suoriteta. Rivin lopun // ei estä saman rivin alussa olevaa koodia."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja kuvaus.",
+      "pairs": [
+        ["Node.js", "ajaa JavaScriptiä selaimen ulkopuolella"],
+        ["Konsoli", "näyttää tulosteet ja virheet"],
+        ["//", "yhden rivin kommentti"],
+        ["node ohjelma.js", "ajaa tiedoston komentoriviltä"]
+      ],
+      "explanation": "Nämä ovat JavaScript-kehityksen perustyökaluja."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit niin, että ohjelma tulostaa luvut 1, 2 ja 3 järjestyksessä.",
+      "language": "javascript",
+      "lines": ["console.log(1)", "console.log(2)", "console.log(3)"],
+      "explanation": "Lauseet suoritetaan ylhäältä alas."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä seuraavista pitää paikkansa?",
+      "options": [
+        "JavaScript ja Java ovat eri kieliä",
+        "JavaScript on Javan uusi versio",
+        "JavaScript toimii vain palvelimilla",
+        "JavaScript-koodi pitää aina kääntää ennen ajoa"
+      ],
+      "answer": 0,
+      "explanation": "Nimet muistuttavat toisiaan, mutta kielet ovat erillisiä."
+    },
+    {
+      "id": "e9",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "console.log(\"2 + 3\")\nconsole.log(2 + 3)",
+      "answer": "2 + 3\n5",
+      "verified": true,
+      "explanation": "Lainausmerkeissä oleva on tekstiä, ilman lainausmerkkejä lauseke lasketaan."
+    }
+  ]
+}

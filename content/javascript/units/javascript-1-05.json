@@ -1,0 +1,95 @@
+{
+  "id": "javascript-1-05",
+  "title": "Funktiot",
+  "level": 1,
+  "theory": "JavaScriptissä funktion voi kirjoittaa kolmella tavalla.\n\n## Funktion määrittely\n\n```js\nfunction tuplaa(x) {\n  return x * 2\n}\n```\n\n## Nuolifunktio\n\n**Nuolifunktio (arrow function)** on lyhyempi kirjoitustapa:\n\n```js\nconst tuplaa = (x) => {\n  return x * 2\n}\n```\n\nJos runko on yksi lauseke, aaltosulkeet ja `return` voi jättää pois: `const tuplaa = x => x * 2`. Silloin lausekkeen arvo palautetaan automaattisesti.\n\n## Paluuarvo\n\nIlman `return`-lausetta funktio palauttaa `undefined`.\n\n## Oletusarvot\n\n```js\nfunction tervehdi(nimi = \"vieras\") {\n  return `Hei, ${nimi}!`\n}\n```\n\nOletusarvoa käytetään, jos argumenttia ei anneta (tai se on `undefined`).\n\n## Funktiot ovat arvoja\n\nFunktion voi tallentaa muuttujaan ja antaa argumenttina toiselle funktiolle. Argumenttina annettua funktiota kutsutaan **takaisinkutsuksi (callback)**:\n\n```js\nfunction teeKahdesti(toiminto) {\n  toiminto()\n  toiminto()\n}\nteeKahdesti(() => console.log(\"Hei\"))\n```\n\nTämä on JavaScriptissä hyvin yleistä: esimerkiksi taulukoiden `map`- ja `filter`-metodit ja tapahtumankäsittelijät ottavat funktion argumenttina.\n\n## Kutsu vai viittaus?\n\n`tuplaa` on viittaus funktioon, `tuplaa(4)` kutsuu sitä. Takaisinkutsuksi annetaan viittaus, ei kutsun tulosta.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const tuplaa = x => x * 2\nconsole.log(tuplaa(4) + 1)",
+      "answer": "9",
+      "verified": true,
+      "explanation": "Yhden lausekkeen nuolifunktio palauttaa lausekkeen arvon automaattisesti."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "function tervehdi(nimi = \"vieras\") {\n  return `Hei, ${nimi}!`\n}\nconsole.log(tervehdi())\nconsole.log(tervehdi(\"Ada\"))",
+      "answer": "Hei, vieras!\nHei, Ada!",
+      "verified": true,
+      "explanation": "Oletusarvoa käytetään, kun argumenttia ei anneta."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const summa = (a, b) => {\n  a + b\n}\nconsole.log(summa(2, 3))",
+      "answer": "undefined",
+      "verified": true,
+      "explanation": "Aaltosulkeiden kanssa nuolifunktio tarvitsee return-lauseen. Ilman sitä palautetaan undefined."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "function teeKahdesti(toiminto) {\n  toiminto()\n  toiminto()\n}\nteeKahdesti(() => console.log(\"Hei\"))",
+      "answer": "Hei\nHei",
+      "verified": true,
+      "explanation": "Funktio annettiin argumenttina (takaisinkutsu), ja teeKahdesti kutsui sitä kahdesti."
+    },
+    {
+      "id": "e5",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa 12, mutta se tulostaa undefined. Millä rivillä on virhe?",
+      "language": "javascript",
+      "code": "function pintaAla(leveys, korkeus) {\n  const tulos = leveys * korkeus\n}\nconsole.log(pintaAla(3, 4))",
+      "bugLine": 2,
+      "explanation": "Tulos lasketaan, mutta sitä ei palauteta. Oikein: return leveys * korkeus."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä nuolifunktio, joka palauttaa luvun neliön.",
+      "language": "javascript",
+      "code": "const nelio = x ___ x * x",
+      "answers": ["=>"],
+      "explanation": "Nuolifunktion parametrit ja runko erotetaan merkillä =>."
+    },
+    {
+      "id": "e7",
+      "type": "match_pairs",
+      "prompt": "Yhdistä kirjoitustapa ja nimi.",
+      "pairs": [
+        ["function f(x) { return x }", "funktion määrittely"],
+        ["const f = x => x", "nuolifunktio"],
+        ["f(5)", "funktiokutsu"],
+        ["g(() => {})", "takaisinkutsun antaminen"]
+      ],
+      "explanation": "Kaikki kolme määrittelytapaa luovat funktion; erot ovat lähinnä kirjoitusasussa."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mikä on takaisinkutsu (callback)?",
+      "options": [
+        "Funktio, joka annetaan argumenttina toiselle funktiolle",
+        "Funktio, joka kutsuu itseään",
+        "Virheilmoitus",
+        "Funktion paluuarvo"
+      ],
+      "answer": 0,
+      "explanation": "Esimerkiksi taulukon map-metodi saa takaisinkutsun, jota se kutsuu jokaiselle alkiolle."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: määrittele funktio ja tulosta sen paluuarvo 7.",
+      "language": "javascript",
+      "lines": ["function summa(a, b) {", "  return a + b", "}", "console.log(summa(3, 4))"],
+      "explanation": "function-määrittelyt nostetaan JavaScriptissä tiedoston alkuun (hoisting), mutta selkeintä on määritellä ennen kutsua."
+    }
+  ]
+}

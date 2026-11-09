@@ -1,0 +1,96 @@
+{
+  "id": "javascript-1-03",
+  "title": "Operaattorit ja vertailu",
+  "level": 1,
+  "theory": "## Automaattinen tyyppimuunnos\n\nJavaScript muuntaa tyyppejä usein itsestään (**type coercion**), mikä voi yllättää:\n\n- `\"5\" + 3` on `\"53\"`: jos toinen on merkkijono, `+` liittää tekstit yhteen.\n- `\"5\" - 3` on `2`: muut laskuoperaattorit muuntavat merkkijonon luvuksi.\n- `Number(\"5\")` muuntaa itse luvuksi. Jos muunnos ei onnistu, tulos on `NaN` (Not a Number).\n\n## === ja ==\n\n- `===` (tiukka yhtäsuuruus) vertaa arvoa **ja tyyppiä**: `5 === \"5\"` on `false`.\n- `==` muuntaa tyyppejä ennen vertailua: `5 == \"5\"` ja `0 == \"\"` ovat `true`.\n\nKäytä aina `===` ja `!==`. Ne toimivat ennustettavasti.\n\n## Totuudellisuus\n\nEhdoissa **epätosia (falsy)** ovat: `false`, `0`, `\"\"` (tyhjä merkkijono), `null`, `undefined` ja `NaN`. Kaikki muu on **totta (truthy)** – myös `\"0\"`, `[]` ja `{}`.\n\n## Loogiset operaattorit\n\n`&&`, `||` ja `!`. Operaattorit `&&` ja `||` palauttavat jommankumman **operandin**, eivät välttämättä true/false:\n\n- `nimi || \"vieras\"` palauttaa nimen, jos se on tosi, muuten \"vieras\".\n- `??` (nullish coalescing) toimii samoin, mutta vaihtaa oletukseen vain, jos arvo on `null` tai `undefined`: `0 ?? 10` on `0`, kun taas `0 || 10` on `10`.\n\n## Muuta\n\n`%` on jakojäännös, `**` potenssi, ja `+=`, `++` toimivat kuten muissakin kielissä.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "console.log(\"5\" + 3)\nconsole.log(\"5\" - 3)",
+      "answer": "53\n2",
+      "verified": true,
+      "explanation": "+ liittää merkkijonoja yhteen, mutta - muuntaa merkkijonon luvuksi."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "console.log(5 === \"5\", 5 == \"5\", 0 == \"\")",
+      "answer": "false true true",
+      "verified": true,
+      "explanation": "=== vertaa myös tyyppiä. == muuntaa tyyppejä, minkä vuoksi 0 == \"\" on yllättäen tosi."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const maara = 0\nconsole.log(maara || 10)\nconsole.log(maara ?? 10)",
+      "answer": "10\n0",
+      "verified": true,
+      "explanation": "|| vaihtaa oletukseen, koska 0 on epätosi. ?? vaihtaa vain null- ja undefined-arvoilla."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "console.log(Number(\"42\") + 1)\nconsole.log(Number(\"kissa\"))",
+      "answer": "43\nNaN",
+      "verified": true,
+      "explanation": "Number muuntaa merkkijonon luvuksi. Jos se ei onnistu, tulos on NaN."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Yhdistä arvo ja sen totuudellisuus.",
+      "pairs": [
+        ["0", "epätosi (nolla)"],
+        ["\"\"", "epätosi (tyhjä merkkijono)"],
+        ["\"0\"", "tosi (ei-tyhjä merkkijono)"],
+        ["[]", "tosi (tyhjä taulukko)"]
+      ],
+      "explanation": "Toisin kuin Pythonissa, tyhjä taulukko on JavaScriptissä tosi."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi laskea 10 + 5 = 15, mutta tulos on 105. Millä rivillä on virhe?",
+      "language": "javascript",
+      "code": "const syote = \"10\"\nconst summa = syote + 5\nconsole.log(summa)",
+      "bugLine": 2,
+      "explanation": "syote on merkkijono, joten + liittää tekstit. Korjaus: Number(syote) + 5."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä tiukka vertailu.",
+      "language": "javascript",
+      "code": "if (vastaus ___ \"kyllä\") {\n  console.log(\"OK\")\n}",
+      "answers": ["==="],
+      "explanation": "=== vertaa sekä arvoa että tyyppiä ilman yllättäviä muunnoksia."
+    },
+    {
+      "id": "e8",
+      "type": "code_output",
+      "language": "javascript",
+      "code": "const nimi = \"\"\nconsole.log(`Hei ${nimi || \"vieras\"}`)",
+      "answer": "Hei vieras",
+      "verified": true,
+      "explanation": "Tyhjä merkkijono on epätosi, joten || palauttaa oletusarvon."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Miksi === on suositeltavampi kuin ==?",
+      "options": [
+        "Se ei tee yllättäviä tyyppimuunnoksia",
+        "Se on nopeampi kirjoittaa",
+        "== ei toimi luvuilla",
+        "=== muuntaa tyypit automaattisesti"
+      ],
+      "answer": 0,
+      "explanation": "== voi tuottaa yllättäviä tuloksia, kuten 0 == \"\". === vertaa myös tyyppiä."
+    }
+  ]
+}

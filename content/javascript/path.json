@@ -1,0 +1,22 @@
+{
+  "id": "javascript",
+  "title": "JavaScript ja TypeScript",
+  "description": "Verkon ohjelmointikieli: muuttujat, vertailut, funktiot, taulukot, oliot ja TypeScriptin tyypit.",
+  "levels": [
+    {
+      "level": 1,
+      "title": "Perusteet",
+      "units": [
+        "javascript-1-01",
+        "javascript-1-02",
+        "javascript-1-03",
+        "javascript-1-04",
+        "javascript-1-05",
+        "javascript-1-06",
+        "javascript-1-07",
+        "javascript-1-08"
+      ]
+    }
+  ],
+  "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
+}
