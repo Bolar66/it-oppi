@@ -1,0 +1,98 @@
+{
+  "id": "python-1-02",
+  "title": "Syöte ja tyyppimuunnokset",
+  "level": 1,
+  "theory": "## input\n\n`input()` kysyy käyttäjältä tekstiä ja palauttaa sen **aina merkkijonona**:\n\n```python\nnimi = input(\"Mikä on nimesi? \")\n```\n\nJos käyttäjä kirjoittaa luvun, sekin on merkkijono: `\"30\"` eikä `30`. Laskemista varten se pitää muuntaa:\n\n```python\nika = int(input(\"Ikä: \"))\n```\n\n## Tyyppimuunnokset\n\n- `int(\"7\")` → `7`\n- `float(\"2.5\")` → `2.5`\n- `str(42)` → `\"42\"`\n- `int(3.9)` → `3` (desimaalit katkaistaan, ei pyöristetä)\n- `round(3.9)` → `4`\n\nJos merkkijono ei ole luku, muunnos kaatuu virheeseen `ValueError`, esim. `int(\"kissa\")`.\n\n## f-merkkijonot\n\n**f-merkkijono (f-string)** on helpoin tapa yhdistää tekstiä ja arvoja. Lainausmerkkien eteen kirjoitetaan `f`, ja aaltosulkeisiin `{}` laitetaan lauseke:\n\n```python\nnimi = \"Ada\"\nika = 36\nprint(f\"{nimi} on {ika}-vuotias\")\n```\n\nAaltosulkeissa voi myös laskea: `f\"{ika + 1}\"`. Muotoilu tulee kaksoispisteen jälkeen: `f\"{3.14159:.2f}\"` tulostaa `3.14` (kaksi desimaalia).\n\nf-merkkijono muuntaa arvot tekstiksi automaattisesti, joten `str()`-kutsuja ei tarvita, toisin kuin `+`-liitoksessa: `\"Ikä: \" + str(ika)`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "multiple_choice",
+      "prompt": "Käyttäjä kirjoittaa 30, ja ohjelma lukee sen komennolla x = input(). Mikä on x:n tyyppi?",
+      "options": ["str", "int", "float", "bool"],
+      "answer": 0,
+      "explanation": "input palauttaa aina merkkijonon. Luvuksi se muunnetaan esim. int(x)."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "nimi = \"Ada\"\nika = 36\nprint(f\"{nimi} on {ika}-vuotias\")",
+      "answer": "Ada on 36-vuotias",
+      "verified": true,
+      "explanation": "f-merkkijonon aaltosulkeisiin kirjoitetut muuttujat korvataan niiden arvoilla."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "hinta = 3.14159\nprint(f\"{hinta:.2f} €\")\nprint(f\"{2 + 3 * 4}\")",
+      "answer": "3.14 €\n14",
+      "verified": true,
+      "explanation": ":.2f muotoilee luvun kahdella desimaalilla. Aaltosulkeiden lausekkeet lasketaan."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(int(3.9), round(3.9), int(\"7\") + 1)",
+      "answer": "3 4 8",
+      "verified": true,
+      "explanation": "int katkaisee desimaalit, round pyöristää. int(\"7\") muuntaa merkkijonon luvuksi."
+    },
+    {
+      "id": "e5",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen TypeError. Millä rivillä virhe on?",
+      "language": "python",
+      "code": "pisteet = 42\nviesti = \"Pisteet: \" + pisteet\nprint(viesti)",
+      "bugLine": 2,
+      "explanation": "Merkkijonoon ei voi lisätä lukua +-operaattorilla. Korjaus: str(pisteet) tai f\"Pisteet: {pisteet}\"."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että syöte muunnetaan kokonaisluvuksi.",
+      "language": "python",
+      "code": "ika = ___(input(\"Ikä: \"))",
+      "answers": ["int"],
+      "explanation": "int muuntaa merkkijonon kokonaisluvuksi, jotta sillä voi laskea."
+    },
+    {
+      "id": "e7",
+      "type": "match_pairs",
+      "prompt": "Yhdistä lauseke ja tulos.",
+      "pairs": [
+        ["str(42)", "\"42\""],
+        ["int(\"42\")", "42"],
+        ["float(\"2.5\")", "2.5"],
+        ["round(2.7)", "3"]
+      ],
+      "explanation": "Muunnosfunktiot ovat samannimisiä kuin tyypit: int, float, str."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä tapahtuu, kun ajetaan int(\"kissa\")?",
+      "options": ["Ohjelma kaatuu virheeseen ValueError", "Tulos on 0", "Tulos on 5", "Tulos on None"],
+      "answer": 0,
+      "explanation": "Merkkijono ei ole luku, joten muunnos epäonnistuu. Tällaiset virheet voi käsitellä try/except-rakenteella (taso 2)."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: kysy kaksi lukua ja tulosta niiden summa.",
+      "language": "python",
+      "lines": ["a = int(input(\"Eka: \"))", "b = int(input(\"Toka: \"))", "summa = a + b", "print(f\"Summa on {summa}\")"],
+      "explanation": "Luvut luetaan ja muunnetaan ennen kuin niillä lasketaan."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "python",
+      "code": "a = \"2\"\nb = \"3\"\nprint(a + b)\nprint(int(a) + int(b))",
+      "answer": "23\n5",
+      "verified": true,
+      "explanation": "Merkkijonot liitetään yhteen, luvut lasketaan yhteen."
+    }
+  ]
+}

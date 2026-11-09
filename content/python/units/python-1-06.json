@@ -1,0 +1,90 @@
+{
+  "id": "python-1-06",
+  "title": "Sanakirjat ja tuplet",
+  "level": 1,
+  "theory": "## Sanakirja\n\n**Sanakirja (dict)** tallentaa **avain–arvo-pareja (key–value)**:\n\n```python\nhinnat = {\"kahvi\": 2.5, \"pulla\": 1.8}\n```\n\n- `hinnat[\"kahvi\"]` hakee arvon avaimella. Jos avainta ei ole, tulee virhe `KeyError`.\n- `hinnat.get(\"tee\", 0)` palauttaa oletusarvon 0, jos avainta ei ole – ei virhettä.\n- `hinnat[\"tee\"] = 2.0` lisää uuden parin tai korvaa olemassa olevan arvon.\n- `del hinnat[\"pulla\"]` poistaa parin.\n- `\"kahvi\" in hinnat` tarkistaa, onko **avain** olemassa.\n\nAvaimet ovat yksilöllisiä, ja sanakirja säilyttää lisäysjärjestyksen.\n\n## Läpikäynti\n\n```python\nfor tuote, hinta in hinnat.items():\n    print(tuote, hinta)\n```\n\n`keys()` antaa avaimet, `values()` arvot ja `items()` parit.\n\n## Tuple\n\n**Tuple** on kuin lista, mutta **muuttumaton (immutable)**: sitä ei voi muokata luomisen jälkeen. Se kirjoitetaan kaarisulkeisiin: `piste = (3, 4)`.\n\nTuplea käytetään, kun arvot kuuluvat yhteen eikä niitä ole tarkoitus muuttaa, esim. koordinaatit tai funktion useampi paluuarvo.\n\n## Purkaminen\n\nTuplen (ja listan) voi **purkaa (unpack)** muuttujiin:\n\n```python\nx, y = (3, 4)\na, b = b, a   # vaihtaa arvot keskenään\n```",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "hinnat = {\"kahvi\": 2.5, \"pulla\": 1.8}\nhinnat[\"tee\"] = 2.0\nhinnat[\"kahvi\"] = 3.0\nprint(hinnat)",
+      "answer": "{'kahvi': 3.0, 'pulla': 1.8, 'tee': 2.0}",
+      "verified": true,
+      "explanation": "Uusi avain lisää parin loppuun, olemassa oleva avain korvaa arvon samalla paikalla."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "hinnat = {\"kahvi\": 2.5}\nprint(hinnat.get(\"tee\", 0))\nprint(\"kahvi\" in hinnat, 2.5 in hinnat)",
+      "answer": "0\nTrue False",
+      "verified": true,
+      "explanation": "get palauttaa oletusarvon puuttuvalle avaimelle. in tarkistaa avaimet, ei arvoja."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "pisteet = {\"Ada\": 5, \"Linus\": 3}\nfor nimi, p in pisteet.items():\n    print(f\"{nimi}: {p}\")",
+      "answer": "Ada: 5\nLinus: 3",
+      "verified": true,
+      "explanation": "items() antaa avain–arvo-parit, jotka puretaan kahteen muuttujaan."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "a = 1\nb = 2\na, b = b, a\nprint(a, b)",
+      "answer": "2 1",
+      "verified": true,
+      "explanation": "Oikean puolen tuple (b, a) muodostetaan ensin, ja se puretaan muuttujiin a ja b."
+    },
+    {
+      "id": "e5",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen KeyError. Millä rivillä virhe on?",
+      "language": "python",
+      "code": "varasto = {\"omena\": 5}\nprint(varasto[\"omena\"])\nprint(varasto[\"päärynä\"])",
+      "bugLine": 3,
+      "explanation": "Avainta päärynä ei ole. Turvallinen tapa on varasto.get(\"päärynä\", 0)."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelma kaatuu virheeseen TypeError. Millä rivillä virhe on?",
+      "language": "python",
+      "code": "piste = (3, 4)\nprint(piste[0])\npiste[0] = 10",
+      "bugLine": 3,
+      "explanation": "Tuple on muuttumaton, joten sen alkioon ei voi sijoittaa. Käytä listaa, jos arvoja pitää muuttaa."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä metodi, joka palauttaa oletusarvon puuttuvalle avaimelle.",
+      "language": "python",
+      "code": "maara = varasto.___(\"banaani\", 0)",
+      "answers": ["get"],
+      "explanation": "get(avain, oletus) ei kaadu, vaikka avainta ei ole."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä tietorakenne ja ominaisuus.",
+      "pairs": [
+        ["list", "järjestetty ja muuttuva"],
+        ["tuple", "järjestetty ja muuttumaton"],
+        ["dict", "avain–arvo-parit"]
+      ],
+      "explanation": "Lista hakasulkeissa, tuple kaarisulkeissa ja sanakirja aaltosulkeissa."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: laske sanojen esiintymiskerrat sanakirjaan.",
+      "language": "python",
+      "lines": ["laskut = {}", "for sana in [\"a\", \"b\", \"a\"]:", "    laskut[sana] = laskut.get(sana, 0) + 1", "print(laskut)"],
+      "explanation": "get(sana, 0) antaa nollan ensimmäisellä kerralla. Tulos on {'a': 2, 'b': 1}."
+    }
+  ]
+}

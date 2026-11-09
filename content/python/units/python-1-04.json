@@ -1,0 +1,91 @@
+{
+  "id": "python-1-04",
+  "title": "Silmukat",
+  "level": 1,
+  "theory": "## for ja range\n\n`for` käy läpi jonon alkiot yksi kerrallaan. `range` tuottaa lukujonoja:\n\n- `range(5)` → 0, 1, 2, 3, 4\n- `range(2, 6)` → 2, 3, 4, 5 (loppu ei kuulu mukaan)\n- `range(10, 0, -3)` → 10, 7, 4, 1 (kolmas luku on askel)\n\nfor-silmukalla voi käydä läpi myös merkkijonon merkit tai listan alkiot: `for kirjain in \"kala\":`\n\n## enumerate\n\nKun tarvitset sekä järjestysnumeron että alkion, käytä `enumerate`:\n\n```python\nfor i, hedelma in enumerate([\"omena\", \"banaani\"]):\n    print(i, hedelma)\n```\n\n## while\n\n`while` toistaa, kunnes ehto muuttuu epätodeksi. Muista päivittää ehdossa käytettyä muuttujaa, muuten silmukka ei lopu.\n\n## break ja continue\n\n- `break` lopettaa silmukan heti.\n- `continue` siirtyy seuraavaan kierrokseen.\n\n## Sisäkkäiset silmukat\n\nSilmukan sisällä voi olla toinen silmukka. Sisempi silmukka käydään kokonaan läpi jokaisella ulomman kierroksella:\n\n```python\nfor rivi in range(2):\n    for sarake in range(3):\n        print(rivi, sarake)\n```\n\nTämä tulostaa 2 · 3 = 6 riviä.\n\n## print-funktion end\n\n`print` lisää oletuksena rivinvaihdon loppuun. Parametrilla `end` sen voi vaihtaa: `print(i, end=\" \")` tulostaa luvut samalle riville.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "for i in range(2, 6):\n    print(i, end=\" \")",
+      "answer": "2 3 4 5",
+      "verified": true,
+      "explanation": "range(2, 6) alkaa kahdesta ja päättyy ennen kuutta. end=\" \" pitää luvut samalla rivillä."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "print(list(range(10, 0, -3)))",
+      "answer": "[10, 7, 4, 1]",
+      "verified": true,
+      "explanation": "Kolmas argumentti on askel. Negatiivinen askel laskee alaspäin."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "for i, hedelma in enumerate([\"omena\", \"banaani\"]):\n    print(i, hedelma)",
+      "answer": "0 omena\n1 banaani",
+      "verified": true,
+      "explanation": "enumerate antaa jokaiselle alkiolle järjestysnumeron, joka alkaa nollasta."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "laskuri = 0\nfor rivi in range(2):\n    for sarake in range(3):\n        laskuri += 1\nprint(laskuri)",
+      "answer": "6",
+      "verified": true,
+      "explanation": "Sisempi silmukka tekee 3 kierrosta jokaisella ulomman 2 kierroksella: 2 · 3 = 6."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "python",
+      "code": "n = 1\nwhile n < 50:\n    n *= 3\nprint(n)",
+      "answer": "81",
+      "verified": true,
+      "explanation": "n kulkee 1 → 3 → 9 → 27 → 81. Kun n on 81, ehto n < 50 on epätosi ja silmukka päättyy."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa luvut 1–5, mutta se tulostaa 1–4. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "for i in range(1, 5):\n    print(i)",
+      "bugLine": 1,
+      "explanation": "range-funktion loppuarvo ei kuulu mukaan. Oikein: range(1, 6)."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä funktio, joka antaa sekä indeksin että alkion.",
+      "language": "python",
+      "code": "for i, nimi in ___(nimet):\n    print(i, nimi)",
+      "answers": ["enumerate"],
+      "explanation": "enumerate palauttaa pareja (indeksi, alkio)."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä range-kutsu ja sen tuottamat luvut.",
+      "pairs": [
+        ["range(3)", "0, 1, 2"],
+        ["range(1, 4)", "1, 2, 3"],
+        ["range(0, 10, 4)", "0, 4, 8"],
+        ["range(3, 0, -1)", "3, 2, 1"]
+      ],
+      "explanation": "range(alku, loppu, askel): loppuarvo ei koskaan kuulu mukaan."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: etsi ensimmäinen 7:llä jaollinen luku väliltä 20–40 ja lopeta.",
+      "language": "python",
+      "lines": ["for luku in range(20, 41):", "    if luku % 7 == 0:", "        print(luku)", "        break"],
+      "explanation": "break lopettaa silmukan heti ensimmäisen osuman jälkeen (tulos 21)."
+    }
+  ]
+}

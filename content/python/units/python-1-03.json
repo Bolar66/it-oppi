@@ -1,0 +1,95 @@
+{
+  "id": "python-1-03",
+  "title": "Ehdot",
+  "level": 1,
+  "theory": "```python\nlampotila = 18\nif lampotila > 25:\n    print(\"Helle\")\nelif lampotila > 15:\n    print(\"Lämmin\")\nelse:\n    print(\"Viileä\")\n```\n\nEhtorivi päättyy kaksoispisteeseen, ja haaraan kuuluvat rivit sisennetään neljällä välilyönnillä. Vain ensimmäinen tosi haara suoritetaan.\n\n## Vertailut\n\n- `==`, `!=`, `<`, `>`, `<=`, `>=`\n- Pythonissa vertailuja voi ketjuttaa: `0 <= x < 10` tarkoittaa samaa kuin `0 <= x and x < 10`.\n- `in` tarkistaa, sisältyykö arvo kokoelmaan tai merkkijonoon: `\"a\" in \"kala\"` on `True`.\n\n## Loogiset operaattorit\n\nPythonissa ne kirjoitetaan sanoina: `and`, `or`, `not`.\n\n## Totuudellisuus\n\nEhdossa voi käyttää muutakin kuin True/False. Seuraavat tulkitaan **epätosiksi (falsy)**: `0`, `0.0`, tyhjä merkkijono `\"\"`, tyhjä lista `[]`, tyhjä sanakirja `{}` ja `None`. Kaikki muu on **totta (truthy)**.\n\n```python\nnimi = \"\"\nif not nimi:\n    print(\"Nimi puuttuu\")\n```\n\n## Ehtolauseke\n\nLyhyen valinnan voi kirjoittaa yhdelle riville: `tulos = \"läpi\" if pisteet >= 50 else \"hylätty\"`.\n\n## Vertaa oikein\n\n`=` on sijoitus ja `==` vertailu. Pythonissa `if x = 5:` on syntaksivirhe, joten virhe huomataan heti.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "lampotila = 18\nif lampotila > 25:\n    print(\"Helle\")\nelif lampotila > 15:\n    print(\"Lämmin\")\nelse:\n    print(\"Viileä\")",
+      "answer": "Lämmin",
+      "verified": true,
+      "explanation": "18 > 25 on epätosi, 18 > 15 on tosi, joten elif-haara suoritetaan."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "x = 7\nprint(0 <= x < 10)\nprint(\"a\" in \"kala\", \"e\" in \"kala\")",
+      "answer": "True\nTrue False",
+      "verified": true,
+      "explanation": "Ketjutettu vertailu tarkistaa molemmat rajat. in tarkistaa, sisältyykö merkki merkkijonoon."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "nimi = \"\"\nif not nimi:\n    print(\"Nimi puuttuu\")\nelse:\n    print(f\"Hei {nimi}\")",
+      "answer": "Nimi puuttuu",
+      "verified": true,
+      "explanation": "Tyhjä merkkijono on epätosi, joten not nimi on tosi."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "pisteet = 64\ntulos = \"läpi\" if pisteet >= 50 else \"hylätty\"\nprint(tulos)",
+      "answer": "läpi",
+      "verified": true,
+      "explanation": "Ehtolauseke palauttaa ensimmäisen arvon, kun ehto on tosi."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Yhdistä arvo ja sen totuudellisuus.",
+      "pairs": [
+        ["0", "epätosi (luku nolla)"],
+        ["\"\"", "epätosi (tyhjä merkkijono)"],
+        ["[]", "epätosi (tyhjä lista)"],
+        ["\"0\"", "tosi (ei-tyhjä merkkijono)"]
+      ],
+      "explanation": "Merkkijono \"0\" ei ole tyhjä, joten se on tosi – vaikka luku 0 on epätosi."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa \"Erinomainen\" 95 pisteellä, mutta tulostaa \"Hyvä\". Millä rivillä ongelma alkaa?",
+      "language": "python",
+      "code": "pisteet = 95\nif pisteet > 50:\n    print(\"Hyvä\")\nelif pisteet > 90:\n    print(\"Erinomainen\")",
+      "bugLine": 2,
+      "explanation": "Laajempi ehto (> 50) on ensin, joten tarkempaa ehtoa (> 90) ei koskaan tarkisteta. Tarkin ehto pitää kirjoittaa ensin."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä avainsana, joka tarkistaa uuden ehdon, jos edellinen oli epätosi.",
+      "language": "python",
+      "code": "if x > 0:\n    print(\"positiivinen\")\n___ x < 0:\n    print(\"negatiivinen\")\nelse:\n    print(\"nolla\")",
+      "answers": ["elif"],
+      "explanation": "elif on Pythonin lyhenne sanoista else if."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä Python tekee, kun kirjoitat if x = 5:?",
+      "options": [
+        "Ilmoittaa syntaksivirheestä",
+        "Sijoittaa x:lle arvon 5 ja suorittaa haaran",
+        "Vertaa x:ää viiteen",
+        "Ohittaa rivin"
+      ],
+      "answer": 0,
+      "explanation": "Pythonissa sijoitus ei kelpaa ehdoksi, joten tämä yleinen virhe huomataan heti. Vertailu kirjoitetaan ==."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: tulosta \"Tyhjä\", jos lista on tyhjä, muuten alkioiden määrä.",
+      "language": "python",
+      "lines": ["ostokset = []", "if not ostokset:", "    print(\"Tyhjä\")", "else:", "    print(len(ostokset))"],
+      "explanation": "Tyhjä lista on epätosi, joten not ostokset on tosi."
+    }
+  ]
+}

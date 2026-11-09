@@ -1,0 +1,91 @@
+{
+  "id": "python-1-05",
+  "title": "Listat",
+  "level": 1,
+  "theory": "**Lista (list)** on järjestetty kokoelma arvoja hakasulkeissa: `luvut = [4, 8, 15, 16]`.\n\n## Indeksit ja viipalointi\n\n- `luvut[0]` on ensimmäinen ja `luvut[-1]` viimeinen alkio.\n- **Viipalointi (slicing)** `luvut[1:3]` palauttaa uuden listan indekseistä 1 ja 2 (loppu ei kuulu mukaan).\n- `luvut[:2]` = kaksi ensimmäistä, `luvut[2:]` = indeksistä 2 loppuun, `luvut[::-1]` = käänteinen järjestys.\n\n## Muokkaaminen\n\nLista on **muuttuva (mutable)**:\n\n- `luvut.append(23)` lisää loppuun\n- `luvut.insert(0, 1)` lisää indeksiin 0\n- `luvut.remove(8)` poistaa ensimmäisen arvon 8\n- `luvut.pop()` poistaa ja palauttaa viimeisen\n- `luvut[1] = 99` korvaa alkion\n\n## Hyödyllisiä\n\n- `len(luvut)`, `sum(luvut)`, `max(luvut)`, `min(luvut)`\n- `x in luvut` – onko arvo listassa\n- `luvut.sort()` järjestää **listan itsensä** ja palauttaa None; `sorted(luvut)` palauttaa **uuden** järjestetyn listan.\n\n## Listakooste\n\n**Listakooste (list comprehension)** luo uuden listan lyhyesti:\n\n```python\nneliot = [x * x for x in range(4)]\nparilliset = [x for x in luvut if x % 2 == 0]\n```\n\n## Viittaus, ei kopio\n\n`b = a` ei kopioi listaa: molemmat nimet viittaavat samaan listaan, joten muutos näkyy kummankin kautta. Kopio tehdään `b = a.copy()`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "luvut = [4, 8, 15, 16, 23]\nprint(luvut[1:3])\nprint(luvut[-2:])",
+      "answer": "[8, 15]\n[16, 23]",
+      "verified": true,
+      "explanation": "[1:3] ottaa indeksit 1 ja 2. [-2:] ottaa kaksi viimeistä."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "luvut = [3, 1, 2]\ntulos = luvut.sort()\nprint(tulos)\nprint(luvut)",
+      "answer": "None\n[1, 2, 3]",
+      "verified": true,
+      "explanation": "sort järjestää listan paikallaan ja palauttaa None. Uuden listan saa sorted-funktiolla."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "a = [1, 2]\nb = a\nb.append(3)\nprint(a)",
+      "answer": "[1, 2, 3]",
+      "verified": true,
+      "explanation": "b = a ei tee kopiota: molemmat viittaavat samaan listaan. Kopio tehdään a.copy()."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "print([x * x for x in range(4)])\nprint([x for x in [5, 8, 11, 14] if x % 2 == 0])",
+      "answer": "[0, 1, 4, 9]\n[8, 14]",
+      "verified": true,
+      "explanation": "Listakooste muodostaa uuden listan lausekkeesta, ja if suodattaa alkioita."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Yhdistä metodi ja toiminto.",
+      "pairs": [
+        ["append(x)", "lisää loppuun"],
+        ["insert(i, x)", "lisää indeksiin i"],
+        ["remove(x)", "poistaa ensimmäisen arvon x"],
+        ["pop()", "poistaa ja palauttaa viimeisen"]
+      ],
+      "explanation": "remove etsii arvon, pop käsittelee sijaintia."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa järjestetty lista, mutta se tulostaa None. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "nimet = [\"Linus\", \"Ada\", \"Grace\"]\njarjestetty = nimet.sort()\nprint(jarjestetty)",
+      "bugLine": 2,
+      "explanation": "sort palauttaa None. Käytä sorted(nimet) tai kutsu nimet.sort() ja tulosta nimet."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä viipale, joka kääntää listan.",
+      "language": "python",
+      "code": "luvut = [1, 2, 3]\nprint(luvut[___])",
+      "answers": ["::-1"],
+      "explanation": "Askel -1 käy listan läpi lopusta alkuun."
+    },
+    {
+      "id": "e8",
+      "type": "code_output",
+      "language": "python",
+      "code": "pisteet = [7, 3, 9]\nprint(len(pisteet), sum(pisteet), max(pisteet), 3 in pisteet)",
+      "answer": "3 19 9 True",
+      "verified": true,
+      "explanation": "Valmiit funktiot kertovat pituuden, summan ja suurimman arvon. in tarkistaa, löytyykö arvo."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: luo lista, lisää alkuun 0 ja tulosta [0, 1, 2].",
+      "language": "python",
+      "lines": ["luvut = [1, 2]", "luvut.insert(0, 0)", "print(luvut)"],
+      "explanation": "insert(0, 0) lisää arvon 0 indeksiin 0 eli listan alkuun."
+    }
+  ]
+}

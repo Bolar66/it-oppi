@@ -86,6 +86,36 @@
       "example": "syntyma_vuosi",
       "level": 1,
       "unit": "python-1-01"
-    }
+    },
+    { "id": "input", "term": "input", "definition": "Funktio, joka lukee käyttäjän syötteen ja palauttaa sen aina merkkijonona.", "example": "nimi = input(\"Nimi: \")", "level": 1, "unit": "python-1-02" },
+    { "id": "f-string", "term": "f-merkkijono", "en": "f-string", "definition": "Merkkijono, jonka aaltosulkeisiin kirjoitetut lausekkeet korvataan niiden arvoilla.", "example": "f\"{nimi} on {ika}\"", "level": 1, "unit": "python-1-02" },
+    { "id": "value-error", "term": "ValueError", "definition": "Virhe, joka syntyy esimerkiksi, kun muuntaa luvuksi merkkijonon, joka ei ole luku.", "example": "int(\"kissa\")", "level": 1, "unit": "python-1-02" },
+
+    { "id": "truthy", "term": "totuudellisuus", "en": "truthiness", "definition": "Arvon tulkinta ehdossa: 0, tyhjä merkkijono, tyhjä lista ja None ovat epätosia, muut tosia.", "level": 1, "unit": "python-1-03" },
+    { "id": "chained-comparison", "term": "ketjutettu vertailu", "en": "chained comparison", "definition": "Useamman vertailun kirjoittaminen yhteen lausekkeeseen.", "example": "0 <= x < 10", "level": 1, "unit": "python-1-03" },
+    { "id": "conditional-expression", "term": "ehtolauseke", "en": "conditional expression", "definition": "Yhden rivin valinta muotoa arvo1 if ehto else arvo2.", "level": 1, "unit": "python-1-03" },
+
+    { "id": "range", "term": "range", "definition": "Funktio, joka tuottaa lukujonon; loppuarvo ei kuulu mukaan.", "example": "range(1, 6)", "level": 1, "unit": "python-1-04" },
+    { "id": "enumerate", "term": "enumerate", "definition": "Funktio, joka antaa silmukassa sekä järjestysnumeron että alkion.", "example": "for i, x in enumerate(lista):", "level": 1, "unit": "python-1-04" },
+    { "id": "nested-loop", "term": "sisäkkäinen silmukka", "en": "nested loop", "definition": "Silmukka toisen silmukan sisällä; sisempi käydään läpi jokaisella ulomman kierroksella.", "level": 1, "unit": "python-1-04" },
+
+    { "id": "slicing", "term": "viipalointi", "en": "slicing", "definition": "Osan ottaminen listasta tai merkkijonosta muodossa [alku:loppu:askel].", "example": "luvut[1:3]", "level": 1, "unit": "python-1-05" },
+    { "id": "list-comprehension", "term": "listakooste", "en": "list comprehension", "definition": "Lyhyt tapa luoda uusi lista lausekkeesta ja silmukasta.", "example": "[x * x for x in range(4)]", "level": 1, "unit": "python-1-05" },
+    { "id": "mutable", "term": "muuttuva", "en": "mutable", "definition": "Tietorakenne, jota voi muokata luomisen jälkeen, kuten lista ja sanakirja.", "level": 1, "unit": "python-1-05" },
+
+    { "id": "dict", "term": "sanakirja", "en": "dictionary, dict", "definition": "Tietorakenne, joka tallentaa avain–arvo-pareja.", "example": "{\"kahvi\": 2.5}", "level": 1, "unit": "python-1-06" },
+    { "id": "tuple", "term": "tuple", "definition": "Järjestetty ja muuttumaton kokoelma kaarisulkeissa.", "example": "(3, 4)", "level": 1, "unit": "python-1-06" },
+    { "id": "unpacking", "term": "purkaminen", "en": "unpacking", "definition": "Tuplen tai listan alkioiden sijoittaminen usealle muuttujalle kerralla.", "example": "x, y = (3, 4)", "level": 1, "unit": "python-1-06" },
+    { "id": "key-error", "term": "KeyError", "definition": "Virhe, joka syntyy, kun sanakirjasta haetaan avainta, jota ei ole.", "level": 1, "unit": "python-1-06" },
+
+    { "id": "default-argument", "term": "oletusarvo", "en": "default argument", "definition": "Parametrin arvo, jota käytetään, jos kutsussa ei anneta arvoa.", "example": "def f(x, n=1):", "level": 1, "unit": "python-1-07" },
+    { "id": "keyword-argument", "term": "nimetty argumentti", "en": "keyword argument", "definition": "Argumentti, joka annetaan parametrin nimellä.", "example": "f(5, n=3)", "level": 1, "unit": "python-1-07" },
+    { "id": "docstring", "term": "dokumenttimerkkijono", "en": "docstring", "definition": "Funktion alussa oleva merkkijono, joka kuvaa, mitä funktio tekee.", "level": 1, "unit": "python-1-07" },
+    { "id": "none", "term": "None", "definition": "Pythonin arvo, joka tarkoittaa \"ei arvoa\"; funktio palauttaa sen, jos returnia ei ole.", "level": 1, "unit": "python-1-07" },
+
+    { "id": "immutable", "term": "muuttumaton", "en": "immutable", "definition": "Arvo, jota ei voi muuttaa luomisen jälkeen; metodit palauttavat uuden arvon.", "example": "merkkijono, tuple", "level": 1, "unit": "python-1-08" },
+    { "id": "split", "term": "split", "definition": "Merkkijonon metodi, joka pilkkoo sen listaksi erottimen kohdalta.", "example": "\"a,b\".split(\",\")", "level": 1, "unit": "python-1-08" },
+    { "id": "join", "term": "join", "definition": "Merkkijonon metodi, joka yhdistää listan alkiot erottimella.", "example": "\" \".join(sanat)", "level": 1, "unit": "python-1-08" },
+    { "id": "strip", "term": "strip", "definition": "Merkkijonon metodi, joka poistaa välilyönnit ja rivinvaihdot alusta ja lopusta.", "level": 1, "unit": "python-1-08" }
   ]
 }

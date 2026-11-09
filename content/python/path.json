@@ -3,7 +3,11 @@
   "title": "Python",
   "description": "Python-ohjelmointi perusteista data-analyysiin (pandas, numpy).",
   "levels": [
-    { "level": 1, "title": "Perusteet", "units": ["python-1-01"] }
+    {
+      "level": 1,
+      "title": "Perusteet",
+      "units": ["python-1-01", "python-1-02", "python-1-03", "python-1-04", "python-1-05", "python-1-06", "python-1-07", "python-1-08"]
+    }
   ],
   "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
 }

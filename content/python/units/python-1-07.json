@@ -1,0 +1,90 @@
+{
+  "id": "python-1-07",
+  "title": "Funktiot",
+  "level": 1,
+  "theory": "```python\ndef pinta_ala(leveys, korkeus):\n    \"\"\"Palauttaa suorakulmion pinta-alan.\"\"\"\n    return leveys * korkeus\n```\n\n- `def` aloittaa määrittelyn, ja rivi päättyy kaksoispisteeseen.\n- Funktion alun merkkijono on **dokumenttimerkkijono (docstring)**, joka kertoo, mitä funktio tekee.\n- `return` palauttaa arvon. Ilman returnia funktio palauttaa `None`.\n\n## Oletusarvot ja nimetyt argumentit\n\nParametrille voi antaa **oletusarvon (default)**:\n\n```python\ndef tervehdi(nimi, tervehdys=\"Hei\"):\n    return f\"{tervehdys}, {nimi}!\"\n\ntervehdi(\"Ada\")                 # Hei, Ada!\ntervehdi(\"Ada\", \"Moi\")          # Moi, Ada!\ntervehdi(\"Ada\", tervehdys=\"Terve\")\n```\n\nViimeinen kutsu käyttää **nimettyä argumenttia (keyword argument)**, mikä tekee kutsusta selkeämmän.\n\n## Monta paluuarvoa\n\nFunktio voi palauttaa useita arvoja tuplena, ja ne voi purkaa:\n\n```python\ndef min_max(luvut):\n    return min(luvut), max(luvut)\n\npienin, suurin = min_max([3, 9, 1])\n```\n\n## Hyvä funktio\n\nHyvä funktio tekee yhden asian, sen nimi on verbi (`laske_keskiarvo`) ja se saa tarvitsemansa tiedot parametreina sen sijaan, että käyttäisi ulkopuolisia muuttujia.\n\n## Varo: muuttuva oletusarvo\n\nÄlä käytä oletusarvona listaa (`def f(x=[])`): sama lista säilyy kutsusta toiseen. Käytä `None` ja luo lista funktion sisällä.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "def tervehdi(nimi, tervehdys=\"Hei\"):\n    return f\"{tervehdys}, {nimi}!\"\n\nprint(tervehdi(\"Ada\"))\nprint(tervehdi(\"Linus\", tervehdys=\"Moi\"))",
+      "answer": "Hei, Ada!\nMoi, Linus!",
+      "verified": true,
+      "explanation": "Ensimmäinen kutsu käyttää oletusarvoa, toinen antaa sen nimettynä argumenttina."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "def min_max(luvut):\n    return min(luvut), max(luvut)\n\npienin, suurin = min_max([3, 9, 1])\nprint(pienin, suurin)",
+      "answer": "1 9",
+      "verified": true,
+      "explanation": "Funktio palauttaa tuplen, joka puretaan kahteen muuttujaan."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "def lisaa(alkio, lista=[]):\n    lista.append(alkio)\n    return lista\n\nprint(lisaa(1))\nprint(lisaa(2))",
+      "answer": "[1]\n[1, 2]",
+      "verified": true,
+      "explanation": "Oletusarvona annettu lista luodaan vain kerran, joten toinen kutsu jatkaa samaa listaa. Siksi muuttuvaa oletusarvoa kannattaa välttää."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa 12, mutta se tulostaa None. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "def pinta_ala(leveys, korkeus):\n    tulos = leveys * korkeus\n    print(\"Laskettu\")\n\nprint(pinta_ala(3, 4))",
+      "bugLine": 3,
+      "explanation": "Funktio ei palauta tulosta. Rivin 3 tilalla pitäisi olla return tulos."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että parametrilla kerroin on oletusarvo 2.",
+      "language": "python",
+      "code": "def kerro(x, kerroin___2):\n    return x * kerroin",
+      "answers": ["="],
+      "explanation": "Oletusarvo annetaan parametrin perään =-merkillä."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja esimerkki.",
+      "pairs": [
+        ["oletusarvo", "def f(x, n=1):"],
+        ["nimetty argumentti", "f(5, n=3)"],
+        ["dokumenttimerkkijono", "\"\"\"Palauttaa summan.\"\"\""],
+        ["monta paluuarvoa", "return a, b"]
+      ],
+      "explanation": "Nämä tekevät funktioista joustavia ja helppolukuisia."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Mitä funktio palauttaa, jos siinä ei ole return-lausetta?",
+      "options": ["None", "0", "Tyhjän merkkijonon", "Viimeisen lasketun arvon"],
+      "answer": 0,
+      "explanation": "Python palauttaa automaattisesti None-arvon."
+    },
+    {
+      "id": "e8",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: määrittele keskiarvofunktio ja tulosta keskiarvo 4.0.",
+      "language": "python",
+      "lines": ["def keskiarvo(luvut):", "    return sum(luvut) / len(luvut)", "print(keskiarvo([2, 4, 6]))"],
+      "explanation": "Funktio määritellään ennen kuin sitä kutsutaan. / palauttaa liukuluvun 4.0."
+    },
+    {
+      "id": "e9",
+      "type": "code_output",
+      "language": "python",
+      "code": "def keskiarvo(luvut):\n    return sum(luvut) / len(luvut)\n\nprint(keskiarvo([2, 4, 6]))",
+      "answer": "4.0",
+      "verified": true,
+      "explanation": "Jakolasku / antaa aina liukuluvun, joten tulos on 4.0 eikä 4."
+    }
+  ]
+}

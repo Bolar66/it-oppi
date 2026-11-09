@@ -1,0 +1,100 @@
+{
+  "id": "python-1-08",
+  "title": "Merkkijonojen käsittely",
+  "level": 1,
+  "theory": "Merkkijono on merkkien jono, joten siihen toimivat indeksit ja viipalointi kuten listoihin: `\"Python\"[0]` on `\"P\"` ja `\"Python\"[:3]` on `\"Pyt\"`.\n\nMerkkijonot ovat **muuttumattomia**: metodit eivät muuta alkuperäistä, vaan palauttavat uuden merkkijonon.\n\n## Yleisiä metodeja\n\n- `upper()`, `lower()` – isot tai pienet kirjaimet\n- `strip()` – poistaa välilyönnit ja rivinvaihdot alusta ja lopusta\n- `replace(\"a\", \"o\")` – korvaa kaikki osumat\n- `startswith(\"Py\")`, `endswith(\".txt\")` – alkaako tai päättyykö\n- `find(\"th\")` – osuman indeksi tai −1\n- `count(\"a\")` – esiintymiskerrat\n\n## split ja join\n\n`split` pilkkoo merkkijonon listaksi ja `join` yhdistää listan merkkijonoksi:\n\n```python\nsanat = \"omena,banaani,kiivi\".split(\",\")\nteksti = \" \".join(sanat)\n```\n\nIlman argumenttia `split()` pilkkoo välilyöntien kohdalta ja ohittaa ylimääräiset välilyönnit.\n\n## Käytännön esimerkki\n\nKäyttäjän syöte kannattaa siistiä ennen vertailua: `vastaus.strip().lower() == \"kyllä\"`. Näin `\"  Kyllä \"` hyväksytään.\n\n## Merkkijono toisinpäin\n\n`teksti[::-1]` kääntää merkkijonon. Palindromin (sama molempiin suuntiin) voi tarkistaa: `sana == sana[::-1]`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "python",
+      "code": "kieli = \"Python\"\nprint(kieli[0], kieli[:3], kieli[-1])",
+      "answer": "P Pyt n",
+      "verified": true,
+      "explanation": "Merkkijonon indeksointi ja viipalointi toimivat kuten listoissa."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "python",
+      "code": "vastaus = \"  Kyllä \"\nprint(vastaus.strip().lower() == \"kyllä\")",
+      "answer": "True",
+      "verified": true,
+      "explanation": "strip poistaa välilyönnit ja lower muuttaa kirjaimet pieniksi ennen vertailua."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "python",
+      "code": "sanat = \"omena,banaani,kiivi\".split(\",\")\nprint(sanat)\nprint(\" + \".join(sanat))",
+      "answer": "['omena', 'banaani', 'kiivi']\nomena + banaani + kiivi",
+      "verified": true,
+      "explanation": "split pilkkoo pilkkujen kohdalta listaksi, join yhdistää listan annetulla erottimella."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "python",
+      "code": "nimi = \"ada\"\nnimi.upper()\nprint(nimi)\nprint(nimi.upper())",
+      "answer": "ada\nADA",
+      "verified": true,
+      "explanation": "Merkkijono on muuttumaton: upper palauttaa uuden merkkijonon, mutta ensimmäisellä kerralla tulosta ei tallennettu."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "python",
+      "code": "teksti = \"banaani\"\nprint(teksti.count(\"a\"), teksti.find(\"n\"), teksti.replace(\"a\", \"o\"))",
+      "answer": "3 2 bonooni",
+      "verified": true,
+      "explanation": "a esiintyy 3 kertaa, ensimmäinen n on indeksissä 2, ja replace korvaa kaikki a-kirjaimet."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa [Ada], mutta se tulostaa [  Ada  ]. Millä rivillä on virhe?",
+      "language": "python",
+      "code": "nimi = \"  Ada  \"\nnimi.strip()\nprint(f\"[{nimi}]\")",
+      "bugLine": 2,
+      "explanation": "strip palauttaa uuden merkkijonon, jota ei tallenneta. Oikein: nimi = nimi.strip()."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että sana käännetään toisinpäin.",
+      "language": "python",
+      "code": "sana = \"saippua\"\nprint(sana[___])",
+      "answers": ["::-1"],
+      "explanation": "Viipale askeleella -1 käy merkkijonon läpi lopusta alkuun."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä metodi ja tulos, kun s = \" Hei \".",
+      "pairs": [
+        ["s.strip()", "\"Hei\""],
+        ["s.upper()", "\" HEI \""],
+        ["s.lower()", "\" hei \""],
+        ["s.replace(\"e\", \"a\")", "\" Hai \""]
+      ],
+      "explanation": "Vain strip poistaa välilyönnit; muut metodit säilyttävät ne."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: laske lauseen sanojen määrä.",
+      "language": "python",
+      "lines": ["lause = \"Python on   hauska kieli\"", "sanat = lause.split()", "print(len(sanat))"],
+      "explanation": "split() ilman argumenttia ohittaa ylimääräiset välilyönnit, joten tulos on 4."
+    },
+    {
+      "id": "e10",
+      "type": "code_output",
+      "language": "python",
+      "code": "for sana in [\"saippuakauppias\", \"kissa\"]:\n    print(sana, sana == sana[::-1])",
+      "answer": "saippuakauppias True\nkissa False",
+      "verified": true,
+      "explanation": "saippuakauppias on sama molempiin suuntiin eli palindromi. kissa toisinpäin on assik."
+    }
+  ]
+}
