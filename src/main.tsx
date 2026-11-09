@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import { routes } from './routes.tsx'
 import { migrateLegacyReports } from './progress/repo.ts'
+import { AuthProvider } from './sync/auth.tsx'
+import AuthGate from './sync/AuthGate.tsx'
 import './index.css'
 
 // Vaiheen 2 localStorage-virheilmoitukset IndexedDB:hen (kerran).
@@ -14,6 +16,10 @@ const router = createBrowserRouter(routes, { basename: basename || '/' })
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <AuthGate>
+        <RouterProvider router={router} />
+      </AuthGate>
+    </AuthProvider>
   </StrictMode>,
 )

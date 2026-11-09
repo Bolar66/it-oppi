@@ -1,7 +1,8 @@
 import type { Level } from '../schemas/content.ts'
 import { itemKey, type LessonItem } from '../lesson/types.ts'
-import { db, TABLE_NAMES } from './db.ts'
+import { db, TABLE_NAMES, type SyncedTable } from './db.ts'
 import { dayKey } from './dates.ts'
+import { notifyLocalChange } from '../sync/notify.ts'
 import { scheduleCorrect, scheduleTermCorrect, scheduleWrong } from './leitner.ts'
 import {
   EXPORT_VERSION,
@@ -18,6 +19,12 @@ import { XP_PER_CORRECT, XP_PER_TERM } from './xp.ts'
 
 export function newId(): string {
   return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
+
+/** Poistaa tietueen ja jättää poistomerkinnän synkronointia varten (kutsu transaktiossa, jossa tombstones on mukana). */
+async function deleteWithTombstone(table: SyncedTable, id: string, at: string): Promise<void> {
+  await db.table(table).delete(id)
+  await db.tombstones.put({ key: `${table}/${id}`, table, id, updatedAt: at })
 }
 
 function attemptsFor(items: readonly LessonItem[], log: readonly { index: number; correct: boolean }[], context: Activity, at: string): Attempt[] {
@@ -53,7 +60,7 @@ export async function recordLesson(o: LessonOutcome, now = new Date()): Promise<
   const first = o.items[0]
   if (!first) return
 
-  await db.transaction('rw', [db.xpEvents, db.attempts, db.unitProgress, db.reviewItems, db.settings], async () => {
+  await db.transaction('rw', [db.xpEvents, db.attempts, db.unitProgress, db.reviewItems, db.settings, db.tombstones], async () => {
     await db.xpEvents.add({ id: newId(), at, date: today, amount: o.xp, source: o.mode, ref: o.mode === 'lesson' ? first.unitId : 'review', updatedAt: at })
     await db.attempts.bulkAdd(attemptsFor(o.items, o.log, o.mode, at))
 
@@ -66,7 +73,7 @@ export async function recordLesson(o: LessonOutcome, now = new Date()): Promise<
         const existing = await db.reviewItems.get(key)
         const next = scheduleCorrect(existing?.box ?? 0, today)
         if (next) await db.reviewItems.put({ ...base, ...next })
-        else await db.reviewItems.delete(key)
+        else await deleteWithTombstone('reviewItems', key, at)
       } else {
         await db.reviewItems.put({ ...base, ...scheduleWrong(today) })
       }
@@ -89,6 +96,7 @@ export async function recordLesson(o: LessonOutcome, now = new Date()): Promise<
     }
     await db.settings.put({ key: 'lastPathId', value: first.pathId, updatedAt: at })
   })
+  notifyLocalChange()
 }
 
 export interface ExamOutcome {
@@ -162,6 +170,7 @@ export async function recordExam(o: ExamOutcome, now = new Date()): Promise<Exam
     }
     await db.settings.put({ key: 'lastPathId', value: o.pathId, updatedAt: at })
   })
+  notifyLocalChange()
   return result
 }
 
@@ -184,11 +193,13 @@ export async function recordTerms(o: TermOutcome, now = new Date()): Promise<num
       await db.termItems.put({ key, pathId: r.pathId, termId: r.termId, ...next, updatedAt: at })
     }
   })
+  notifyLocalChange()
   return xp
 }
 
 export async function setDailyGoal(xp: number): Promise<void> {
   await db.settings.put({ key: 'dailyGoal', value: xp, updatedAt: new Date().toISOString() })
+  notifyLocalChange()
 }
 
 // --- Virheilmoitukset ---
@@ -197,11 +208,15 @@ export async function addReport(input: Pick<ErrorReport, 'pathId' | 'unitId' | '
   const at = new Date().toISOString()
   const report: ErrorReport = { ...input, id: newId(), createdAt: at, updatedAt: at }
   await db.errorReports.add(report)
+  notifyLocalChange()
   return report
 }
 
 export async function removeReport(id: string): Promise<void> {
-  await db.errorReports.delete(id)
+  await db.transaction('rw', [db.errorReports, db.tombstones], () =>
+    deleteWithTombstone('errorReports', id, new Date().toISOString()),
+  )
+  notifyLocalChange()
 }
 
 /** Vaiheen 2 localStorage-ilmoitukset siirretään IndexedDB:hen (kerran). */
@@ -263,16 +278,22 @@ export function parseExport(text: string): ParseResult {
   return { ok: true, file: r.data }
 }
 
-/** Korvaa kaiken nykyisen datan tiedoston sisällöllä. */
+/**
+ * Korvaa laitteen datan tiedoston sisällöllä. Kirjautuneena tuotu data synkronoidaan kokonaan tilille
+ * (yhdistyy tilin olemassa oleviin tietoihin; uusin muutos voittaa).
+ */
 export async function importData(file: ExportFile): Promise<void> {
-  await db.transaction('rw', TABLE_NAMES.map((t) => db.table(t)), async () => {
+  await db.transaction('rw', [...TABLE_NAMES.map((t) => db.table(t)), db.syncMeta], async () => {
     for (const name of TABLE_NAMES) {
       await db.table(name).clear()
       await db.table(name).bulkAdd(file.data[name])
     }
+    await db.syncMeta.put({ key: 'lastPushAt', value: null })
   })
+  notifyLocalChange()
 }
 
+/** Tyhjentää laitteen kaikki tiedot, myös synkronoinnin kirjanpidon (uloskirjautuminen, testit). */
 export async function clearAllData(): Promise<void> {
-  await Promise.all(TABLE_NAMES.map((t) => db.table(t).clear()))
+  await Promise.all([...TABLE_NAMES.map((t) => db.table(t).clear()), db.syncMeta.clear(), db.tombstones.clear()])
 }

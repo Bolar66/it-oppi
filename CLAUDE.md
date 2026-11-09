@@ -180,4 +180,15 @@ content/
 - `.github/workflows/deploy.yml`: jokainen push main-haaraan ajaa lintin, tsc:n, testit ja validoinnin,
   buildaa alipolulle (VITE_BASE) ja julkaisee. Sisältöpäivitykset menevät puhelimeen pushaamalla.
 
+## Kirjautuminen ja synkka (vaihe 5)
+
+- Supabase: sähköposti + kertakäyttökoodi (OTP), kirjautuminen pakollinen. Tietokanta: `supabase/schema.sql`
+  (yksi `records`-taulu, RLS, `push_records`-funktio: vanhempi muutos ei korvaa uudempaa).
+- `src/sync/`: `engine.ts` (syncOnce: lähetys `updatedAt >= lastPushAt` + poistomerkinnät, haku `server_updated_at`),
+  `controller.ts` (laukaisimet), `auth.tsx` (AuthProvider/useAuth), `AuthGate.tsx` (kirjautumisnäkymä).
+- Jokainen datan muutos repo.ts:ssä kutsuu `notifyLocalChange()`; poistot jättävät tombstonen (`deleteWithTombstone`).
+- Ensimmäinen kirjautuminen yhdistää laitteen datan tiliin; uloskirjautuminen synkkaa ja tyhjentää laitteen.
+- Ympäristö: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (paikallisesti `.env.local`, GitHubissa repo-muuttujat).
+  Kehityspalvelin ilman niitä = paikallinen tila ilman kirjautumista.
+
 Toteuta yksi vaihe kerrallaan. Jokaisen vaiheen lopuksi: testit, lint, tsc ja commit "Phase N completed".

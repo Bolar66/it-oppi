@@ -8,6 +8,7 @@ import { exportData, importData, parseExport, removeReport, setDailyGoal } from 
 import type { ExportFile } from '../progress/types.ts'
 import { DAILY_GOAL_OPTIONS } from '../progress/xp.ts'
 import { Download, Flag, Trash2, Upload } from 'lucide-react'
+import AccountSection from '../sync/AccountSection.tsx'
 import { EmptyState, PageHeader, SectionTitle } from '../ui/components.tsx'
 import { buttonClass, surface } from '../ui/styles.ts'
 
@@ -54,6 +55,8 @@ export default function Settings() {
     <div className="space-y-8">
       <PageHeader title="Asetukset" />
 
+      <AccountSection />
+
       <section aria-labelledby="goal-title">
         <SectionTitle>
           <span id="goal-title">Päivätavoite</span>
@@ -83,7 +86,8 @@ export default function Settings() {
           <span id="data-title">Varmuuskopio</span>
         </SectionTitle>
         <p className="mb-3 text-sm text-muted">
-          Edistyminen tallentuu tähän laitteeseen. Vie se tiedostoon varmuuskopioksi tai siirtääksesi toiseen laitteeseen.
+          Voit viedä edistymisesi tiedostoon varmuuskopioksi. Tiedostosta tuotu data korvaa tämän laitteen datan ja
+          synkronoituu tilillesi.
         </p>
         <div className="grid grid-cols-2 gap-3">
           <button type="button" onClick={() => void doExport()} className={buttonClass('secondary', 'md')}>
@@ -144,8 +148,6 @@ export default function Settings() {
           </ul>
         )}
       </section>
-
-      <p className="text-center text-sm text-faint">Synkronointi laitteiden välillä tulee myöhemmin.</p>
 
       {pending && (
         <ConfirmDialog
