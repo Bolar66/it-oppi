@@ -8,7 +8,9 @@ import './index.css'
 // Vaiheen 2 localStorage-virheilmoitukset IndexedDB:hen (kerran).
 void migrateLegacyReports().catch((e: unknown) => console.error('Virheilmoitusten siirto epäonnistui', e))
 
-const router = createBrowserRouter(routes)
+// Julkaisun alipolku (esim. /it-oppi/) reitittimelle; paikallisesti juuri.
+const basename = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL.slice(0, -1) : import.meta.env.BASE_URL
+const router = createBrowserRouter(routes, { basename: basename || '/' })
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

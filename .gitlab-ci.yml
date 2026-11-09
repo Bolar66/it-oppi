@@ -1,0 +1,32 @@
+# Julkaisu GitLab Pagesiin: jokainen push oletushaaraan tarkistaa ja julkaisee sovelluksen.
+# Osoite näkyy GitLabissa: Deploy → Pages.
+
+image: node:24
+
+pages:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  cache:
+    key:
+      files: [pnpm-lock.yaml]
+    paths: [.pnpm-store]
+  before_script:
+    - corepack enable
+    - pnpm config set store-dir .pnpm-store
+    - pnpm install --frozen-lockfile
+  script:
+    # Sovelluksen polku Pages-osoitteesta, esim. https://kayttaja.gitlab.io/it-oppi → /it-oppi/
+    - export VITE_BASE="$(node -e "const p = new URL(process.env.CI_PAGES_URL).pathname; console.log(p.endsWith('/') ? p : p + '/')")"
+    - echo "Julkaisupolku $VITE_BASE"
+    - pnpm lint
+    - pnpm exec tsc --noEmit
+    - pnpm test
+    - pnpm validate-content
+    - pnpm build
+    # Suorat linkit (esim. /path/linux) toimivat: Pages tarjoaa 404.html:n, joka käynnistää sovelluksen.
+    - cp dist/index.html dist/404.html
+    # Pages julkaisee kansion public; lähdekoodin public/ on jo mukana buildissa.
+    - rm -rf public && mv dist public
+  artifacts:
+    paths: [public]

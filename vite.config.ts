@@ -5,7 +5,14 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import { contentIndexPlugin } from './content-plugin.ts'
 
+/**
+ * Julkaisupolku. GitLab Pages tarjoilee sovelluksen usein alipolusta (esim. /it-oppi/); CI asettaa
+ * VITE_BASE:n CI_PAGES_URL:n perusteella. Paikallisesti juuri.
+ */
+const base = process.env.VITE_BASE ?? '/'
+
 export default defineConfig({
+  base,
   plugins: [
     contentIndexPlugin(),
     react(),
@@ -18,8 +25,8 @@ export default defineConfig({
         short_name: 'IT-oppi',
         description: 'Tietotekniikan oppimissovellus perusteista syventäviin aiheisiin',
         lang: 'fi',
-        start_url: '/',
-        scope: '/',
+        start_url: base,
+        scope: base,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#f4f6f9',
@@ -33,7 +40,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,woff2}'],
-        navigateFallback: '/index.html',
+        navigateFallback: `${base}index.html`,
       },
     }),
   ],
