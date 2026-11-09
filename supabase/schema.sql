@@ -18,6 +18,10 @@ create table if not exists public.records (
 
 create index if not exists records_user_server_updated on public.records (user_id, server_updated_at);
 
+-- Taulu näkyy vain kirjautuneille (toimii, vaikka "Automatically expose new tables" olisi pois päältä).
+revoke all on public.records from anon;
+grant select, insert, update, delete on public.records to authenticated;
+
 -- Rivitason käyttöoikeudet: jokainen näkee ja muokkaa vain omia rivejään.
 alter table public.records enable row level security;
 
