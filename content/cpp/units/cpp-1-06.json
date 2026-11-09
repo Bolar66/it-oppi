@@ -1,0 +1,95 @@
+{
+  "id": "cpp-1-06",
+  "title": "Funktiot",
+  "level": 1,
+  "theory": "Funktio määritellään kertomalla **paluutyyppi**, nimi ja parametrit tyyppeineen:\n\n```cpp\nint tuplaa(int x) {\n    return x * 2;\n}\n```\n\n- `int` ennen nimeä on **paluuarvon tyyppi**.\n- `int x` on parametri tyyppeineen.\n- `return` palauttaa arvon ja lopettaa funktion.\n\nJos funktio ei palauta mitään, paluutyyppi on `void`:\n\n```cpp\nvoid tervehdi(std::string nimi) {\n    std::cout << \"Hei, \" << nimi << \"\\n\";\n}\n```\n\n## Järjestyksellä on väliä\n\nKääntäjä lukee tiedoston ylhäältä alas, joten funktion on oltava **esitelty** ennen kutsua. Joko määrittele funktio ennen mainia, tai kirjoita alkuun pelkkä **esittely (declaration)**: `int tuplaa(int x);`\n\n## Arvo vai viittaus\n\nOletuksena parametri välitetään **arvona (by value)**: funktio saa kopion, eikä alkuperäinen muuttuja muutu.\n\nJos parametrin tyypin perään lisätään `&`, se välitetään **viittauksena (by reference)**: funktio käsittelee alkuperäistä muuttujaa.\n\n```cpp\nvoid kasvata(int& x) {\n    x++;\n}\n```\n\nSuuret oliot, kuten pitkät merkkijonot, välitetään usein vakioviittauksena `const std::string&`, jolloin kopiota ei tehdä eikä arvoa voi muuttaa.\n\n## Ylikuormitus\n\nC++:ssa samannimisiä funktioita voi olla useita, kunhan parametrit eroavat (**ylikuormitus, overloading**).",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint tuplaa(int x) {\n    return x * 2;\n}\n\nint main() {\n    std::cout << tuplaa(4) + 1 << \"\\n\";\n    return 0;\n}",
+      "answer": "9",
+      "verified": true,
+      "explanation": "tuplaa(4) palauttaa 8, ja siihen lisätään 1."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nvoid kasvataKopio(int x) {\n    x++;\n}\n\nvoid kasvataViittaus(int& x) {\n    x++;\n}\n\nint main() {\n    int a = 5;\n    kasvataKopio(a);\n    std::cout << a << \"\\n\";\n    kasvataViittaus(a);\n    std::cout << a << \"\\n\";\n    return 0;\n}",
+      "answer": "5\n6",
+      "verified": true,
+      "explanation": "Arvona välitetty parametri on kopio, joten a ei muutu. Viittauksena (&) välitetty muuttaa alkuperäistä."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <string>\n\nvoid tervehdi(const std::string& nimi) {\n    std::cout << \"Hei, \" << nimi << \"\\n\";\n}\n\nint main() {\n    tervehdi(\"Ada\");\n    tervehdi(\"Linus\");\n    return 0;\n}",
+      "answer": "Hei, Ada\nHei, Linus",
+      "verified": true,
+      "explanation": "void-funktio ei palauta arvoa, vaan tulostaa. Sitä kutsutaan kahdesti eri argumentilla."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelma ei käänny, koska funktiota kutsutaan ennen kuin kääntäjä tuntee sen. Millä rivillä kutsu on?",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << nelio(3) << \"\\n\";\n    return 0;\n}\n\nint nelio(int x) {\n    return x * x;\n}",
+      "bugLine": 4,
+      "explanation": "nelio määritellään vasta mainin jälkeen. Korjaus: siirrä funktio ennen mainia tai lisää alkuun esittely int nelio(int x);."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä paluutyyppi funktiolle, joka ei palauta mitään.",
+      "language": "cpp",
+      "code": "___ tulostaViiva() {\n    std::cout << \"----\\n\";\n}",
+      "answers": ["void"],
+      "explanation": "void tarkoittaa, ettei funktio palauta arvoa."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä käsite ja kuvaus.",
+      "pairs": [
+        ["int x", "arvona: funktio saa kopion"],
+        ["int& x", "viittauksena: funktio muuttaa alkuperäistä"],
+        ["const std::string& s", "ei kopiota, ei muutoksia"],
+        ["void", "funktio ei palauta arvoa"]
+      ],
+      "explanation": "&-merkki tyypin perässä tekee parametrista viittauksen."
+    },
+    {
+      "id": "e7",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint suurempi(int a, int b) {\n    if (a > b) {\n        return a;\n    }\n    return b;\n}\n\nint main() {\n    std::cout << suurempi(3, 8) << \" \" << suurempi(10, 2) << \"\\n\";\n    return 0;\n}",
+      "answer": "8 10",
+      "verified": true,
+      "explanation": "return lopettaa funktion heti, joten toista returnia ei suoriteta, jos ensimmäinen ehto toteutuu."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Mitä funktion esittely int tuplaa(int x); kertoo kääntäjälle?",
+      "options": [
+        "Että funktio on olemassa ja millaiset ovat sen parametrit ja paluutyyppi",
+        "Funktion koko toteutuksen",
+        "Että funktio kutsutaan heti",
+        "Että funktio poistetaan"
+      ],
+      "answer": 0,
+      "explanation": "Esittelyn ansiosta funktiota voi kutsua ennen sen varsinaista määrittelyä."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: määrittele funktio ja kutsu sitä mainista.",
+      "language": "cpp",
+      "lines": ["#include <iostream>", "int summa(int a, int b) { return a + b; }", "int main() {", "    std::cout << summa(2, 3) << \"\\n\";", "}"],
+      "explanation": "Funktio määritellään ennen mainia, jolloin kääntäjä tuntee sen kutsukohdassa."
+    }
+  ]
+}

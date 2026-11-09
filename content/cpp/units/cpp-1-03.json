@@ -1,0 +1,90 @@
+{
+  "id": "cpp-1-03",
+  "title": "Operaattorit ja syöte",
+  "level": 1,
+  "theory": "## Aritmetiikka\n\n- `+`, `-`, `*`, `/`\n- `%` jakojäännös kokonaisluvuille: `17 % 5` on `2`\n- kahden int-luvun `/` on kokonaislukujako\n\nLaskujärjestys on sama kuin matematiikassa, ja suluilla voi muuttaa sitä.\n\n## Lyhennetyt operaattorit\n\n- `x += 5` tarkoittaa `x = x + 5` (vastaavasti `-=`, `*=`, `/=`)\n- `x++` kasvattaa yhdellä, `x--` vähentää yhdellä\n\n## Tyyppimuunnos\n\nJos kahden kokonaisluvun jakolaskusta halutaan desimaalitulos, toinen luku muunnetaan doubleksi:\n\n```cpp\nint summa = 7;\nint maara = 2;\ndouble keskiarvo = static_cast<double>(summa) / maara;\n```\n\n`static_cast<double>(x)` on C++:n suositeltu tapa muuntaa tyyppiä.\n\n## Syöte: std::cin\n\n`std::cin` lukee käyttäjän syötteen, ja `>>` vie sen muuttujaan:\n\n```cpp\nint ika;\nstd::cout << \"Anna ikäsi: \";\nstd::cin >> ika;\n```\n\n`>>` lukee seuraavaan välilyöntiin tai rivinvaihtoon asti. Kokonaisen rivin voi lukea merkkijonoon funktiolla `std::getline(std::cin, rivi)`.\n\nMuista suunnat: tulostus `std::cout <<` (data menee ulos), syöte `std::cin >>` (data tulee sisään muuttujaan).",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << 17 / 5 << \" \" << 17 % 5 << \"\\n\";\n    return 0;\n}",
+      "answer": "3 2",
+      "verified": true,
+      "explanation": "17 = 5 · 3 + 2, joten kokonaislukujako on 3 ja jakojäännös 2."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int x = 10;\n    x += 5;\n    x++;\n    x *= 2;\n    std::cout << x << \"\\n\";\n    return 0;\n}",
+      "answer": "32",
+      "verified": true,
+      "explanation": "10 + 5 = 15, 15 + 1 = 16 ja 16 · 2 = 32."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int summa = 7;\n    int maara = 2;\n    std::cout << summa / maara << \"\\n\";\n    std::cout << static_cast<double>(summa) / maara << \"\\n\";\n    return 0;\n}",
+      "answer": "3\n3.5",
+      "verified": true,
+      "explanation": "Ilman muunnosta jakolasku on kokonaislukujako. static_cast<double> tekee jakolaskusta desimaalisen."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa keskiarvo 2.5, mutta se tulostaa 2. Millä rivillä on virhe?",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int a = 2;\n    int b = 3;\n    double keskiarvo = (a + b) / 2;\n    std::cout << keskiarvo << \"\\n\";\n    return 0;\n}",
+      "bugLine": 6,
+      "explanation": "(a + b) / 2 lasketaan kokonaislukuina (5 / 2 = 2) ennen kuin tulos tallennetaan doubleen. Korjaus: (a + b) / 2.0."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että käyttäjän syöte luetaan muuttujaan ika.",
+      "language": "cpp",
+      "code": "int ika;\nstd::cin ___ ika;",
+      "answers": [">>"],
+      "explanation": "std::cin >> lukee syötteen muuttujaan. Tulostuksessa suunta on päinvastainen: std::cout <<."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä lauseke ja tulos, kun x = 7.",
+      "pairs": [
+        ["x / 2", "3"],
+        ["x % 2", "1"],
+        ["x * 2", "14"],
+        ["x - 10", "-3"]
+      ],
+      "explanation": "x on int, joten x / 2 on kokonaislukujako."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Käyttäjä kirjoittaa \"Ada Lovelace\" ja ohjelma lukee sen komennolla std::cin >> nimi. Mitä muuttujaan nimi tallentuu?",
+      "options": ["Ada", "Ada Lovelace", "Lovelace", "Ei mitään"],
+      "answer": 0,
+      "explanation": ">> lukee vain seuraavaan välilyöntiin asti. Koko rivin saa luettua std::getline-funktiolla."
+    },
+    {
+      "id": "e8",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: kysy luku, lue se ja tulosta sen kaksinkertainen arvo.",
+      "language": "cpp",
+      "lines": ["int luku;", "std::cout << \"Anna luku: \";", "std::cin >> luku;", "std::cout << luku * 2 << \"\\n\";"],
+      "explanation": "Muuttuja esitellään ensin, sitten kysytään, luetaan ja vasta sitten käytetään arvoa."
+    },
+    {
+      "id": "e9",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << (2 + 3) * 4 << \" \" << 2 + 3 * 4 << \"\\n\";\n    return 0;\n}",
+      "answer": "20 14",
+      "verified": true,
+      "explanation": "Sulut lasketaan ensin. Ilman sulkuja kertolasku tehdään ennen yhteenlaskua."
+    }
+  ]
+}

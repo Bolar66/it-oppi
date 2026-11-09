@@ -1,0 +1,34 @@
+{
+  "terms": [
+    { "id": "main-function", "term": "main-funktio", "en": "main function", "definition": "Funktio, josta C++-ohjelman suoritus alkaa.", "example": "int main() { ... }", "level": 1, "unit": "cpp-1-01" },
+    { "id": "include", "term": "#include", "definition": "Esikääntäjän käsky, joka ottaa kirjaston tai otsaketiedoston käyttöön.", "example": "#include <iostream>", "level": 1, "unit": "cpp-1-01" },
+    { "id": "standard-library", "term": "standardikirjasto", "en": "standard library", "definition": "C++:n mukana tuleva kirjasto, jonka nimet ovat nimiavaruudessa std.", "example": "std::cout, std::vector", "level": 1, "unit": "cpp-1-01" },
+    { "id": "compile", "term": "kääntäminen", "en": "compiling", "definition": "Lähdekoodin muuntaminen konekieliseksi ajettavaksi ohjelmaksi.", "example": "g++ main.cpp -o ohjelma", "level": 1, "unit": "cpp-1-01" },
+
+    { "id": "static-typing", "term": "staattinen tyypitys", "en": "static typing", "definition": "Muuttujan tyyppi päätetään esittelyssä, eikä se voi muuttua.", "level": 1, "unit": "cpp-1-02" },
+    { "id": "integer-division", "term": "kokonaislukujako", "en": "integer division", "definition": "Kahden kokonaisluvun jakolasku, joka pudottaa desimaaliosan pois.", "example": "7 / 2 == 3", "level": 1, "unit": "cpp-1-02" },
+    { "id": "const", "term": "const", "definition": "Avainsana, joka tekee muuttujasta vakion, jota ei voi muuttaa.", "example": "const int MAKSIMI = 10;", "level": 1, "unit": "cpp-1-02" },
+    { "id": "auto", "term": "auto", "definition": "Avainsana, jolla kääntäjä päättelee muuttujan tyypin arvosta.", "example": "auto x = 3.5;", "level": 1, "unit": "cpp-1-02" },
+
+    { "id": "static-cast", "term": "static_cast", "definition": "C++:n suositeltu tapa muuntaa arvo toiseen tyyppiin.", "example": "static_cast<double>(summa)", "level": 1, "unit": "cpp-1-03" },
+    { "id": "cin", "term": "std::cin", "definition": "Syötevirta, josta luetaan käyttäjän syöte operaattorilla >>.", "example": "std::cin >> ika;", "level": 1, "unit": "cpp-1-03" },
+    { "id": "increment", "term": "inkrementti", "en": "increment", "definition": "Muuttujan kasvattaminen yhdellä operaattorilla ++.", "example": "x++", "level": 1, "unit": "cpp-1-03" },
+
+    { "id": "switch", "term": "switch", "definition": "Valintarakenne, joka suorittaa arvoa vastaavan case-haaran.", "level": 1, "unit": "cpp-1-04" },
+    { "id": "fall-through", "term": "valuminen", "en": "fall through", "definition": "switchin suoritus jatkuu seuraavaan caseen, jos break puuttuu.", "level": 1, "unit": "cpp-1-04" },
+    { "id": "ternary", "term": "ternäärioperaattori", "en": "ternary operator", "definition": "Lyhyt valintalauseke muotoa ehto ? arvo1 : arvo2.", "level": 1, "unit": "cpp-1-04" },
+
+    { "id": "for-loop", "term": "for-silmukka", "en": "for loop", "definition": "Silmukka, jossa on alustus, ehto ja päivitys samalla rivillä.", "example": "for (int i = 0; i < 3; i++)", "level": 1, "unit": "cpp-1-05" },
+    { "id": "do-while", "term": "do-while", "definition": "Silmukka, joka tarkistaa ehdon rungon jälkeen, joten runko suoritetaan vähintään kerran.", "level": 1, "unit": "cpp-1-05" },
+    { "id": "off-by-one", "term": "yhden virhe", "en": "off-by-one error", "definition": "Silmukan rajavirhe, jossa kierroksia on yksi liikaa tai liian vähän.", "example": "i <= 3 vs. i < 3", "level": 1, "unit": "cpp-1-05" },
+
+    { "id": "return-type", "term": "paluutyyppi", "en": "return type", "definition": "Funktion nimen edessä oleva tyyppi, joka kertoo palautettavan arvon tyypin.", "example": "int, void", "level": 1, "unit": "cpp-1-06" },
+    { "id": "pass-by-reference", "term": "viittausvälitys", "en": "pass by reference", "definition": "Parametrin välitys niin, että funktio käsittelee alkuperäistä muuttujaa (tyyppi&).", "example": "void kasvata(int& x)", "level": 1, "unit": "cpp-1-06" },
+    { "id": "pass-by-value", "term": "arvovälitys", "en": "pass by value", "definition": "Parametrin välitys kopiona; alkuperäinen muuttuja ei muutu.", "level": 1, "unit": "cpp-1-06" },
+    { "id": "declaration", "term": "esittely", "en": "declaration", "definition": "Funktion nimen, parametrien ja paluutyypin kertominen kääntäjälle ilman toteutusta.", "example": "int tuplaa(int x);", "level": 1, "unit": "cpp-1-06" },
+
+    { "id": "vector", "term": "vector", "en": "std::vector", "definition": "Taulukko, jonka koko voi kasvaa ja jonka alkiot ovat samaa tyyppiä.", "example": "std::vector<int> luvut = {1, 2};", "level": 1, "unit": "cpp-1-07" },
+    { "id": "range-for", "term": "range-for", "definition": "Silmukka, joka käy kokoelman kaikki alkiot läpi.", "example": "for (int x : luvut)", "level": 1, "unit": "cpp-1-07" },
+    { "id": "undefined-behavior", "term": "määrittelemätön käytös", "en": "undefined behavior", "definition": "Tilanne, jonka tulosta C++-standardi ei määrittele, esim. lukeminen vektorin rajojen ulkopuolelta.", "level": 1, "unit": "cpp-1-07" }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "cpp-1-02",
+  "title": "Muuttujat ja tyypit",
+  "level": 1,
+  "theory": "C++ on **staattisesti tyypitetty (statically typed)** kieli: jokaisen muuttujan tyyppi kerrotaan, kun se esitellään, eikä tyyppi voi myöhemmin muuttua.\n\n```cpp\nint ika = 30;\ndouble hinta = 9.95;\nchar kirjain = 'A';\nbool valmis = true;\nstd::string nimi = \"Ada\";\n```\n\n## Perustyypit\n\n- `int` – kokonaisluku\n- `double` – liukuluku eli desimaaliluku\n- `char` – yksi merkki heittomerkeissä, esim. `'A'`\n- `bool` – totuusarvo `true` tai `false`\n- `std::string` – merkkijono lainausmerkeissä; vaatii rivin `#include <string>`\n\n## Huomioita\n\n- **Kokonaislukujako:** kun molemmat luvut ovat int-tyyppiä, `/` pudottaa desimaalit: `7 / 2` on `3`. Jos toinen on double, tulos on double: `7.0 / 2` on `3.5`.\n- `std::cout` tulostaa bool-arvon oletuksena lukuna: `true` → `1`, `false` → `0`.\n- `char` on sisäisesti pieni kokonaisluku (ASCII-koodi), joten `'A' + 1` on `66`.\n- Liukuluvut tulostetaan oletuksena enintään kuudella merkitsevällä numerolla: `1.0 / 3` tulostuu `0.333333`.\n\n## auto ja const\n\n- `auto` antaa kääntäjän päätellä tyypin arvosta: `auto x = 3.5;` tekee x:stä doublen.\n- `const` tekee muuttujasta vakion, jota ei voi muuttaa: `const int MAKSIMI = 10;`. Jos sitä yritetään muuttaa, ohjelma ei käänny.\n\n## Merkkijonot\n\n`std::string`-merkkijonoja voi liittää yhteen `+`-operaattorilla, ja `size()` kertoo pituuden: `nimi.size()`.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << 7 / 2 << \"\\n\";\n    std::cout << 7.0 / 2 << \"\\n\";\n    return 0;\n}",
+      "answer": "3\n3.5",
+      "verified": true,
+      "explanation": "Kahden int-luvun jakolasku pudottaa desimaalit. Kun toinen luku on double, tulos on double."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    bool valmis = true;\n    std::cout << valmis << \"\\n\";\n    return 0;\n}",
+      "answer": "1",
+      "verified": true,
+      "explanation": "std::cout tulostaa bool-arvon oletuksena lukuna: true on 1."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    char kirjain = 'A';\n    std::cout << kirjain << \" \" << kirjain + 1 << \"\\n\";\n    return 0;\n}",
+      "answer": "A 66",
+      "verified": true,
+      "explanation": "char tulostuu merkkinä, mutta laskutoimituksessa se muuttuu luvuksi: A on 65, joten tulos on 66."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <string>\n\nint main() {\n    std::string nimi = \"Ada\";\n    std::string tervehdys = \"Hei, \" + nimi;\n    std::cout << tervehdys << \" \" << tervehdys.size() << \"\\n\";\n    return 0;\n}",
+      "answer": "Hei, Ada 8",
+      "verified": true,
+      "explanation": "+ liittää merkkijonot yhteen. Merkkijonossa \"Hei, Ada\" on 8 merkkiä välilyönti ja pilkku mukaan lukien."
+    },
+    {
+      "id": "e5",
+      "type": "match_pairs",
+      "prompt": "Yhdistä arvo ja tyyppi.",
+      "pairs": [
+        ["42", "int"],
+        ["3.14", "double"],
+        ["'x'", "char"],
+        ["false", "bool"],
+        ["\"kissa\"", "std::string"]
+      ],
+      "explanation": "Heittomerkit tarkoittavat yhtä merkkiä (char), lainausmerkit merkkijonoa."
+    },
+    {
+      "id": "e6",
+      "type": "find_bug",
+      "prompt": "Ohjelma ei käänny. Millä rivillä on virhe?",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    const int MAKSIMI = 10;\n    MAKSIMI = 20;\n    std::cout << MAKSIMI << \"\\n\";\n    return 0;\n}",
+      "bugLine": 5,
+      "explanation": "const-muuttujaa ei voi muuttaa esittelyn jälkeen, joten kääntäjä hylkää rivin 5."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä tyyppi, jonka kääntäjä päättelee itse.",
+      "language": "cpp",
+      "code": "___ hinta = 9.95;",
+      "answers": ["auto"],
+      "explanation": "auto päättelee tyypin arvosta. Tässä hinnasta tulee double."
+    },
+    {
+      "id": "e8",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << 1.0 / 3 << \"\\n\";\n    return 0;\n}",
+      "answer": "0.333333",
+      "verified": true,
+      "explanation": "std::cout tulostaa liukuluvut oletuksena kuudella merkitsevällä numerolla."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä tarkoittaa, että C++ on staattisesti tyypitetty?",
+      "options": [
+        "Muuttujan tyyppi kerrotaan esittelyssä, eikä se voi muuttua",
+        "Muuttujien arvot eivät voi muuttua",
+        "Ohjelma ei voi tulostaa mitään",
+        "Tyypit tarkistetaan vasta ajon aikana"
+      ],
+      "answer": 0,
+      "explanation": "Kääntäjä tuntee jokaisen muuttujan tyypin ja huomaa monet virheet jo ennen ajoa."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mikä rivi tarvitaan, jotta std::string on käytettävissä?",
+      "options": ["#include <string>", "#include <iostream>", "using string;", "import string"],
+      "answer": 0,
+      "explanation": "Merkkijonotyyppi tulee otsakkeesta <string>."
+    }
+  ]
+}

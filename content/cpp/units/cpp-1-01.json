@@ -1,0 +1,102 @@
+{
+  "id": "cpp-1-01",
+  "title": "Ensimmäinen C++-ohjelma",
+  "level": 1,
+  "theory": "**C++** on nopea, käännettävä ohjelmointikieli, jota käytetään esimerkiksi peleissä, käyttöjärjestelmissä ja sulautetuissa laitteissa.\n\n## Hei maailma\n\n```cpp\n#include <iostream>\n\nint main() {\n    std::cout << \"Hei maailma\\n\";\n    return 0;\n}\n```\n\n- `#include <iostream>` ottaa käyttöön syöte- ja tulostuskirjaston.\n- `int main()` on **pääfunktio**: ohjelman suoritus alkaa aina siitä.\n- `std::cout` on tulostevirta, ja `<<` lähettää siihen tekstiä. Useita osia voi ketjuttaa: `std::cout << \"Summa: \" << 2 + 3;`\n- `\\n` on rivinvaihto. Ilman sitä seuraava tuloste jatkuu samalla rivillä.\n- Jokainen lause päättyy **puolipisteeseen** `;`.\n- `return 0;` kertoo käyttöjärjestelmälle, että ohjelma päättyi onnistuneesti.\n\n`std::` tarkoittaa, että `cout` kuuluu C++:n **standardikirjastoon** (nimiavaruus std).\n\n## Kääntäminen\n\nC++-koodi pitää **kääntää (compile)** konekieliseksi ohjelmaksi ennen ajoa. Linuxissa:\n\n```bash\ng++ main.cpp -o ohjelma\n./ohjelma\n```\n\n`g++` on kääntäjä, `-o ohjelma` antaa ohjelmalle nimen ja `./ohjelma` ajaa sen. Jos koodissa on virhe, kääntäjä ilmoittaa siitä, eikä ohjelmaa synny.\n\n## Kommentit\n\n`//` aloittaa kommentin rivin loppuun asti, ja `/* ... */` voi kattaa useita rivejä.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Hei maailma\\n\";\n    return 0;\n}",
+      "answer": "Hei maailma",
+      "verified": true,
+      "explanation": "std::cout tulostaa tekstin, ja \\n vaihtaa riviä."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Summa: \" << 2 + 3 << \"\\n\";\n    return 0;\n}",
+      "answer": "Summa: 5",
+      "verified": true,
+      "explanation": "<<-operaattoreilla voi ketjuttaa tekstiä ja laskujen tuloksia samaan tulosteeseen."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Hei\";\n    std::cout << \"Maailma\\n\";\n    return 0;\n}",
+      "answer": "HeiMaailma",
+      "verified": true,
+      "explanation": "Ensimmäisen tulosteen perässä ei ole rivinvaihtoa, joten toinen jatkuu samalla rivillä."
+    },
+    {
+      "id": "e4",
+      "type": "multiple_choice",
+      "prompt": "Mistä C++-ohjelman suoritus alkaa?",
+      "options": ["main-funktiosta", "Tiedoston ensimmäiseltä riviltä", "#include-riviltä", "Viimeisestä funktiosta"],
+      "answer": 0,
+      "explanation": "Jokaisessa C++-ohjelmassa on yksi main-funktio, josta suoritus alkaa."
+    },
+    {
+      "id": "e5",
+      "type": "find_bug",
+      "prompt": "Ohjelma ei käänny. Millä rivillä on virhe?",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::cout << \"Ensimmäinen\\n\"\n    std::cout << \"Toinen\\n\";\n    return 0;\n}",
+      "bugLine": 4,
+      "explanation": "Rivin 4 lopusta puuttuu puolipiste. Kääntäjä ilmoittaa virheestä usein vasta seuraavalla rivillä."
+    },
+    {
+      "id": "e6",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että ohjelma tulostaa tekstin.",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    std::___ << \"Hei\\n\";\n    return 0;\n}",
+      "answers": ["cout"],
+      "explanation": "std::cout on standardikirjaston tulostevirta."
+    },
+    {
+      "id": "e7",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit toimivaksi ohjelmaksi.",
+      "language": "cpp",
+      "lines": ["#include <iostream>", "int main() {", "    std::cout << \"Valmis\\n\";", "    return 0;", "}"],
+      "explanation": "Ensin otetaan kirjasto käyttöön, sitten määritellään main, jonka sisällä tulostetaan ja palautetaan 0."
+    },
+    {
+      "id": "e8",
+      "type": "match_pairs",
+      "prompt": "Yhdistä koodin osa ja tarkoitus.",
+      "pairs": [
+        ["#include <iostream>", "ottaa tulostuskirjaston käyttöön"],
+        ["int main()", "ohjelman aloituskohta"],
+        ["std::cout", "tulostevirta"],
+        ["return 0;", "ohjelma päättyi onnistuneesti"]
+      ],
+      "explanation": "Nämä neljä osaa ovat lähes jokaisen yksinkertaisen C++-ohjelman runko."
+    },
+    {
+      "id": "e9",
+      "type": "multiple_choice",
+      "prompt": "Mitä komento g++ main.cpp -o ohjelma tekee?",
+      "options": [
+        "Kääntää tiedoston main.cpp ohjelmaksi nimeltä ohjelma",
+        "Ajaa tiedoston main.cpp",
+        "Poistaa tiedoston ohjelma",
+        "Avaa tiedoston editorissa"
+      ],
+      "answer": 0,
+      "explanation": "g++ on kääntäjä. Valmis ohjelma ajetaan erikseen komennolla ./ohjelma."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Mikä aloittaa yhden rivin kommentin C++:ssa?",
+      "options": ["//", "#", "--", "<!--"],
+      "answer": 0,
+      "explanation": "// aloittaa kommentin. # on esikääntäjän käskyjen (esim. #include) merkki."
+    }
+  ]
+}

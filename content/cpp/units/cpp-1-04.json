@@ -1,0 +1,90 @@
+{
+  "id": "cpp-1-04",
+  "title": "Ehdot",
+  "level": 1,
+  "theory": "## if, else if, else\n\n```cpp\nint pisteet = 72;\nif (pisteet >= 90) {\n    std::cout << \"Erinomainen\\n\";\n} else if (pisteet >= 50) {\n    std::cout << \"Hyväksytty\\n\";\n} else {\n    std::cout << \"Hylätty\\n\";\n}\n```\n\nEhto kirjoitetaan sulkeisiin, ja suoritettavat lauseet aaltosulkeisiin `{ }`. Ehdot tarkistetaan ylhäältä alas, ja vain ensimmäinen tosi haara suoritetaan.\n\n## Vertailu ja logiikka\n\n- `==` yhtä suuri, `!=` eri suuri, `<`, `>`, `<=`, `>=`\n- `&&` ja (molemmat tosia), `||` tai (ainakin toinen tosi), `!` ei\n\nYleinen virhe on kirjoittaa ehtoon `=` (sijoitus) eikä `==` (vertailu). Esimerkiksi `if (x = 5)` sijoittaa x:ään arvon 5, ja ehto on aina tosi. Kääntäjä varoittaa tästä, kun varoitukset ovat päällä (`g++ -Wall`).\n\n## switch\n\n`switch` valitsee haaran kokonaisluvun tai merkin arvon perusteella:\n\n```cpp\nswitch (paiva) {\n    case 1:\n        std::cout << \"Maanantai\\n\";\n        break;\n    case 2:\n        std::cout << \"Tiistai\\n\";\n        break;\n    default:\n        std::cout << \"Muu päivä\\n\";\n}\n```\n\n`break` lopettaa switchin. Jos se unohtuu, suoritus **valuu (fall through)** seuraavaan caseen. `default` suoritetaan, jos mikään case ei täsmää.\n\n## Ternäärioperaattori\n\nLyhyen valinnan voi kirjoittaa lausekkeena: `ehto ? arvo1 : arvo2`, esimerkiksi `std::string tulos = pisteet >= 50 ? \"läpi\" : \"hylätty\";`",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int pisteet = 72;\n    if (pisteet >= 90) {\n        std::cout << \"Erinomainen\\n\";\n    } else if (pisteet >= 50) {\n        std::cout << \"Hyväksytty\\n\";\n    } else {\n        std::cout << \"Hylätty\\n\";\n    }\n    return 0;\n}",
+      "answer": "Hyväksytty",
+      "verified": true,
+      "explanation": "72 >= 90 on epätosi, mutta 72 >= 50 on tosi, joten suoritetaan else if -haara."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int paiva = 1;\n    switch (paiva) {\n        case 1:\n            std::cout << \"Maanantai\\n\";\n        case 2:\n            std::cout << \"Tiistai\\n\";\n            break;\n        default:\n            std::cout << \"Muu\\n\";\n    }\n    return 0;\n}",
+      "answer": "Maanantai\nTiistai",
+      "verified": true,
+      "explanation": "case 1:n perästä puuttuu break, joten suoritus valuu caseen 2. Vasta sen break lopettaa switchin."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int ika = 20;\n    bool lippu = false;\n    if (ika >= 18 && lippu) {\n        std::cout << \"Sisään\\n\";\n    } else {\n        std::cout << \"Ei pääsyä\\n\";\n    }\n    return 0;\n}",
+      "answer": "Ei pääsyä",
+      "verified": true,
+      "explanation": "&& vaatii molemmat ehdot tosiksi. Lippu on false, joten suoritetaan else."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelma tulostaa aina \"viisi\", vaikka x on 3. Millä rivillä on virhe?",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int x = 3;\n    if (x = 5) {\n        std::cout << \"viisi\\n\";\n    }\n    return 0;\n}",
+      "bugLine": 5,
+      "explanation": "x = 5 on sijoitus, ei vertailu. Se asettaa x:n arvoksi 5, joka tulkitaan todeksi. Oikein: x == 5."
+    },
+    {
+      "id": "e5",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <string>\n\nint main() {\n    int pisteet = 40;\n    std::string tulos = pisteet >= 50 ? \"läpi\" : \"hylätty\";\n    std::cout << tulos << \"\\n\";\n    return 0;\n}",
+      "answer": "hylätty",
+      "verified": true,
+      "explanation": "Ehto on epätosi, joten ternäärioperaattori palauttaa kaksoispisteen jälkeisen arvon."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä operaattori ja merkitys.",
+      "pairs": [
+        ["&&", "ja"],
+        ["||", "tai"],
+        ["!", "ei"],
+        ["!=", "eri suuri"]
+      ],
+      "explanation": "Nämä samat operaattorit ovat käytössä myös esimerkiksi JavaScriptissä ja Javassa."
+    },
+    {
+      "id": "e7",
+      "type": "fill_blank",
+      "prompt": "Täydennä avainsana, joka estää valumisen seuraavaan caseen.",
+      "language": "cpp",
+      "code": "case 1:\n    std::cout << \"Yksi\\n\";\n    ___;",
+      "answers": ["break"],
+      "explanation": "break lopettaa switch-lauseen suorituksen."
+    },
+    {
+      "id": "e8",
+      "type": "multiple_choice",
+      "prompt": "Milloin switchin default-haara suoritetaan?",
+      "options": ["Kun mikään case ei täsmää", "Aina ensimmäisenä", "Ei koskaan", "Kun switchissä on break"],
+      "answer": 0,
+      "explanation": "default on switchin \"muussa tapauksessa\" -haara, vähän kuin else."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: tulosta \"Parillinen\" tai \"Pariton\".",
+      "language": "cpp",
+      "lines": ["if (luku % 2 == 0) {", "    std::cout << \"Parillinen\\n\";", "} else {", "    std::cout << \"Pariton\\n\";", "}"],
+      "explanation": "if-haaran aaltosulkeet suljetaan ennen else-sanaa, ja else-haaralla on omat aaltosulkeensa."
+    }
+  ]
+}

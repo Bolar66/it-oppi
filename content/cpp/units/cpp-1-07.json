@@ -1,0 +1,96 @@
+{
+  "id": "cpp-1-07",
+  "title": "Vektorit",
+  "level": 1,
+  "theory": "**std::vector** on C++:n yleisin tietorakenne: taulukko, jonka koko voi kasvaa.\n\n```cpp\n#include <vector>\n\nstd::vector<int> luvut = {4, 8, 15};\n```\n\nKulmasulkeissa `<int>` kerrotaan alkioiden tyyppi. Kaikki alkiot ovat samaa tyyppiä.\n\n## Perustoiminnot\n\n- `luvut[0]` – alkio indeksistä 0 (indeksointi alkaa nollasta)\n- `luvut.size()` – alkioiden määrä\n- `luvut.push_back(16)` – lisää alkion loppuun\n- `luvut.pop_back()` – poistaa viimeisen alkion\n- `luvut.back()` – viimeinen alkio\n- `luvut.empty()` – onko vektori tyhjä\n\n## Läpikäynti\n\nHelpoin tapa on **range-for**:\n\n```cpp\nfor (int luku : luvut) {\n    std::cout << luku << \"\\n\";\n}\n```\n\nJos alkioita halutaan muuttaa silmukassa, käytetään viittausta: `for (int& luku : luvut) { luku *= 2; }`\n\n## Rajojen ylitys\n\n`luvut[10]` kolmen alkion vektorissa on **määrittelemätöntä käytöstä (undefined behavior)**: C++ ei tarkista indeksiä, ja ohjelma voi kaatua tai antaa roskadataa. `luvut.at(10)` tarkistaa rajat ja heittää poikkeuksen (`std::out_of_range`), joten virhe huomataan.\n\n## Muita kokoelmia\n\nStandardikirjastossa on myös esimerkiksi `std::array` (kiinteä koko) ja `std::map` (avain–arvo-parit), mutta vector on hyvä oletusvalinta.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> luvut = {4, 8, 15};\n    luvut.push_back(16);\n    std::cout << luvut[0] << \" \" << luvut.size() << \" \" << luvut.back() << \"\\n\";\n    return 0;\n}",
+      "answer": "4 4 16",
+      "verified": true,
+      "explanation": "Ensimmäinen alkio on 4, push_back kasvatti koon neljään, ja viimeinen alkio on nyt 16."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> luvut = {1, 2, 3};\n    int summa = 0;\n    for (int luku : luvut) {\n        summa += luku;\n    }\n    std::cout << summa << \"\\n\";\n    return 0;\n}",
+      "answer": "6",
+      "verified": true,
+      "explanation": "range-for käy kaikki alkiot läpi: 1 + 2 + 3 = 6."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> luvut = {1, 2, 3};\n    for (int luku : luvut) {\n        luku *= 10;\n    }\n    for (int& luku : luvut) {\n        luku *= 2;\n    }\n    for (int luku : luvut) {\n        std::cout << luku << \" \";\n    }\n    std::cout << \"\\n\";\n    return 0;\n}",
+      "answer": "2 4 6",
+      "verified": true,
+      "explanation": "Ensimmäinen silmukka muuttaa vain kopioita. Toinen käyttää viittausta (int&), joten se muuttaa vektorin alkioita."
+    },
+    {
+      "id": "e4",
+      "type": "find_bug",
+      "prompt": "Ohjelman pitäisi tulostaa viimeinen alkio, mutta se lukee vektorin ulkopuolelta. Millä rivillä on virhe?",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <vector>\n\nint main() {\n    std::vector<int> v = {7, 3, 9};\n    std::cout << v[v.size()] << \"\\n\";\n    return 0;\n}",
+      "bugLine": 6,
+      "explanation": "Viimeinen indeksi on size() - 1 eli 2. v[3] lukee vektorin ulkopuolelta (määrittelemätöntä käytöstä). Oikein: v[v.size() - 1] tai v.back()."
+    },
+    {
+      "id": "e5",
+      "type": "fill_blank",
+      "prompt": "Täydennä niin, että luku 42 lisätään vektorin loppuun.",
+      "language": "cpp",
+      "code": "std::vector<int> luvut;\nluvut.___(42);",
+      "answers": ["push_back"],
+      "explanation": "push_back lisää alkion loppuun ja kasvattaa kokoa yhdellä."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "Yhdistä metodi ja tehtävä.",
+      "pairs": [
+        ["size()", "alkioiden määrä"],
+        ["push_back(x)", "lisää loppuun"],
+        ["pop_back()", "poistaa viimeisen"],
+        ["at(i)", "alkio indeksistä rajat tarkistaen"],
+        ["empty()", "onko vektori tyhjä"]
+      ],
+      "explanation": "at(i) heittää poikkeuksen, jos indeksi on rajojen ulkopuolella, toisin kuin [i]."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Mitä tapahtuu, jos kolmen alkion vektorista luetaan v[10]?",
+      "options": [
+        "Määrittelemätöntä käytöstä: ohjelma voi kaatua tai antaa roskadataa",
+        "Palautetaan aina 0",
+        "Kääntäjä ilmoittaa virheestä",
+        "Vektori kasvaa automaattisesti"
+      ],
+      "answer": 0,
+      "explanation": "[] ei tarkista rajoja. Turvallisempi vaihtoehto on at(), joka heittää poikkeuksen."
+    },
+    {
+      "id": "e8",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: luo tyhjä vektori, lisää kaksi lukua ja tulosta koko.",
+      "language": "cpp",
+      "lines": ["std::vector<int> v;", "v.push_back(5);", "v.push_back(7);", "std::cout << v.size() << \"\\n\";"],
+      "explanation": "Vektori pitää esitellä ennen kuin siihen lisätään. Lopuksi koko on 2."
+    },
+    {
+      "id": "e9",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::vector<std::string> nimet = {\"Ada\", \"Linus\"};\n    nimet.push_back(\"Grace\");\n    nimet.pop_back();\n    std::cout << nimet.size() << \" \" << nimet.back() << \"\\n\";\n    return 0;\n}",
+      "answer": "2 Linus",
+      "verified": true,
+      "explanation": "Grace lisättiin ja poistettiin heti, joten jäljelle jäävät Ada ja Linus."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "cpp",
+  "title": "C++",
+  "description": "C++-ohjelmoinnin perusteet: kääntäminen, tyypit, ehdot, silmukat, funktiot ja vektorit.",
+  "levels": [
+    {
+      "level": 1,
+      "title": "Perusteet",
+      "units": ["cpp-1-01", "cpp-1-02", "cpp-1-03", "cpp-1-04", "cpp-1-05", "cpp-1-06", "cpp-1-07"]
+    }
+  ],
+  "placementTest": { "questionCount": 20, "passThreshold": 0.8 }
+}

@@ -1,0 +1,102 @@
+{
+  "id": "cpp-1-05",
+  "title": "Silmukat",
+  "level": 1,
+  "theory": "## for\n\n```cpp\nfor (int i = 0; i < 3; i++) {\n    std::cout << i << \"\\n\";\n}\n```\n\nfor-silmukan sulkeissa on kolme osaa puolipisteillä erotettuna:\n\n1. **alustus** – tehdään kerran: `int i = 0`\n2. **ehto** – tarkistetaan ennen jokaista kierrosta: `i < 3`\n3. **päivitys** – tehdään jokaisen kierroksen jälkeen: `i++`\n\nYllä oleva silmukka tulostaa 0, 1 ja 2.\n\n## while\n\n`while` toistaa niin kauan kuin ehto on tosi. Ehto tarkistetaan **ennen** jokaista kierrosta, joten silmukka ei välttämättä suoritu kertaakaan.\n\n```cpp\nint n = 3;\nwhile (n > 0) {\n    std::cout << n << \"\\n\";\n    n--;\n}\n```\n\n## do-while\n\n`do-while` tarkistaa ehdon **jälkeen**, joten runko suoritetaan aina vähintään kerran. Se sopii esimerkiksi syötteen kysymiseen, kunnes se on kelvollinen.\n\n```cpp\ndo {\n    // kysy syöte\n} while (syote_virheellinen);\n```\n\n## break ja continue\n\n- `break` lopettaa silmukan heti.\n- `continue` hyppää seuraavalle kierrokselle.\n\n## Yleisiä virheitä\n\n- **Ikuinen silmukka:** muuttujaa ei päivitetä, joten ehto ei koskaan muutu epätodeksi.\n- **Yksi liian monta tai vähän (off-by-one):** `i <= 3` tekee neljä kierrosta (0–3), `i < 3` kolme.\n- Puolipiste for- tai while-rivin perässä (`for (...);`) tekee silmukan rungosta tyhjän.",
+  "exercises": [
+    {
+      "id": "e1",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    for (int i = 0; i < 3; i++) {\n        std::cout << i << \"\\n\";\n    }\n    return 0;\n}",
+      "answer": "0\n1\n2",
+      "verified": true,
+      "explanation": "i alkaa nollasta, ja silmukka jatkuu, kunnes i on 3."
+    },
+    {
+      "id": "e2",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int summa = 0;\n    for (int i = 1; i <= 4; i++) {\n        summa += i;\n    }\n    std::cout << summa << \"\\n\";\n    return 0;\n}",
+      "answer": "10",
+      "verified": true,
+      "explanation": "Ehto i <= 4 ottaa mukaan myös luvun 4: 1 + 2 + 3 + 4 = 10."
+    },
+    {
+      "id": "e3",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int n = 0;\n    do {\n        std::cout << \"Kierros \" << n << \"\\n\";\n        n++;\n    } while (n < 0);\n    return 0;\n}",
+      "answer": "Kierros 0",
+      "verified": true,
+      "explanation": "Ehto n < 0 on alusta asti epätosi, mutta do-while suorittaa rungon silti kerran."
+    },
+    {
+      "id": "e4",
+      "type": "code_output",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    for (int i = 0; i < 10; i++) {\n        if (i == 4) {\n            break;\n        }\n        if (i % 2 == 0) {\n            continue;\n        }\n        std::cout << i << \"\\n\";\n    }\n    return 0;\n}",
+      "answer": "1\n3",
+      "verified": true,
+      "explanation": "continue ohittaa parilliset luvut, ja break lopettaa silmukan, kun i on 4."
+    },
+    {
+      "id": "e5",
+      "type": "find_bug",
+      "prompt": "Ohjelma jää ikuiseen silmukkaan. Millä rivillä on virhe?",
+      "language": "cpp",
+      "code": "#include <iostream>\n\nint main() {\n    int n = 3;\n    while (n > 0) {\n        std::cout << n << \"\\n\";\n        n++;\n    }\n    return 0;\n}",
+      "bugLine": 7,
+      "explanation": "n kasvaa eikä pienene, joten ehto n > 0 pysyy aina totena. Oikein: n--."
+    },
+    {
+      "id": "e6",
+      "type": "match_pairs",
+      "prompt": "for (int i = 0; i < 3; i++). Yhdistä osa ja tehtävä.",
+      "pairs": [
+        ["int i = 0", "alustus, tehdään kerran"],
+        ["i < 3", "ehto ennen jokaista kierrosta"],
+        ["i++", "päivitys jokaisen kierroksen jälkeen"]
+      ],
+      "explanation": "Kolme osaa erotetaan puolipisteillä for-sulkeiden sisällä."
+    },
+    {
+      "id": "e7",
+      "type": "multiple_choice",
+      "prompt": "Mikä on do-while-silmukan erityispiirre?",
+      "options": [
+        "Runko suoritetaan aina vähintään kerran",
+        "Se ei voi olla ikuinen",
+        "Se toimii vain kokonaisluvuilla",
+        "Ehto tarkistetaan ennen ensimmäistä kierrosta"
+      ],
+      "answer": 0,
+      "explanation": "Ehto tarkistetaan vasta rungon jälkeen."
+    },
+    {
+      "id": "e8",
+      "type": "fill_blank",
+      "prompt": "Täydennä ehto niin, että silmukka tulostaa luvut 1–5.",
+      "language": "cpp",
+      "code": "for (int i = 1; i ___ 5; i++) {\n    std::cout << i << \"\\n\";\n}",
+      "answers": ["<="],
+      "explanation": "<= ottaa mukaan myös luvun 5. Pelkällä < viimeinen tulostettava luku olisi 4."
+    },
+    {
+      "id": "e9",
+      "type": "order_lines",
+      "prompt": "Järjestä rivit: laske lähtölaskenta 3, 2, 1 while-silmukalla.",
+      "language": "cpp",
+      "lines": ["int n = 3;", "while (n > 0) {", "    std::cout << n << \"\\n\";", "    n--;", "}"],
+      "explanation": "Muuttuja alustetaan ennen silmukkaa ja sitä pienennetään joka kierroksella."
+    },
+    {
+      "id": "e10",
+      "type": "multiple_choice",
+      "prompt": "Montako kertaa silmukka for (int i = 0; i <= 3; i++) suoritetaan?",
+      "options": ["4", "3", "2", "Ikuisesti"],
+      "answer": 0,
+      "explanation": "i saa arvot 0, 1, 2 ja 3. Tällaiset \"yhden virheet\" (off-by-one) ovat yleisiä."
+    }
+  ]
+}
