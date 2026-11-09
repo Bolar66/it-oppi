@@ -33,10 +33,13 @@ async function completeUnit() {
   })
 }
 
+/** Yksikön python-1-01 termit (vain ne avautuvat completeUnit-funktiolla). */
+const unitTerms = path.terms.filter((t) => t.unit === 'python-1-01')
+
 async function allKnownAndDue() {
   const today = dayKey(new Date())
   await db.termItems.bulkPut(
-    path.terms.map((t) => ({ key: `python/${t.id}`, pathId: 'python', termId: t.id, box: 1, dueDate: today, updatedAt: '' })),
+    unitTerms.map((t) => ({ key: `python/${t.id}`, pathId: 'python', termId: t.id, box: 1, dueDate: today, updatedAt: '' })),
   )
 }
 

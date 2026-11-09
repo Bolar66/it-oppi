@@ -17,7 +17,7 @@ describe('reititys ja näkymät', () => {
     expect(screen.getByRole('heading', { name: 'Tänään' })).toBeInTheDocument()
     const polut = screen.getByRole('region', { name: 'Polut' })
     for (const p of content.paths) {
-      expect(within(polut).getByRole('link', { name: new RegExp(`^${p.title}`) })).toBeInTheDocument()
+      expect(within(polut).getByRole('link', { name: (name) => name.startsWith(p.title) })).toBeInTheDocument()
     }
     expect(screen.getByRole('navigation', { name: 'Päävalikko' })).toBeInTheDocument()
   })

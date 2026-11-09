@@ -4,7 +4,7 @@ import userEvent, { type UserEvent } from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { routes } from '../routes.tsx'
 import { getPath, loadUnits } from '../content/loader.ts'
-import { answerCorrectly, currentExercise } from '../test/answer.ts'
+import { answerCorrectly, answerWrongly, currentExercise } from '../test/answer.ts'
 import { db } from './db.ts'
 import { dayKey } from './dates.ts'
 
@@ -90,17 +90,18 @@ describe('edistyminen näkymissä', () => {
     let wrongId: string | null = null
     while (screen.queryByRole('button', { name: /Seuraava|Lopeta koe/ })) {
       const ex = currentExercise('python', unitOf)
-      if (!wrongId && ex.type === 'multiple_choice') {
+      // Kysymykset arvotaan, joten vastataan väärin ensimmäiseen tehtävään, jossa se onnistuu helposti.
+      if (!wrongId && (await answerWrongly(user, ex))) {
         wrongId = ex.id
-        await user.click(screen.getByRole('radio', { name: ex.options.find((_, i) => i !== ex.answer)! }))
       } else {
         await answerCorrectly(user, ex)
       }
       await user.click(screen.getByRole('button', { name: /Seuraava|Lopeta koe/ }))
     }
-    // 11 kysymystä, 1 väärin = 91 % ≥ 80 % → hyväksytty, mutta virhe käydään läpi.
+    // Kokeessa enintään 20 kysymystä; 1 väärin ≥ 80 % → hyväksytty, mutta virhe käydään läpi.
+    const questions = Math.min(20, loaded.reduce((n, u) => n + u.exercises.length, 0))
     expect(screen.getByRole('heading', { name: 'Hyväksytty!' })).toBeInTheDocument()
-    expect(screen.getByText('91 %')).toBeInTheDocument()
+    expect(screen.getByText(`${Math.round(((questions - 1) / questions) * 100)} %`)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Virheet (1)' })).toBeInTheDocument()
     await waitFor(async () => expect(await db.reviewItems.count()).toBe(1))
   })

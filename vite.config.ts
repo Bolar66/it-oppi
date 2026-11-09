@@ -48,6 +48,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    // Koko käyttöliittymän läpikäyvät testit (esim. 20 kysymyksen koe) voivat kestää yli oletuksen 5 s.
+    testTimeout: 20_000,
     include: ['src/**/*.test.{ts,tsx}', 'scripts/**/*.test.ts'],
   },
 })

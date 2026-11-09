@@ -92,7 +92,7 @@ export default function LessonRunner({ mode, items, theoryFor, onFinish, onExit,
         }
       />
 
-      <main className="mx-auto w-full max-w-xl flex-1 px-4 pt-3 pb-8">
+      <main data-unit-id={item.unitId} className="mx-auto w-full max-w-xl flex-1 px-4 pt-3 pb-8">
         {mode === 'review' && theory && <p className="mb-2 text-sm text-muted">{theory.title}</p>}
         <ExerciseView
           key={state.attempt}

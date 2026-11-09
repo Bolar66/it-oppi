@@ -125,7 +125,7 @@ export default function ExamRunner({ title, items, passThreshold, onFinish, onEx
           </span>
         }
       />
-      <main className="mx-auto w-full max-w-xl flex-1 px-4 pt-3 pb-8">
+      <main data-unit-id={item.unitId} className="mx-auto w-full max-w-xl flex-1 px-4 pt-3 pb-8">
         <ExerciseView key={position} exercise={item.exercise} answer={answer} onChange={setAnswer} checked={false} />
       </main>
       <ActionBar>
