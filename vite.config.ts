@@ -6,8 +6,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 import { contentIndexPlugin } from './content-plugin.ts'
 
 /**
- * Julkaisupolku. GitLab Pages tarjoilee sovelluksen usein alipolusta (esim. /it-oppi/); CI asettaa
- * VITE_BASE:n CI_PAGES_URL:n perusteella. Paikallisesti juuri.
+ * Julkaisupolku. GitHub Pages tarjoilee sovelluksen alipolusta (esim. /it-oppi/); julkaisutyönkulku
+ * (.github/workflows/deploy.yml) asettaa VITE_BASE:n. Paikallisesti juuri.
  */
 const base = process.env.VITE_BASE ?? '/'
 

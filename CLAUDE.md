@@ -174,4 +174,10 @@ content/
 5. Synkka: Supabase (auth + progress-taulu), local-first, konfliktissa uusin voittaa
 6. Deploy (staattinen hostaus) ja asennus iPhoneen
 
+## Julkaisu
+
+- GitHub Pages: https://bolar66.github.io/it-oppi/ (repo github.com/Bolar66/it-oppi).
+- `.github/workflows/deploy.yml`: jokainen push main-haaraan ajaa lintin, tsc:n, testit ja validoinnin,
+  buildaa alipolulle (VITE_BASE) ja julkaisee. Sisältöpäivitykset menevät puhelimeen pushaamalla.
+
 Toteuta yksi vaihe kerrallaan. Jokaisen vaiheen lopuksi: testit, lint, tsc ja commit "Phase N completed".
