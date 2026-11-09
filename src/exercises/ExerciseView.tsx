@@ -18,7 +18,7 @@ interface Props {
 export default function ExerciseView({ exercise, answer, onChange, checked }: Props) {
   return (
     <div data-testid="exercise" data-exercise-id={exercise.id} className="space-y-4">
-      <h2 className="text-lg font-semibold leading-snug">{exercise.prompt ?? DEFAULT_PROMPTS[exercise.type]}</h2>
+      <h2 className="font-sans text-xl leading-snug font-bold">{exercise.prompt ?? DEFAULT_PROMPTS[exercise.type]}</h2>
       <Body exercise={exercise} answer={answer} onChange={onChange} checked={checked} />
     </div>
   )

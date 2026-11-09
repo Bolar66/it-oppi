@@ -1,6 +1,10 @@
 import { useState, type ReactNode } from 'react'
-import { Link, useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
+import { Check, Lock } from 'lucide-react'
 import { getPath, loadUnits } from '../content/loader.ts'
+import { EmptyState, PageHeader } from '../ui/components.tsx'
+import { pathTone } from '../ui/pathStyle.ts'
+import { buttonClass, surface } from '../ui/styles.ts'
 import ExamRunner from '../exam/ExamRunner.tsx'
 import { sampleExam } from '../progress/examSample.ts'
 import { useProgress, usePathStatus } from '../progress/hooks.ts'
@@ -22,7 +26,7 @@ export default function Exam({ kind }: { kind: 'exam' | 'placement' }) {
   const level = (kind === 'placement' ? 1 : Number(levelParam)) as Level
   const levelStatus = status?.levels.find((l) => l.level === level)
   if (!path || (status && !levelStatus)) return <Shell><NotFound /></Shell>
-  if (!status || !levelStatus) return <Shell><p className="text-slate-400">Ladataan…</p></Shell>
+  if (!status || !levelStatus) return <Shell><p className="text-muted">Ladataan…</p></Shell>
 
   const placement = kind === 'placement'
   const cfg = placement ? path.placementTest : levelStatus.exam
@@ -60,28 +64,31 @@ export default function Exam({ kind }: { kind: 'exam' | 'placement' }) {
   }
 
   return (
-    <Shell>
-      <Link to={`/path/${pathId}`} className="text-sm text-slate-400">
-        ← Takaisin
-      </Link>
-      <h1 className="text-2xl font-bold">{title}</h1>
+    <Shell pathId={pathId}>
+      <PageHeader title={title} back={{ to: `/path/${pathId}`, label: path.title }} />
       {!allowed ? (
-        <p className="rounded-xl bg-slate-800 p-4 text-slate-300">
-          🔒{' '}
+        <EmptyState icon={Lock} title={placement ? 'Tasotesti ei ole enää tarjolla' : 'Koe on vielä lukittu'}>
           {placement
-            ? 'Tasotesti ei ole enää tarjolla, koska taso 1 on jo suoritettu.'
+            ? 'Taso 1 on jo suoritettu, joten tasotestiä ei tarvita.'
             : 'Koe aukeaa, kun kaikki tason yksiköt on suoritettu.'}
-        </p>
+        </EmptyState>
       ) : (
         <>
-          <ul className="list-disc space-y-1 pl-5 text-slate-300">
-            <li>{cfg.questionCount} kysymystä tason {level} yksiköistä (tai kaikki, jos niitä on vähemmän)</li>
-            <li>Ei vihjeitä eikä teoriaa – tulos ja virheet näytetään lopuksi</li>
-            <li>Läpäisyraja {Math.round(cfg.passThreshold * 100)} %</li>
-            {placement && <li>Läpäisy merkitsee tason 1 suoritetuksi ja avaa tason 2</li>}
+          <ul className={`${surface} divide-y divide-line`}>
+            {[
+              `${cfg.questionCount} kysymystä tason ${level} yksiköistä (tai kaikki, jos niitä on vähemmän)`,
+              'Ei vihjeitä eikä teoriaa – tulos ja virheet näytetään lopuksi',
+              `Läpäisyraja ${Math.round(cfg.passThreshold * 100)} %`,
+              ...(placement ? ['Läpäisy merkitsee tason 1 suoritetuksi ja avaa seuraavan tason'] : []),
+            ].map((t) => (
+              <li key={t} className="flex gap-3 p-3.5">
+                <Check size={18} className="mt-0.5 shrink-0 text-path" aria-hidden />
+                <span>{t}</span>
+              </li>
+            ))}
           </ul>
           {starting === 'error' && (
-            <p role="alert" className="text-sm text-rose-400">
+            <p role="alert" className="text-sm text-bad">
               Kysymysten lataus epäonnistui.
             </p>
           )}
@@ -98,7 +105,7 @@ export default function Exam({ kind }: { kind: 'exam' | 'placement' }) {
                 },
               )
             }}
-            className="w-full rounded-2xl bg-sky-600 py-4 text-lg font-semibold text-white disabled:opacity-60"
+            className={buttonClass('primary')}
           >
             Aloita {placement ? 'tasotesti' : 'koe'}
           </button>
@@ -108,6 +115,13 @@ export default function Exam({ kind }: { kind: 'exam' | 'placement' }) {
   )
 }
 
-function Shell({ children }: { children: ReactNode }) {
-  return <div className="mx-auto max-w-xl space-y-6 px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-10">{children}</div>
+function Shell({ pathId, children }: { pathId?: string; children: ReactNode }) {
+  return (
+    <div
+      style={pathId ? pathTone(pathId) : undefined}
+      className="path-tone mx-auto max-w-xl space-y-5 px-4 pt-[max(1.25rem,env(safe-area-inset-top))] pb-10"
+    >
+      {children}
+    </div>
+  )
 }

@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
+import { BookOpen, Flag, PartyPopper, Repeat, Sparkles } from 'lucide-react'
 import ExerciseView from '../exercises/ExerciseView.tsx'
 import CorrectAnswer from '../exercises/CorrectAnswer.tsx'
 import { isComplete } from '../exercises/grade.ts'
@@ -8,6 +9,9 @@ import ConfirmExit from '../components/ConfirmExit.tsx'
 import ReportSheet from '../reports/ReportSheet.tsx'
 import type { LessonOutcome } from '../progress/repo.ts'
 import { PERFECT_BONUS_XP, XP_PER_CORRECT } from '../progress/xp.ts'
+import { ActionBar } from '../ui/components.tsx'
+import { Feedback, ResultScreen, RunnerHeader } from '../ui/runner.tsx'
+import { buttonClass } from '../ui/styles.ts'
 import { currentIndex, firstTryList, initLesson, lessonReducer, summarize, type LessonSummary } from './lessonReducer.ts'
 import type { LessonItem } from './types.ts'
 import { useAnswerKeys } from './useAnswerKeys.ts'
@@ -64,44 +68,32 @@ export default function LessonRunner({ mode, items, theoryFor, onFinish, onExit,
     return <Summary mode={mode} summary={summary} saveState={saveState} onExit={onExit} onRestart={onRestart} />
   }
 
-  const progress = state.solved / state.exercises.length
   const checked = state.phase === 'feedback'
   const theory = theoryFor(item)
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-xl flex-col">
-      <header className="flex items-center gap-3 px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-2">
-        <button
-          type="button"
-          onClick={() => setSheet('exit')}
-          aria-label={mode === 'lesson' ? 'Lopeta oppitunti' : 'Lopeta kertaus'}
-          className="p-1 text-2xl text-slate-400"
-        >
-          ✕
-        </button>
-        <div
-          role="progressbar"
-          aria-label="Edistyminen"
-          aria-valuemin={0}
-          aria-valuemax={state.exercises.length}
-          aria-valuenow={state.solved}
-          className="h-3 flex-1 overflow-hidden rounded-full bg-slate-700"
-        >
-          <div className="h-full rounded-full bg-accent transition-[width] duration-300" style={{ width: `${progress * 100}%` }} />
-        </div>
-        {theory && (
-          <button
-            type="button"
-            onClick={() => setSheet('theory')}
-            className="rounded-lg px-2 py-1 text-sm text-slate-300 active:bg-slate-800"
-          >
-            Teoria
-          </button>
-        )}
-      </header>
+    <div className="flex min-h-dvh flex-col">
+      <RunnerHeader
+        onExit={() => setSheet('exit')}
+        exitLabel={mode === 'lesson' ? 'Lopeta oppitunti' : 'Lopeta kertaus'}
+        value={state.solved}
+        max={state.exercises.length}
+        aside={
+          theory && (
+            <button
+              type="button"
+              onClick={() => setSheet('theory')}
+              className={buttonClass('ghost', 'sm', 'shrink-0')}
+            >
+              <BookOpen size={17} aria-hidden />
+              Teoria
+            </button>
+          )
+        }
+      />
 
-      <main className="flex-1 px-4 pt-4 pb-6">
-        {mode === 'review' && theory && <p className="mb-2 text-xs text-slate-500">{theory.title}</p>}
+      <main className="mx-auto w-full max-w-xl flex-1 px-4 pt-3 pb-8">
+        {mode === 'review' && theory && <p className="mb-2 text-sm text-muted">{theory.title}</p>}
         <ExerciseView
           key={state.attempt}
           exercise={exercise}
@@ -112,51 +104,40 @@ export default function LessonRunner({ mode, items, theoryFor, onFinish, onExit,
         <button
           type="button"
           onClick={() => setSheet('report')}
-          className="mt-6 text-xs text-slate-500 underline underline-offset-2"
+          className="mt-8 inline-flex items-center gap-1.5 text-sm text-faint hover:text-muted"
         >
-          ⚑ Ilmoita virheestä
+          <Flag size={14} aria-hidden />
+          Ilmoita virheestä
         </button>
       </main>
 
-      <footer
-        className={`sticky bottom-0 border-t-2 px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] ${
-          !checked ? 'border-slate-800 bg-slate-900' : state.lastCorrect ? 'border-green-700 bg-green-950' : 'border-rose-700 bg-rose-950'
-        }`}
-      >
+      <ActionBar tone={!checked ? 'plain' : state.lastCorrect ? 'good' : 'bad'}>
         {checked && (
-          <div role="status" className="mb-4 max-h-[45dvh] space-y-2 overflow-y-auto">
-            <p className={`text-xl font-bold ${state.lastCorrect ? 'text-green-300' : 'text-rose-300'}`}>
-              {state.lastCorrect ? 'Oikein!' : 'Ei aivan.'}
-            </p>
+          <Feedback correct={!!state.lastCorrect}>
             {!state.lastCorrect && (
-              <div className="space-y-1 text-rose-100">
-                <p className="text-sm font-semibold">Oikea vastaus:</p>
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-muted">Oikea vastaus</p>
                 <CorrectAnswer exercise={exercise} />
               </div>
             )}
-            <p className={`text-sm ${state.lastCorrect ? 'text-green-100' : 'text-rose-100'}`}>{exercise.explanation}</p>
-            {!state.lastCorrect && <p className="text-xs text-rose-300/80">Tämä kysytään uudelleen lopussa.</p>}
-          </div>
+            <p>{exercise.explanation}</p>
+            {!state.lastCorrect && <p className="text-sm text-muted">Tämä kysytään uudelleen lopussa.</p>}
+          </Feedback>
         )}
         {checked ? (
           <button
             type="button"
             onClick={() => dispatch({ type: 'continue' })}
-            className={`w-full rounded-2xl py-4 text-lg font-semibold text-white ${state.lastCorrect ? 'bg-green-600' : 'bg-rose-600'}`}
+            className={buttonClass(state.lastCorrect ? 'good' : 'bad')}
           >
             Jatka
           </button>
         ) : (
-          <button
-            type="button"
-            disabled={!complete}
-            onClick={() => dispatch({ type: 'check' })}
-            className="w-full rounded-2xl bg-accent-dark py-4 text-lg font-semibold text-white disabled:bg-slate-700 disabled:text-slate-400"
-          >
+          <button type="button" disabled={!complete} onClick={() => dispatch({ type: 'check' })} className={buttonClass('primary')}>
             Tarkista
           </button>
         )}
-      </footer>
+      </ActionBar>
 
       {sheet === 'theory' && theory && (
         <Sheet title={theory.title} onClose={() => setSheet(null)}>
@@ -191,47 +172,34 @@ function Summary({
   onExit: () => void
   onRestart?: () => void
 }) {
-  const title =
-    mode === 'review' ? 'Kertaus valmis!' : summary.perfect ? 'Virheetön oppitunti!' : 'Oppitunti suoritettu!'
+  const title = mode === 'review' ? 'Kertaus valmis!' : summary.perfect ? 'Virheetön oppitunti!' : 'Oppitunti suoritettu!'
   return (
-    <div className="mx-auto flex min-h-dvh max-w-xl flex-col justify-center gap-6 px-4 py-8 text-center">
-      <h1 className="text-3xl font-bold">{title}</h1>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl bg-slate-800 p-4">
-          <div className="text-3xl font-bold text-accent">+{summary.xp} XP</div>
-          <div className="text-sm text-slate-400">ansaittu</div>
-        </div>
-        <div className="rounded-2xl bg-slate-800 p-4">
-          <div className="text-3xl font-bold">
-            {summary.firstTryCorrect}/{summary.total}
-          </div>
-          <div className="text-sm text-slate-400">oikein 1. yrityksellä</div>
-        </div>
-      </div>
-      <p className="text-sm text-slate-400">
+    <ResultScreen
+      icon={mode === 'review' ? Repeat : summary.perfect ? Sparkles : PartyPopper}
+      tone={summary.perfect ? 'good' : 'primary'}
+      title={title}
+      stats={[
+        { value: `+${summary.xp} XP`, label: 'ansaittu' },
+        { value: `${summary.firstTryCorrect}/${summary.total}`, label: 'oikein 1. yrityksellä' },
+      ]}
+    >
+      <p className="text-center text-sm text-muted">
         {summary.firstTryCorrect} × {XP_PER_CORRECT} XP
         {mode === 'lesson' && summary.perfect && ` + ${PERFECT_BONUS_XP} XP virheettömyysbonus`}
       </p>
       {saveState === 'error' && (
-        <p role="alert" className="text-sm text-rose-400">
-          Edistymisen tallennus epäonnistui. Selaimen tallennustila voi olla estetty.
+        <p role="alert" className="text-center text-sm text-bad">
+          Edistymistä ei saatu tallennettua. Selaimen tallennustila voi olla estetty.
         </p>
       )}
-      <div className="space-y-3">
-        <button
-          type="button"
-          onClick={onExit}
-          disabled={saveState === 'saving'}
-          className="w-full rounded-2xl bg-accent-dark py-4 text-lg font-semibold text-white disabled:opacity-60"
-        >
-          {mode === 'lesson' ? 'Takaisin polulle' : 'Etusivulle'}
+      <button type="button" onClick={onExit} disabled={saveState === 'saving'} className={buttonClass('primary')}>
+        {mode === 'lesson' ? 'Takaisin polulle' : 'Etusivulle'}
+      </button>
+      {onRestart && (
+        <button type="button" onClick={onRestart} className={buttonClass('secondary')}>
+          Tee uudelleen
         </button>
-        {onRestart && (
-          <button type="button" onClick={onRestart} className="w-full rounded-2xl bg-slate-700 py-3 font-semibold">
-            Tee uudelleen
-          </button>
-        )}
-      </div>
-    </div>
+      )}
+    </ResultScreen>
   )
 }

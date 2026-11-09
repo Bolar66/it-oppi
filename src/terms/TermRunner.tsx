@@ -7,6 +7,11 @@ import { useAnswerKeys } from '../lesson/useAnswerKeys.ts'
 import type { TermOutcome } from '../progress/repo.ts'
 import { XP_PER_TERM } from '../progress/xp.ts'
 import type { Term } from '../schemas/content.ts'
+import { BookA, CircleCheck, CircleX, RotateCw, Sparkles } from 'lucide-react'
+import { ActionBar, PathIcon } from '../ui/components.tsx'
+import { pathTone } from '../ui/pathStyle.ts'
+import { Feedback, ResultScreen, RunnerHeader } from '../ui/runner.tsx'
+import { buttonClass, surface } from '../ui/styles.ts'
 import { singleQuestion, termKey, type TermMode, type TermQuestion, type TermRef } from './session.ts'
 import { currentQuestion, gradeTermQuestion, initTermRun, termReducer } from './termReducer.ts'
 
@@ -74,47 +79,37 @@ export default function TermRunner({ questions, mode, pool, onFinish, onExit }: 
 
   if (done) {
     return (
-      <div className="mx-auto flex min-h-dvh max-w-xl flex-col justify-center gap-6 px-4 py-8 text-center">
-        <h1 className="text-3xl font-bold">Termikierros valmis!</h1>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl bg-slate-800 p-4">
-            <div className="text-3xl font-bold text-accent">+{correctCount * XP_PER_TERM} XP</div>
-            <div className="text-sm text-slate-400">ansaittu</div>
-          </div>
-          <div className="rounded-2xl bg-slate-800 p-4">
-            <div className="text-3xl font-bold">
-              {correctCount}/{results.length}
-            </div>
-            <div className="text-sm text-slate-400">osattu heti</div>
-          </div>
-        </div>
-        <ul className="space-y-1 text-left text-sm">
+      <ResultScreen
+        icon={correctCount === results.length ? Sparkles : BookA}
+        tone={correctCount === results.length ? 'good' : 'primary'}
+        title="Termikierros valmis!"
+        stats={[
+          { value: `+${correctCount * XP_PER_TERM} XP`, label: 'ansaittu' },
+          { value: `${correctCount}/${results.length}`, label: 'osattu heti' },
+        ]}
+      >
+        <ul className={`${surface} divide-y divide-line`}>
           {results.map(({ ref, correct }) => (
-            <li key={termKey(ref)} className="flex gap-2">
-              <span aria-hidden className={correct ? 'text-green-400' : 'text-rose-400'}>
-                {correct ? '✓' : '✗'}
-              </span>
-              <span>
-                <span className="font-semibold">{ref.term.term}</span>
-                <span className="sr-only">{correct ? ' osattu' : ' ei osattu'}</span>
-              </span>
+            <li key={termKey(ref)} className="flex items-center gap-3 px-4 py-2.5">
+              {correct ? (
+                <CircleCheck size={18} className="shrink-0 text-good" aria-hidden />
+              ) : (
+                <CircleX size={18} className="shrink-0 text-bad" aria-hidden />
+              )}
+              <span className="font-semibold">{ref.term.term}</span>
+              <span className="sr-only">{correct ? ' osattu' : ' ei osattu'}</span>
             </li>
           ))}
         </ul>
         {saveState === 'error' && (
-          <p role="alert" className="text-sm text-rose-400">
-            Tallennus epäonnistui.
+          <p role="alert" className="text-center text-sm text-bad">
+            Tuloksia ei saatu tallennettua.
           </p>
         )}
-        <button
-          type="button"
-          onClick={onExit}
-          disabled={saveState === 'saving'}
-          className="w-full rounded-2xl bg-accent-dark py-4 text-lg font-semibold text-white disabled:opacity-60"
-        >
+        <button type="button" onClick={onExit} disabled={saveState === 'saving'} className={buttonClass('primary')}>
           Takaisin termeihin
         </button>
-      </div>
+      </ResultScreen>
     )
   }
 
@@ -123,29 +118,23 @@ export default function TermRunner({ questions, mode, pool, onFinish, onExit }: 
   const complete = q.kind !== 'card' && !!state.answer && isComplete(q.exercise, state.answer)
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-xl flex-col">
-      <header className="flex items-center gap-3 px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-2">
-        <button type="button" onClick={() => setConfirmExit(true)} aria-label="Lopeta termikierros" className="p-1 text-2xl text-slate-400">
-          ✕
-        </button>
-        <div
-          role="progressbar"
-          aria-label="Edistyminen"
-          aria-valuemin={0}
-          aria-valuemax={state.queue.length}
-          aria-valuenow={state.position}
-          className="h-3 flex-1 overflow-hidden rounded-full bg-slate-700"
-        >
-          <div
-            className="h-full rounded-full bg-violet-500 transition-[width] duration-300"
-            style={{ width: `${(state.position / state.queue.length) * 100}%` }}
-          />
-        </div>
-      </header>
+    <div className="flex min-h-dvh flex-col">
+      <RunnerHeader
+        onExit={() => setConfirmExit(true)}
+        exitLabel="Lopeta termikierros"
+        value={state.position}
+        max={state.queue.length}
+      />
 
-      <main className="flex-1 px-4 pt-4 pb-6">
+      <main className="mx-auto w-full max-w-xl flex-1 px-4 pt-3 pb-8">
         {q.kind === 'card' ? (
-          <Card key={state.attempt} term={q.refs[0].term} flipped={state.flipped} onFlip={() => dispatch({ type: 'flip' })} />
+          <Card
+            key={state.attempt}
+            pathId={q.refs[0].pathId}
+            term={q.refs[0].term}
+            flipped={state.flipped}
+            onFlip={() => dispatch({ type: 'flip' })}
+          />
         ) : (
           <ExerciseView
             key={state.attempt}
@@ -157,43 +146,30 @@ export default function TermRunner({ questions, mode, pool, onFinish, onExit }: 
         )}
       </main>
 
-      <footer
-        className={`sticky bottom-0 border-t-2 px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] ${
-          !checked ? 'border-slate-800 bg-slate-900' : state.lastCorrect ? 'border-green-700 bg-green-950' : 'border-rose-700 bg-rose-950'
-        }`}
-      >
+      <ActionBar tone={!checked ? 'plain' : state.lastCorrect ? 'good' : 'bad'}>
         {checked && q.kind !== 'card' && (
-          <div role="status" className="mb-4 max-h-[45dvh] space-y-2 overflow-y-auto">
-            <p className={`text-xl font-bold ${state.lastCorrect ? 'text-green-300' : 'text-rose-300'}`}>
-              {state.lastCorrect ? 'Oikein!' : 'Ei aivan.'}
-            </p>
+          <Feedback correct={!!state.lastCorrect}>
             {!state.lastCorrect && (
-              <div className="space-y-1 text-rose-100">
-                <p className="text-sm font-semibold">Oikea vastaus:</p>
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-muted">Oikea vastaus</p>
                 <CorrectAnswer exercise={q.exercise} />
               </div>
             )}
-            {q.kind === 'recognize' && (
-              <p className={`text-sm ${state.lastCorrect ? 'text-green-100' : 'text-rose-100'}`}>{q.exercise.explanation}</p>
-            )}
-          </div>
+            {q.kind === 'recognize' && <p>{q.exercise.explanation}</p>}
+          </Feedback>
         )}
         {q.kind === 'card' ? (
           state.flipped ? (
             <div className="grid grid-cols-2 gap-3">
-              <button type="button" onClick={() => grade([false], false)} className="rounded-2xl bg-rose-700 py-4 text-lg font-semibold text-white">
+              <button type="button" onClick={() => grade([false], false)} className={buttonClass('danger')}>
                 En osannut
               </button>
-              <button type="button" onClick={() => grade([true], false)} className="rounded-2xl bg-green-600 py-4 text-lg font-semibold text-white">
+              <button type="button" onClick={() => grade([true], false)} className={buttonClass('good')}>
                 Osasin
               </button>
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={() => dispatch({ type: 'flip' })}
-              className="w-full rounded-2xl bg-violet-600 py-4 text-lg font-semibold text-white"
-            >
+            <button type="button" onClick={() => dispatch({ type: 'flip' })} className={buttonClass('primary')}>
               Näytä vastaus
             </button>
           )
@@ -201,21 +177,16 @@ export default function TermRunner({ questions, mode, pool, onFinish, onExit }: 
           <button
             type="button"
             onClick={() => dispatch({ type: 'continue' })}
-            className={`w-full rounded-2xl py-4 text-lg font-semibold text-white ${state.lastCorrect ? 'bg-green-600' : 'bg-rose-600'}`}
+            className={buttonClass(state.lastCorrect ? 'good' : 'bad')}
           >
             Jatka
           </button>
         ) : (
-          <button
-            type="button"
-            disabled={!complete}
-            onClick={check}
-            className="w-full rounded-2xl bg-accent-dark py-4 text-lg font-semibold text-white disabled:bg-slate-700 disabled:text-slate-400"
-          >
+          <button type="button" disabled={!complete} onClick={check} className={buttonClass('primary')}>
             Tarkista
           </button>
         )}
-      </footer>
+      </ActionBar>
 
       {confirmExit && (
         <ConfirmExit
@@ -229,28 +200,36 @@ export default function TermRunner({ questions, mode, pool, onFinish, onExit }: 
   )
 }
 
-function Card({ term, flipped, onFlip }: { term: Term; flipped: boolean; onFlip: () => void }) {
+function Card({ pathId, term, flipped, onFlip }: { pathId: string; term: Term; flipped: boolean; onFlip: () => void }) {
   return (
-    <div className="space-y-3">
-      <p className="text-sm text-slate-400">{flipped ? 'Osasitko?' : 'Muistatko, mitä termi tarkoittaa?'}</p>
+    <div style={pathTone(pathId)} className="path-tone space-y-3">
+      <p className="text-lg font-bold">{flipped ? 'Osasitko?' : 'Muistatko, mitä termi tarkoittaa?'}</p>
       <button
         type="button"
         onClick={onFlip}
         aria-label={flipped ? `Kortti: ${term.term}, käännetty` : `Kortti: ${term.term}. Käännä kortti`}
-        className="flex min-h-64 w-full flex-col items-center justify-center gap-4 rounded-3xl border-2 border-violet-500/60 bg-slate-800 p-6 text-center shadow-lg"
+        className={`${surface} flex min-h-72 w-full flex-col overflow-hidden text-left`}
       >
-        <span className="text-3xl font-bold">{term.term}</span>
-        {flipped ? (
-          <span className="space-y-3">
-            {term.en && term.en !== term.term && <span className="block text-sm text-violet-300 italic">{term.en}</span>}
-            <span className="block text-lg text-slate-100">{term.definition}</span>
-            {term.example && (
-              <code className="block rounded-lg bg-slate-950 px-3 py-2 font-mono text-sm text-accent">{term.example}</code>
-            )}
-          </span>
-        ) : (
-          <span className="text-sm text-slate-500">Napauta kääntääksesi</span>
-        )}
+        <span className="flex items-center gap-2 bg-path-soft px-4 py-2.5 text-sm font-semibold text-path-ink">
+          <PathIcon pathId={pathId} size="sm" />
+          Termikortti
+        </span>
+        <span className="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center">
+          <span className="font-display text-3xl font-bold">{term.term}</span>
+          {flipped ? (
+            <span className="space-y-3">
+              {term.en && term.en !== term.term && <span className="block text-sm text-muted italic">{term.en}</span>}
+              <span className="block text-lg">{term.definition}</span>
+              {term.example && (
+                <code className="block rounded-lg bg-code px-3 py-2 font-mono text-sm text-path-ink">{term.example}</code>
+              )}
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 text-sm text-muted">
+              <RotateCw size={15} aria-hidden /> Napauta kääntääksesi
+            </span>
+          )}
+        </span>
       </button>
     </div>
   )

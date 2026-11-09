@@ -14,10 +14,10 @@ function renderAt(path: string) {
 describe('reititys ja näkymät', () => {
   it('etusivu näyttää polut ja alanavigaation', () => {
     renderAt('/')
-    expect(screen.getByRole('heading', { name: 'IT-oppi' })).toBeInTheDocument()
-    const polut = screen.getByRole('heading', { name: 'Polut' }).parentElement!
+    expect(screen.getByRole('heading', { name: 'Tänään' })).toBeInTheDocument()
+    const polut = screen.getByRole('region', { name: 'Polut' })
     for (const p of content.paths) {
-      expect(within(polut).getByText(p.title, { selector: 'div' })).toBeInTheDocument()
+      expect(within(polut).getByRole('link', { name: new RegExp(`^${p.title}`) })).toBeInTheDocument()
     }
     expect(screen.getByRole('navigation', { name: 'Päävalikko' })).toBeInTheDocument()
   })

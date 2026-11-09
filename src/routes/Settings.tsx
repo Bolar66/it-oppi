@@ -7,6 +7,9 @@ import { useProgress } from '../progress/hooks.ts'
 import { exportData, importData, parseExport, removeReport, setDailyGoal } from '../progress/repo.ts'
 import type { ExportFile } from '../progress/types.ts'
 import { DAILY_GOAL_OPTIONS } from '../progress/xp.ts'
+import { Download, Flag, Trash2, Upload } from 'lucide-react'
+import { EmptyState, PageHeader, SectionTitle } from '../ui/components.tsx'
+import { buttonClass, surface } from '../ui/styles.ts'
 
 export default function Settings() {
   const progress = useProgress()
@@ -49,13 +52,13 @@ export default function Settings() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold">Asetukset</h1>
+      <PageHeader title="Asetukset" />
 
       <section aria-labelledby="goal-title">
-        <h2 id="goal-title" className="mb-2 text-lg font-semibold">
-          Päivätavoite
-        </h2>
-        <div role="radiogroup" aria-labelledby="goal-title" className="grid grid-cols-3 gap-2">
+        <SectionTitle>
+          <span id="goal-title">Päivätavoite</span>
+        </SectionTitle>
+        <div role="radiogroup" aria-labelledby="goal-title" className="grid grid-cols-3 gap-1 rounded-2xl bg-surface-2 p-1">
           {DAILY_GOAL_OPTIONS.map((xp) => {
             const selected = progress?.dailyGoal === xp
             return (
@@ -65,32 +68,31 @@ export default function Settings() {
                 role="radio"
                 aria-checked={selected}
                 onClick={() => void setDailyGoal(xp)}
-                className={`min-h-11 rounded-xl border-2 py-2 font-semibold ${selected ? 'border-accent bg-green-950 text-green-200' : 'border-slate-700 bg-slate-800'}`}
+                className={`min-h-11 rounded-xl font-display font-semibold transition-colors ${selected ? 'bg-surface text-primary shadow-sm' : 'text-muted hover:text-ink'}`}
               >
                 {xp} XP
               </button>
             )
           })}
         </div>
+        <p className="mt-2 text-sm text-muted">Oppitunnin oikea vastaus antaa 10 XP, termi 5 XP.</p>
       </section>
 
-      <section aria-labelledby="data-title" className="space-y-3">
-        <h2 id="data-title" className="text-lg font-semibold">
-          Data
-        </h2>
-        <p className="text-sm text-slate-400">
+      <section aria-labelledby="data-title">
+        <SectionTitle>
+          <span id="data-title">Varmuuskopio</span>
+        </SectionTitle>
+        <p className="mb-3 text-sm text-muted">
           Edistyminen tallentuu tähän laitteeseen. Vie se tiedostoon varmuuskopioksi tai siirtääksesi toiseen laitteeseen.
         </p>
-        <div className="grid grid-cols-2 gap-2">
-          <button type="button" onClick={() => void doExport()} className="min-h-11 rounded-xl bg-slate-700 py-2 font-semibold">
-            Vie JSON
+        <div className="grid grid-cols-2 gap-3">
+          <button type="button" onClick={() => void doExport()} className={buttonClass('secondary', 'md')}>
+            <Download size={18} aria-hidden />
+            Vie tiedostoon
           </button>
-          <button
-            type="button"
-            onClick={() => fileInput.current?.click()}
-            className="min-h-11 rounded-xl bg-slate-700 py-2 font-semibold"
-          >
-            Tuo JSON
+          <button type="button" onClick={() => fileInput.current?.click()} className={buttonClass('secondary', 'md')}>
+            <Upload size={18} aria-hidden />
+            Tuo tiedostosta
           </button>
         </div>
         <input
@@ -102,45 +104,48 @@ export default function Settings() {
           onChange={(e) => void onFile(e.target.files?.[0])}
         />
         {message && (
-          <p role="status" className={`text-sm ${message.kind === 'ok' ? 'text-green-300' : 'text-rose-400'}`}>
+          <p role="status" className={`text-sm ${message.kind === 'ok' ? 'text-good' : 'text-bad'}`}>
             {message.text}
           </p>
         )}
       </section>
 
       <section aria-labelledby="reports-title">
-        <h2 id="reports-title" className="mb-2 text-lg font-semibold">
-          Virheilmoitukset ({reports?.length ?? 0})
-        </h2>
+        <SectionTitle aside={reports && reports.length > 0 ? `${reports.length} kpl` : undefined}>
+          <span id="reports-title">Virheilmoitukset</span>
+        </SectionTitle>
         {!reports || reports.length === 0 ? (
-          <p className="text-sm text-slate-400">Ei ilmoituksia. Voit ilmoittaa virheestä jokaisessa harjoituksessa.</p>
+          <EmptyState icon={Flag} title="Ei ilmoituksia">
+            Voit ilmoittaa virheestä jokaisessa harjoituksessa.
+          </EmptyState>
         ) : (
-          <ul className="space-y-2">
+          <ul className={`${surface} divide-y divide-line`}>
             {reports.map((r) => (
-              <li key={r.id} className="rounded-xl bg-slate-800 p-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="font-mono text-xs text-slate-400">
-                      {r.unitId}/{r.exerciseId} · {new Date(r.createdAt).toLocaleDateString('fi-FI')}
-                    </div>
-                    <p className="mt-1 text-sm break-words whitespace-pre-wrap">{r.message}</p>
+              <li key={r.id} className="flex items-start justify-between gap-3 p-3.5">
+                <div className="min-w-0">
+                  <div className="text-xs text-muted">
+                    <span className="font-mono">
+                      {r.unitId}/{r.exerciseId}
+                    </span>
+                    , {new Date(r.createdAt).toLocaleDateString('fi-FI')}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => void removeReport(r.id)}
-                    aria-label={`Poista ilmoitus ${r.unitId}/${r.exerciseId}`}
-                    className="shrink-0 rounded-lg px-2 py-1 text-sm text-rose-300 active:bg-slate-700"
-                  >
-                    Poista
-                  </button>
+                  <p className="mt-1 text-[0.95rem] break-words whitespace-pre-wrap">{r.message}</p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => void removeReport(r.id)}
+                  aria-label={`Poista ilmoitus ${r.unitId}/${r.exerciseId}`}
+                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted hover:bg-bad-soft hover:text-bad"
+                >
+                  <Trash2 size={17} aria-hidden />
+                </button>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      <p className="text-sm text-slate-400">Synkronointi laitteiden välillä tulee vaiheessa 5.</p>
+      <p className="text-center text-sm text-faint">Synkronointi laitteiden välillä tulee myöhemmin.</p>
 
       {pending && (
         <ConfirmDialog
@@ -155,7 +160,7 @@ export default function Settings() {
             {pending.data.unitProgress.filter((u) => u.completedAt).length} suoritettua yksikköä ja{' '}
             {pending.data.reviewItems.length} kertausharjoitusta.
           </p>
-          <p className="mt-2 text-rose-300">Kaikki tämän laitteen nykyinen data korvataan.</p>
+          <p className="mt-2 text-bad">Kaikki tämän laitteen nykyinen data korvataan.</p>
         </ConfirmDialog>
       )}
     </div>

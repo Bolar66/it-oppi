@@ -142,6 +142,18 @@ content/
   Kierroksessa 10 termiä (ensin erääntyneet, sitten uudet). Päänappi = sekoitus (uudet kortteina,
   tutut tunnistuksena/pareina), lisäksi yksittäinen tila valittavissa. Sanastossa kaikki termit, lukitut merkitty.
 
+## Ulkoasu
+
+- Teema seuraa laitetta (vaalea/tumma). Värit vain tokeneina (`src/index.css`): `bg`, `surface`, `ink`, `muted`,
+  `primary` (kaikki toiminnot), `good`/`bad` (vain palaute). Ei kovakoodattuja Tailwind-värejä (slate-, green- jne.).
+- Jokaisella polulla oma sävy ja kuvake: `src/ui/pathStyle.ts` (lisää uusi polku sinne). Polun väri näkyy
+  kuvakkeessa, polkukartalla, oppitunnin otsikossa ja edistymispalkeissa (`path-tone` + `pathTone(id)`).
+- Yhteiset osat: `src/ui/components.tsx` (PageHeader, PathIcon, ProgressBar, EmptyState, ActionBar),
+  `src/ui/runner.tsx` (harjoitusnäkymän yläpalkki, palaute, tulosnäkymä), `src/ui/styles.ts` (buttonClass, surface).
+- Fontit (niputettu, toimivat offline): Bricolage Grotesque otsikoille ja luvuille, Atkinson Hyperlegible Next
+  tekstille, JetBrains Mono koodille. Kuvakkeet: lucide-react, ei emojeja.
+- Rauhallinen ja asiallinen tyyli; tyhjät tilat kertovat, mitä tehdä seuraavaksi.
+
 ## Näkymät
 
 - Etusivu: päivän tavoite, putki, "jatka siitä mihin jäit", kertausjonon koko

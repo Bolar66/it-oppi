@@ -8,7 +8,7 @@ function Badge({ children }: { children: string }) {
   return (
     <span
       aria-hidden
-      className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-slate-600 text-xs font-bold text-white"
+      className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-bold text-on-primary"
     >
       {children}
     </span>
@@ -57,7 +57,7 @@ export default function MatchPairs({ exercise, answer, onChange, checked }: Exer
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-slate-500">Napauta ensin yhtä kohtaa ja sitten sen paria. Napauta paria uudelleen purkaaksesi sen.</p>
+      <p className="text-sm text-muted">Napauta ensin yhtä kohtaa ja sitten sen paria. Napauta paria uudelleen purkaaksesi sen.</p>
       <div className={stacked ? 'space-y-4' : 'grid grid-cols-2 gap-3'}>
         <div role="group" aria-label="Vasen sarake" className={stacked ? 'flex flex-wrap gap-2' : 'min-w-0 space-y-2'}>
           {exercise.pairs.map(([left], i) => (

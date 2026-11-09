@@ -6,6 +6,10 @@ import Theory from '../components/Theory.tsx'
 import LessonRunner from '../lesson/LessonRunner.tsx'
 import { useProgress, usePathStatus } from '../progress/hooks.ts'
 import { recordLesson } from '../progress/repo.ts'
+import { Check, Lock, X } from 'lucide-react'
+import { ActionBar, EmptyState, PathIcon } from '../ui/components.tsx'
+import { pathTone } from '../ui/pathStyle.ts'
+import { buttonClass } from '../ui/styles.ts'
 import NotFound from './NotFound.tsx'
 
 export default function Lesson() {
@@ -44,49 +48,62 @@ export default function Lesson() {
     )
   }
 
+  const allUnits = status?.levels.flatMap((l) => l.units) ?? []
+  const n = allUnits.findIndex((u) => u.unitId === unitId) + 1
+
   return (
-    <div className="mx-auto flex min-h-dvh max-w-xl flex-col px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]">
-      <header className="flex items-center gap-3">
-        <Link to={`/path/${pathId}`} aria-label="Sulje oppitunti" className="text-2xl text-slate-400">
-          ✕
+    <div style={pathTone(pathId)} className="path-tone flex min-h-dvh flex-col">
+      <div className="mx-auto w-full max-w-xl flex-1 px-4 pt-[max(1rem,env(safe-area-inset-top))]">
+        <Link
+          to={`/path/${pathId}`}
+          aria-label="Sulje oppitunti"
+          className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-muted hover:bg-surface-2 hover:text-ink"
+        >
+          <X size={22} aria-hidden />
         </Link>
-        <div className="text-xs text-slate-400">
-          {path.title} · Taso {meta.level}
-          {unitStatus === 'completed' && ' · ✓ suoritettu'}
-        </div>
-      </header>
 
-      <h1 className="mt-3 text-2xl font-bold">{meta.title}</h1>
+        <header className="mt-2 mb-2 flex items-start gap-3">
+          <PathIcon pathId={pathId} />
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-path-ink">
+              {path.title}
+              {n > 0 && `, yksikkö ${n}/${allUnits.length}`}
+            </p>
+            <h1 className="text-[1.75rem] leading-tight font-bold">{meta.title}</h1>
+            {unitStatus === 'completed' && (
+              <p className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-good">
+                <Check size={16} aria-hidden /> Suoritettu
+              </p>
+            )}
+          </div>
+        </header>
 
-      {unitStatus === 'locked' ? (
-        <div className="mt-6 flex-1 space-y-4">
-          <p className="rounded-xl bg-slate-800 p-4 text-slate-300">
-            🔒 Tämä yksikkö on vielä lukittu. Suorita ensin edelliset yksiköt (tai tason koe).
+        {unitStatus === 'locked' ? (
+          <div className="mt-6">
+            <EmptyState icon={Lock} title="Tämä yksikkö on vielä lukittu">
+              Suorita ensin edelliset yksiköt tai tason koe.
+            </EmptyState>
+            <Link to={`/path/${pathId}`} className={buttonClass('secondary', 'md', 'mt-4 w-full')}>
+              Polkukarttaan
+            </Link>
+          </div>
+        ) : loaded.status === 'error' ? (
+          <p role="alert" className="mt-6 rounded-2xl bg-bad-soft p-4 text-bad">
+            Yksikköä ei saatu ladattua. Tarkista verkkoyhteys ja yritä uudelleen.
           </p>
-          <Link to={`/path/${pathId}`} className="inline-block text-accent underline">
-            Polkukarttaan
-          </Link>
-        </div>
-      ) : loaded.status === 'error' ? (
-        <p role="alert" className="mt-6 rounded-xl bg-rose-950 p-4 text-rose-200">
-          Yksikön lataus epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen.
-        </p>
-      ) : (
-        <>
-          <div className="flex-1">
-            {unit ? <Theory markdown={unit.theory} /> : <p className="mt-6 text-slate-400">Ladataan…</p>}
-          </div>
-          <div className="sticky bottom-0 mt-6 bg-slate-900 pt-3">
-            <button
-              type="button"
-              disabled={!status || !unit}
-              onClick={() => setRun(1)}
-              className="w-full rounded-2xl bg-accent-dark py-4 text-lg font-semibold text-white active:translate-y-0.5 disabled:opacity-60"
-            >
-              Aloita harjoitukset ({meta.exerciseCount})
-            </button>
-          </div>
-        </>
+        ) : unit ? (
+          <Theory markdown={unit.theory} />
+        ) : (
+          <p className="mt-6 text-muted">Ladataan…</p>
+        )}
+      </div>
+
+      {unitStatus !== 'locked' && loaded.status !== 'error' && (
+        <ActionBar>
+          <button type="button" disabled={!status || !unit} onClick={() => setRun(1)} className={buttonClass('primary')}>
+            Aloita harjoitukset ({meta.exerciseCount})
+          </button>
+        </ActionBar>
       )}
     </div>
   )

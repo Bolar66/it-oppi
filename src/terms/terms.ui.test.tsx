@@ -69,8 +69,8 @@ async function answerTerm(user: UserEvent) {
 describe('termiosio', () => {
   it('ennen yksikön suoritusta termit ovat lukossa', async () => {
     renderAt('/terms')
-    expect(await screen.findByText(/Termit avautuvat, kun suoritat yksiköitä/)).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: `📖 Sanasto (${totalTerms} termiä)` })).toBeInTheDocument()
+    expect(await screen.findByText('Termit avautuvat oppitunneista')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: `Sanasto (${totalTerms} termiä)` })).toBeInTheDocument()
   })
 
   it('sekoitus uusilla termeillä: kortit → +5 XP per osattu → laatikko 1', async () => {
@@ -121,7 +121,7 @@ describe('termiosio', () => {
   it('sanasto: haku ja lukitusmerkintä', async () => {
     const user = userEvent.setup()
     renderAt('/terms/glossary')
-    expect(await screen.findAllByText('🔒 lukittu')).toHaveLength(totalTerms)
+    expect(await screen.findAllByText('Lukittu')).toHaveLength(totalTerms)
     await user.type(screen.getByRole('searchbox', { name: 'Hae sanastosta' }), 'boolean')
     const list = within(screen.getByRole('region', { name: 'Python' })).getAllByRole('listitem')
     expect(list).toHaveLength(1)

@@ -16,7 +16,7 @@ export default function TermPractice() {
   const mode: TermMode = raw && MODES.includes(raw) ? raw : 'mixed'
   const pathId = params.get('path') || undefined
 
-  if (!progress) return <p className="p-4 text-slate-400">Ladataan…</p>
+  if (!progress) return <p className="p-4 text-muted">Ladataan…</p>
   return <Session progress={progress} mode={mode} pathId={pathId} />
 }
 
@@ -33,8 +33,8 @@ function Session({ progress, mode, pathId }: { progress: ProgressSnapshot; mode:
   if (setup.questions.length === 0) {
     return (
       <div className="mx-auto max-w-xl space-y-4 px-4 pt-[max(1.5rem,env(safe-area-inset-top))]">
-        <p className="rounded-xl bg-slate-800 p-4 text-slate-300">Ei harjoiteltavia termejä juuri nyt.</p>
-        <Link to={back} className="text-accent underline">
+        <p className="rounded-xl bg-surface p-4 text-ink">Ei harjoiteltavia termejä juuri nyt.</p>
+        <Link to={back} className="text-primary underline">
           Takaisin termeihin
         </Link>
       </div>

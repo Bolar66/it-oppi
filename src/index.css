@@ -1,8 +1,99 @@
 @import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque";
+@import "@fontsource-variable/atkinson-hyperlegible-next";
+@import "@fontsource-variable/jetbrains-mono";
 
-@theme {
-  --color-accent: #4ade80;
-  --color-accent-dark: #16a34a;
+/*
+ * Väritokenit. Vaalea oletuksena, tumma laitteen asetuksen mukaan.
+ * Väriä käytetään vain kahteen asiaan: polun tunnisteeseen (--p*) ja palautteeseen (good/bad).
+ * Toiminnot (Jatka, Tarkista, Aloita) käyttävät aina primary-väriä.
+ */
+:root {
+  color-scheme: light;
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface-2: #eaedf2;
+  --line: #dde2ea;
+  --ink: #171a21;
+  --muted: #5a6272;
+  --faint: #8a92a1;
+  --primary: #2747c8;
+  --primary-hover: #1f3aa8;
+  --on-primary: #ffffff;
+  --primary-soft: #e5eafb;
+  --good: #178a55;
+  --good-soft: #e2f3e9;
+  --bad: #c93541;
+  --bad-soft: #fbe6e7;
+  --code: #eef1f5;
+  --scrim: rgb(15 19 26 / 0.45);
+  --h: 262;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0f131a;
+    --surface: #181d26;
+    --surface-2: #222835;
+    --line: #2c3341;
+    --ink: #e7eaf0;
+    --muted: #98a1b1;
+    --faint: #6d7586;
+    --primary: #7d93ff;
+    --primary-hover: #97a8ff;
+    --on-primary: #0f131a;
+    --primary-soft: #222b4d;
+    --good: #4cc38a;
+    --good-soft: #15301f;
+    --bad: #f0707a;
+    --bad-soft: #3a1a1e;
+    --code: #10141b;
+    --scrim: rgb(0 0 0 / 0.6);
+  }
+}
+
+/* Polun sävy: elementti asettaa --h (OKLCH-sävy), josta johdetaan polun värit. */
+:root,
+.path-tone {
+  --p: oklch(0.54 0.15 var(--h));
+  --p-soft: oklch(0.95 0.035 var(--h));
+  --p-ink: oklch(0.38 0.12 var(--h));
+}
+@media (prefers-color-scheme: dark) {
+  :root,
+  .path-tone {
+    --p: oklch(0.74 0.13 var(--h));
+    --p-soft: oklch(0.29 0.05 var(--h));
+    --p-ink: oklch(0.9 0.07 var(--h));
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-code: var(--code);
+  --color-scrim: var(--scrim);
+  --color-path: var(--p);
+  --color-path-soft: var(--p-soft);
+  --color-path-ink: var(--p-ink);
+
+  --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 }
 
 html,
@@ -12,22 +103,63 @@ body,
 }
 
 body {
-  @apply bg-slate-900 text-slate-100 antialiased;
+  @apply bg-bg font-sans text-ink antialiased;
+  font-size: 16px;
+  line-height: 1.5;
   -webkit-tap-highlight-color: transparent;
 }
 
+h1,
+h2,
+h3 {
+  @apply font-display;
+  letter-spacing: -0.01em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Teoria (markdown) */
+.theory {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
 .theory h2 {
-  @apply mt-6 mb-2 text-lg font-semibold text-slate-50;
+  @apply mt-8 mb-2 text-xl font-semibold text-ink;
 }
 .theory p {
-  @apply my-3 leading-relaxed text-slate-200;
+  @apply my-3 text-ink;
+}
+.theory ul,
+.theory ol {
+  @apply my-3 space-y-1.5 pl-6;
 }
 .theory ul {
-  @apply my-3 list-disc space-y-1 pl-6 text-slate-200;
+  @apply list-disc;
+}
+.theory ol {
+  @apply list-decimal;
+}
+.theory li::marker {
+  color: var(--p);
+}
+.theory strong {
+  @apply font-bold;
 }
 .theory :not(pre) > code {
-  @apply rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[0.9em] text-accent;
+  @apply rounded-md bg-code px-1.5 py-0.5 font-mono text-[0.88em] text-path-ink;
 }
 .theory pre {
-  @apply my-3 overflow-x-auto rounded-lg bg-slate-950 p-3 font-mono text-sm text-slate-100;
+  @apply my-4 overflow-x-auto rounded-xl border border-line bg-code p-4 font-mono text-sm leading-6 text-ink;
 }

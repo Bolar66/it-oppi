@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Sheet from '../components/Sheet.tsx'
 import { addReport } from '../progress/repo.ts'
+import { buttonClass } from '../ui/styles.ts'
 
 interface Props {
   pathId: string
@@ -28,7 +29,7 @@ export default function ReportSheet({ pathId, unitId, exerciseId, onClose }: Pro
       {saved ? (
         <div className="space-y-4 py-2">
           <p>Kiitos! Ilmoitus tallennettiin. Löydät sen Asetuksista.</p>
-          <button type="button" onClick={onClose} className="w-full rounded-xl bg-slate-700 py-3 font-semibold">
+          <button type="button" onClick={onClose} className={buttonClass('secondary', 'md', 'w-full')}>
             Sulje
           </button>
         </div>
@@ -40,7 +41,7 @@ export default function ReportSheet({ pathId, unitId, exerciseId, onClose }: Pro
             void submit()
           }}
         >
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-muted">
             Harjoitus <span className="font-mono">{unitId}/{exerciseId}</span>
           </p>
           <label className="block">
@@ -50,15 +51,11 @@ export default function ReportSheet({ pathId, unitId, exerciseId, onClose }: Pro
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
               placeholder="Esim. oikea vastaus on väärin, selitys on epäselvä…"
-              className="w-full rounded-xl border-2 border-slate-600 bg-slate-950 px-3 py-2 text-base outline-none focus:border-sky-400"
+              className="w-full rounded-xl border-2 border-line bg-bg px-3 py-2 text-base outline-none focus:border-primary"
             />
           </label>
-          {error && <p className="text-sm text-rose-400">{error}</p>}
-          <button
-            type="submit"
-            disabled={message.trim() === ''}
-            className="w-full rounded-xl bg-sky-600 py-3 font-semibold text-white disabled:bg-slate-700 disabled:text-slate-400"
-          >
+          {error && <p className="text-sm text-bad">{error}</p>}
+          <button type="submit" disabled={message.trim() === ''} className={buttonClass('primary', 'md', 'w-full')}>
             Tallenna ilmoitus
           </button>
         </form>

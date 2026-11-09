@@ -1,26 +1,13 @@
 import { Link, useParams } from 'react-router'
+import { Check, GraduationCap, Lock, Trophy } from 'lucide-react'
 import { getPath } from '../content/loader.ts'
+import type { UnitMeta } from '../content/contentIndex.ts'
 import { useProgress, usePathStatus } from '../progress/hooks.ts'
 import type { LevelStatus, UnitStatus } from '../progress/unlocks.ts'
+import { PageHeader, PathIcon, ProgressBar } from '../ui/components.tsx'
+import { pathTone } from '../ui/pathStyle.ts'
+import { buttonClass, surface } from '../ui/styles.ts'
 import NotFound from './NotFound.tsx'
-
-/** Siksak-sijoittelu Duolingo-tyyliseen polkuun. */
-const OFFSETS = [
-  'translate-x-0',
-  'translate-x-12',
-  'translate-x-16',
-  'translate-x-12',
-  'translate-x-0',
-  '-translate-x-12',
-  '-translate-x-16',
-  '-translate-x-12',
-]
-
-const nodeStyles: Record<UnitStatus, string> = {
-  completed: 'bg-amber-500 text-slate-900 shadow-[0_6px_0_#92400e]',
-  open: 'bg-accent-dark text-white shadow-[0_6px_0_#14532d] ring-4 ring-accent/40',
-  locked: 'bg-slate-700 text-slate-400 shadow-[0_6px_0_#1e293b]',
-}
 
 const pct = (x: number) => `${Math.round(x * 100)} %`
 
@@ -32,102 +19,189 @@ export default function PathMap() {
   if (!path) return <NotFound />
 
   return (
-    <div>
-      <Link to="/" className="text-sm text-slate-400">
-        ← Takaisin
-      </Link>
-      <h1 className="mt-2 text-2xl font-bold">{path.title}</h1>
-      <p className="text-sm text-slate-400">{path.description}</p>
+    <div style={pathTone(path.id)} className="path-tone">
+      <PageHeader title={path.title} back={{ to: '/', label: 'Koti' }} subtitle={path.description} />
+
+      {status && (
+        <div className={`${surface} mb-6 flex items-center gap-4 p-4`}>
+          <PathIcon pathId={path.id} size="lg" />
+          <div className="min-w-0 flex-1">
+            <p className="text-sm text-muted">
+              {status.completedUnits} / {status.totalUnits} yksikköä suoritettu
+            </p>
+            <ProgressBar
+              value={status.completedUnits}
+              max={status.totalUnits}
+              label={`${path.title}: edistyminen`}
+              tone="path"
+              className="mt-2"
+            />
+          </div>
+        </div>
+      )}
 
       {status?.placementAvailable && (
-        <Link
-          to={`/placement/${path.id}`}
-          className="mt-4 block rounded-xl border-2 border-sky-700 px-4 py-3 text-sm text-sky-200 active:bg-slate-800"
-        >
-          <span className="font-semibold">Osaatko jo perusteet?</span> Tee tasotesti ja hyppää tason 1 yli (raja{' '}
-          {pct(path.placementTest.passThreshold)}).
-        </Link>
+        <div className={`${surface} mb-8 flex items-start gap-3 p-4`}>
+          <GraduationCap size={22} className="mt-0.5 shrink-0 text-path" aria-hidden />
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold">Osaatko jo perusteet?</p>
+            <p className="text-sm text-muted">
+              Läpäise tasotesti ({pct(path.placementTest.passThreshold)}), niin taso 1 merkitään suoritetuksi.
+            </p>
+            <Link to={`/placement/${path.id}`} className={buttonClass('secondary', 'sm', 'mt-3')}>
+              Tee tasotesti
+            </Link>
+          </div>
+        </div>
       )}
 
       {status?.levels.map((lvl) => (
-        <LevelSection key={lvl.level} pathId={path.id} lvl={lvl} titles={path.units} />
+        <LevelSection key={lvl.level} pathId={path.id} lvl={lvl} units={path.units} />
       ))}
     </div>
   )
 }
 
-function LevelSection({
-  pathId,
-  lvl,
-  titles,
-}: {
-  pathId: string
-  lvl: LevelStatus
-  titles: Record<string, { title: string }>
-}) {
+function LevelSection({ pathId, lvl, units }: { pathId: string; lvl: LevelStatus; units: Record<string, UnitMeta> }) {
+  const nextOpen = lvl.units.find((u) => u.status === 'open')?.unitId
   return (
-    <section aria-label={`Taso ${lvl.level}`} className={`mt-8 ${lvl.unlocked ? '' : 'opacity-60'}`}>
-      <h2 className="rounded-xl bg-slate-800 px-4 py-2 font-semibold">
-        {!lvl.unlocked && '🔒 '}Taso {lvl.level}: {lvl.title}
+    <section aria-label={`Taso ${lvl.level}`} className="mb-10">
+      <h2 className="mb-1 flex items-center gap-2 text-xl font-bold">
+        {!lvl.unlocked && <Lock size={18} className="text-faint" aria-hidden />}
+        Taso {lvl.level}: {lvl.title}
       </h2>
       {!lvl.unlocked && (
-        <p className="mt-2 px-1 text-sm text-slate-400">
-          Avautuu, kun tason {lvl.level - 1} koe on läpäisty (≥ {pct(lvl.exam.passThreshold)}).
+        <p className="mb-4 text-sm text-muted">
+          Avautuu, kun tason {lvl.level - 1} koe on läpäisty (vähintään {pct(lvl.exam.passThreshold)}).
         </p>
       )}
 
-      <ol className="mt-6 flex flex-col items-center gap-6">
-        {lvl.units.map(({ unitId, status }, i) => {
-          const title = titles[unitId]?.title ?? unitId
-          const node = (
-            <span
-              className={`flex h-16 w-16 items-center justify-center rounded-full text-xl font-bold ${nodeStyles[status]}`}
-            >
-              {status === 'completed' ? '✓' : status === 'locked' ? '🔒' : i + 1}
-            </span>
-          )
-          return (
-            <li key={unitId} className={`flex flex-col items-center ${OFFSETS[i % OFFSETS.length]}`}>
-              {status === 'locked' ? (
-                <span role="img" aria-label={`${title} (lukittu)`}>
-                  {node}
-                </span>
-              ) : (
-                <Link
-                  to={`/lesson/${pathId}/${unitId}`}
-                  aria-label={status === 'completed' ? `${title} (suoritettu)` : title}
-                  className="active:translate-y-1"
-                >
-                  {node}
-                </Link>
-              )}
-              <span className="mt-2 max-w-40 text-center text-xs text-slate-300">{title}</span>
-            </li>
-          )
-        })}
+      <ol className="relative mt-4">
+        <span aria-hidden className="absolute top-6 bottom-6 left-[1.375rem] w-0.5 rounded bg-line" />
+        {lvl.units.map(({ unitId, status }, i) => (
+          <UnitRow
+            key={unitId}
+            pathId={pathId}
+            unitId={unitId}
+            n={i + 1}
+            title={units[unitId]?.title ?? unitId}
+            exercises={units[unitId]?.exerciseCount ?? 0}
+            status={status}
+            current={unitId === nextOpen}
+          />
+        ))}
+        <ExamRow pathId={pathId} lvl={lvl} />
       </ol>
-
-      <div className="mt-6">
-        {lvl.exam.passed ? (
-          <p className="rounded-xl bg-green-950 px-4 py-3 text-center text-sm text-green-200">
-            ✓ Tason {lvl.level} koe läpäisty{lvl.exam.best !== null && ` (paras ${pct(lvl.exam.best)})`}
-          </p>
-        ) : lvl.exam.available ? (
-          <Link
-            to={`/exam/${pathId}/${lvl.level}`}
-            className="block rounded-xl bg-sky-600 px-4 py-3 text-center font-semibold text-white active:bg-sky-700"
-          >
-            Tason {lvl.level} koe
-            {lvl.exam.best !== null && <span className="block text-xs font-normal">Paras tähän asti {pct(lvl.exam.best)}</span>}
-          </Link>
-        ) : (
-          lvl.unlocked && (
-            <p className="rounded-xl border border-dashed border-slate-700 px-4 py-3 text-center text-sm text-slate-400">
-              🔒 Tason {lvl.level} koe aukeaa, kun kaikki yksiköt on suoritettu.
-            </p>
-          )
-        )}
-      </div>
     </section>
+  )
+}
+
+function Node({ status, n }: { status: UnitStatus; n: number }) {
+  const cls = {
+    completed: 'bg-path text-white dark:text-bg',
+    open: 'bg-surface text-path ring-2 ring-path',
+    locked: 'bg-surface-2 text-faint',
+  }[status]
+  return (
+    <span
+      aria-hidden
+      className={`relative z-[1] inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full font-display text-base font-bold ${cls}`}
+    >
+      {status === 'completed' ? <Check size={20} strokeWidth={3} /> : status === 'locked' ? <Lock size={17} /> : n}
+    </span>
+  )
+}
+
+function UnitRow({
+  pathId,
+  unitId,
+  n,
+  title,
+  exercises,
+  status,
+  current,
+}: {
+  pathId: string
+  unitId: string
+  n: number
+  title: string
+  exercises: number
+  status: UnitStatus
+  current: boolean
+}) {
+  const sub = status === 'completed' ? 'Suoritettu' : status === 'locked' ? 'Lukittu' : `${exercises} harjoitusta`
+  const body = (
+    <>
+      <Node status={status} n={n} />
+      <span className="min-w-0 flex-1">
+        <span className={`block font-semibold ${status === 'locked' ? 'text-muted' : ''}`}>{title}</span>
+        <span className={`block text-sm ${current ? 'text-path-ink' : 'text-muted'}`}>{current ? 'Seuraavaksi' : sub}</span>
+      </span>
+    </>
+  )
+  if (status === 'locked') {
+    return (
+      <li className="flex items-center gap-4 py-2.5" aria-label={`${title} (lukittu)`}>
+        {body}
+      </li>
+    )
+  }
+  return (
+    <li className="py-1">
+      <Link
+        to={`/lesson/${pathId}/${unitId}`}
+        aria-label={status === 'completed' ? `${title} (suoritettu)` : title}
+        className={`-mx-2 flex items-center gap-4 rounded-2xl px-2 py-1.5 ${current ? 'bg-path-soft/70 hover:bg-path-soft' : 'hover:bg-surface-2'}`}
+      >
+        {body}
+      </Link>
+    </li>
+  )
+}
+
+function ExamRow({ pathId, lvl }: { pathId: string; lvl: LevelStatus }) {
+  const { exam } = lvl
+  const icon = (
+    <span
+      aria-hidden
+      className={`relative z-[1] inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${exam.passed ? 'bg-good text-white dark:text-bg' : exam.available ? 'bg-primary text-on-primary' : 'bg-surface-2 text-faint'}`}
+    >
+      <Trophy size={19} />
+    </span>
+  )
+  if (exam.passed) {
+    return (
+      <li className="flex items-center gap-4 py-2.5">
+        {icon}
+        <span>
+          <span className="block font-semibold">Tason {lvl.level} koe läpäisty</span>
+          {exam.best !== null && <span className="block text-sm text-muted">Paras tulos {pct(exam.best)}</span>}
+        </span>
+      </li>
+    )
+  }
+  if (exam.available) {
+    return (
+      <li className="py-1">
+        <Link to={`/exam/${pathId}/${lvl.level}`} className="-mx-2 flex items-center gap-4 rounded-2xl bg-primary-soft px-2 py-1.5">
+          {icon}
+          <span>
+            <span className="block font-semibold">Tason {lvl.level} koe</span>
+            <span className="block text-sm text-muted">
+              {exam.best !== null ? `Paras tähän asti ${pct(exam.best)}` : `${exam.questionCount} kysymystä, raja ${pct(exam.passThreshold)}`}
+            </span>
+          </span>
+        </Link>
+      </li>
+    )
+  }
+  return (
+    <li className="flex items-center gap-4 py-2.5">
+      {icon}
+      <span>
+        <span className="block font-semibold text-muted">Tason {lvl.level} koe</span>
+        <span className="block text-sm text-muted">Aukeaa, kun kaikki yksiköt on suoritettu.</span>
+      </span>
+    </li>
   )
 }

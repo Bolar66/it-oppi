@@ -60,8 +60,8 @@ describe('edistyminen näkymissä', () => {
     })
     renderAt('/')
     expect(await screen.findByText('30 / 50 XP')).toBeInTheDocument()
-    expect(screen.getByText('🔥 1 pv')).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Kertaa 1 harjoitusta' })).toBeInTheDocument()
+    expect(screen.getByText('Putki 1 pv')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Kertaus: 1' })).toBeInTheDocument()
   })
 
   it('lukittu yksikkö ja koe eivät aukea suoralla osoitteella', async () => {

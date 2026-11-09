@@ -21,10 +21,10 @@ export const DEFAULT_PROMPTS: Record<ExerciseType, string> = {
 export type ChoiceState = 'idle' | 'selected' | 'correct' | 'wrong'
 
 const choiceStates: Record<ChoiceState, string> = {
-  idle: 'border-slate-600 bg-slate-800 active:bg-slate-700',
-  selected: 'border-sky-400 bg-sky-950 text-sky-100',
-  correct: 'border-green-500 bg-green-950 text-green-100',
-  wrong: 'border-rose-500 bg-rose-950 text-rose-100',
+  idle: 'border-line bg-surface active:bg-surface-2',
+  selected: 'border-primary bg-primary-soft text-primary',
+  correct: 'border-good bg-good-soft text-good',
+  wrong: 'border-bad bg-bad-soft text-bad',
 }
 
 /** Napautettavan valinnan tyyli (min. 44 px korkea kosketusalue). */

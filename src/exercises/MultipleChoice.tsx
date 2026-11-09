@@ -20,7 +20,7 @@ export default function MultipleChoice({ exercise, answer, onChange, checked }: 
           >
             <span
               aria-hidden
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-current/40 text-xs opacity-70"
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-current/30 font-display text-sm font-semibold opacity-80"
             >
               {i + 1}
             </span>

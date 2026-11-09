@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
+import { CalendarCheck } from 'lucide-react'
 import { getLoadedUnit } from '../content/loader.ts'
 import LessonRunner from '../lesson/LessonRunner.tsx'
 import type { LessonItem } from '../lesson/types.ts'
@@ -7,6 +8,8 @@ import { dayKey } from '../progress/dates.ts'
 import { useProgress } from '../progress/hooks.ts'
 import { recordLesson } from '../progress/repo.ts'
 import { dueCount, loadDueItems, REVIEW_SESSION_MAX } from '../progress/review.ts'
+import { EmptyState, PageHeader } from '../ui/components.tsx'
+import { buttonClass, surface } from '../ui/styles.ts'
 
 export default function Review() {
   const navigate = useNavigate()
@@ -48,38 +51,38 @@ export default function Review() {
   }
 
   return (
-    <div className="mx-auto max-w-xl space-y-6 px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-10">
-      <Link to="/" className="text-sm text-slate-400">
-        ← Takaisin
-      </Link>
-      <h1 className="text-2xl font-bold">Kertaus</h1>
+    <div className="mx-auto max-w-xl px-4 pt-[max(1.25rem,env(safe-area-inset-top))] pb-10">
+      <PageHeader
+        title="Kertaus"
+        back={{ to: '/', label: 'Koti' }}
+        subtitle="Väärin menneet harjoitukset palaavat tänne. Oikein vastattu harvenee (1 → 3 → 7 → 14 päivää), väärin vastattu palaa huomiselle."
+      />
       {!progress ? (
-        <p className="text-slate-400">Ladataan…</p>
+        <p className="text-muted">Ladataan…</p>
       ) : due === 0 ? (
-        <div className="space-y-2 rounded-xl bg-slate-800 p-4">
-          <p>Ei kerrattavaa tänään. 🎉</p>
-          {waiting > 0 && <p className="text-sm text-slate-400">{waiting} harjoitusta odottaa myöhempää kertausta.</p>}
-        </div>
+        <EmptyState icon={CalendarCheck} title="Ei kerrattavaa tänään">
+          {waiting > 0
+            ? `${waiting} harjoitusta odottaa myöhempää kertausta.`
+            : 'Kun jokin harjoitus menee väärin, se tulee tänne kerrattavaksi.'}
+        </EmptyState>
       ) : (
-        <>
-          <p className="text-slate-300">
-            Kerrattavana {due} harjoitusta{due > REVIEW_SESSION_MAX && ` (kierroksella ${REVIEW_SESSION_MAX})`}. Oikein mennyt
-            siirtyy harvempaan kertaukseen (1 → 3 → 7 → 14 pv), väärin mennyt palaa huomiselle.
-          </p>
+        <div className="space-y-4">
+          <div className={`${surface} flex items-baseline justify-between p-4`}>
+            <span className="text-muted">Kerrattavana tänään</span>
+            <span className="font-display text-2xl font-bold tabular-nums">{due}</span>
+          </div>
+          {due > REVIEW_SESSION_MAX && (
+            <p className="text-sm text-muted">Yhdellä kierroksella kerrataan {REVIEW_SESSION_MAX} vanhinta.</p>
+          )}
           {starting === 'error' && (
-            <p role="alert" className="text-sm text-rose-400">
-              Harjoitusten lataus epäonnistui.
+            <p role="alert" className="text-sm text-bad">
+              Harjoituksia ei saatu ladattua. Yritä uudelleen.
             </p>
           )}
-          <button
-            type="button"
-            disabled={starting === 'loading'}
-            onClick={() => void start()}
-            className="w-full rounded-2xl bg-accent-dark py-4 text-lg font-semibold text-white disabled:opacity-60"
-          >
+          <button type="button" disabled={starting === 'loading'} onClick={() => void start()} className={buttonClass('primary')}>
             Aloita kertaus
           </button>
-        </>
+        </div>
       )}
     </div>
   )
